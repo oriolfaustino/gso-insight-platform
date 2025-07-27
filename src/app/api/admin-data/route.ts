@@ -37,7 +37,7 @@ export async function GET() {
   } catch (error) {
     console.error('Admin data error:', error);
     return NextResponse.json({
-      error: error.message,
+      error: error instanceof Error ? error.message : 'Unknown error',
       success: false
     }, { status: 500 });
   }
