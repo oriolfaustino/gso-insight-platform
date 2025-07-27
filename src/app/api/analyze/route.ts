@@ -8,11 +8,11 @@ const firecrawl = new FirecrawlApp({
 });
 
 // Simple in-memory cache for consistent results
-const analysisCache = new Map<string, any>();
+const analysisCache = new Map<string, Record<string, unknown>>();
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
 // Save analysis result to database
-async function saveAnalysisToDatabase(results: any, normalizedDomain: string, meta: any) {
+async function saveAnalysisToDatabase(results: Record<string, unknown>, normalizedDomain: string, meta: Record<string, unknown>) {
   try {
     const analysisData: Omit<AnalysisResult, 'id' | 'created_at'> = {
       domain: normalizedDomain,
@@ -114,7 +114,7 @@ async function analyzeWebsiteContent(url: string) {
 }
 
 // Analyze crawled content for GSO metrics
-function analyzeGSOMetrics(content: string, metadata: any, url: string) {
+function analyzeGSOMetrics(content: string, metadata: Record<string, unknown>, url: string) {
   const domain = url.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
   
   // AI Recommendation Rate - check for AI-related content

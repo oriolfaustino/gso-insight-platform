@@ -34,7 +34,7 @@ export interface AnalysisResult {
   critical_issues: string[]
   quick_wins: string[]
   investment_recommendations: string[]
-  raw_data: any
+  raw_data: Record<string, unknown>
   created_at?: string
 }
 
