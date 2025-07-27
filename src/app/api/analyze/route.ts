@@ -2,10 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import FirecrawlApp from '@mendable/firecrawl-js';
 import { supabase, type AnalysisResult } from '@/lib/supabase';
 
-// Initialize Firecrawl
-const firecrawl = new FirecrawlApp({
-  apiKey: process.env.FIRECRAWL_API_KEY
-});
+// Initialize Firecrawl lazily to avoid build-time errors
+let firecrawl: FirecrawlApp | null = null;
+
+function getFirecrawl() {
+  if (!firecrawl) {
+    if (!process.env.FIRECRAWL_API_KEY) {
+      throw new Error('FIRECRAWL_API_KEY environment variable is required');
+    }
+    firecrawl = new FirecrawlApp({
+      apiKey: process.env.FIRECRAWL_API_KEY
+    });
+  }
+  return firecrawl;
+}
 
 // Simple in-memory cache for consistent results
 const analysisCache = new Map<string, Record<string, unknown>>();
@@ -63,7 +73,7 @@ async function analyzeWebsiteContent(url: string) {
     console.log(`🔍 Crawling ${url} with Firecrawl...`);
     
     // Scrape the website with improved options
-    const scrapeResult = await firecrawl.scrapeUrl(url, {
+    const scrapeResult = await getFirecrawl().scrapeUrl(url, {
       formats: ['markdown'],
       onlyMainContent: true,
       includeTags: ['title', 'meta', 'h1', 'h2', 'h3', 'h4', 'p', 'div', 'section', 'article'],
