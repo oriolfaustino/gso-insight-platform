@@ -1,13 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
-
-// Create client-side Supabase client (not used directly, using API instead)
-// const supabase = createClient(
-//   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-// );
 
 interface AnalysisResult {
   id: string;
