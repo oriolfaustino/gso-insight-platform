@@ -1,6 +1,7 @@
 // Real Data Analyzer - Enhanced GSO Metrics with Actual Content Analysis
 import { supabase } from './supabase';
 import { getRelevantInsights, getCriticalIssues, getQuickWins, getInvestmentRecommendations } from './gsoTactics';
+import { detectIndustry, getBenchmark, getPerformanceStatus, getBenchmarkComparison } from './benchmarks';
 
 export interface CrawlerData {
   id?: string;
@@ -39,6 +40,13 @@ export interface MetricAnalysis {
   score: number;
   reasoning: string;
   insights: string[];
+  benchmark?: {
+    industryAverage: number;
+    overallAverage: number;
+    status: 'excellent' | 'above_average' | 'average' | 'below_average' | 'poor';
+    comparison: string;
+    industry: string;
+  };
 }
 
 export interface RealDataAnalysisResult {
@@ -424,28 +432,54 @@ function analyzeTrustSignals(crawlerData: CrawlerData): MetricAnalysis {
   return { score, reasoning, insights: finalInsights };
 }
 
+// Add benchmark data to metric analysis
+function addBenchmarkData(metricKey: string, score: number, industry: string): MetricAnalysis['benchmark'] {
+  const benchmark = getBenchmark(metricKey, industry);
+  if (!benchmark) return undefined;
+  
+  return {
+    industryAverage: benchmark.industryAverage,
+    overallAverage: benchmark.overallAverage,
+    status: getPerformanceStatus(score, benchmark),
+    comparison: getBenchmarkComparison(score, metricKey, industry),
+    industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+  };
+}
+
 // Main analysis function using real crawler data
 export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<RealDataAnalysisResult> {
   // Store the crawler data first
   const crawlerDataId = await storeCrawlerData(crawlerData);
   
+  // Detect industry for benchmarking
+  const industry = detectIndustry(crawlerData.domain, crawlerData.markdown_content);
+  
   // Analyze each metric with real data
   const aiRecommendationRate = analyzeAIRecommendationRate(crawlerData);
+  aiRecommendationRate.benchmark = addBenchmarkData('aiRecommendationRate', aiRecommendationRate.score, industry);
+  
   const contentRelevance = analyzeContentRelevance(crawlerData);
+  contentRelevance.benchmark = addBenchmarkData('contentRelevance', contentRelevance.score, industry);
+  
   const trustSignals = analyzeTrustSignals(crawlerData);
+  trustSignals.benchmark = addBenchmarkData('trustSignals', trustSignals.score, industry);
   
   // For now, we'll use simplified analysis for other metrics
   // These can be enhanced with more sophisticated algorithms
+  const competitiveRankingScore = Math.floor(Math.random() * 20) + 60;
   const competitiveRanking: MetricAnalysis = {
-    score: Math.floor(Math.random() * 20) + 60,
+    score: competitiveRankingScore,
     reasoning: "Competitive ranking based on content depth and market positioning",
-    insights: getRelevantInsights('competitiveRanking', Math.floor(Math.random() * 20) + 60, undefined, crawlerData)
+    insights: getRelevantInsights('competitiveRanking', competitiveRankingScore, undefined, crawlerData),
+    benchmark: addBenchmarkData('competitiveRanking', competitiveRankingScore, industry)
   };
   
+  const brandMentionScore = crawlerData.social_links && crawlerData.social_links.length > 0 ? 75 : 45;
   const brandMentionQuality: MetricAnalysis = {
-    score: crawlerData.social_links && crawlerData.social_links.length > 0 ? 75 : 45,
+    score: brandMentionScore,
     reasoning: "Brand mention quality based on social presence and content consistency",
-    insights: getRelevantInsights('brandMentionQuality', crawlerData.social_links && crawlerData.social_links.length > 0 ? 75 : 45, undefined, crawlerData)
+    insights: getRelevantInsights('brandMentionQuality', brandMentionScore, undefined, crawlerData),
+    benchmark: addBenchmarkData('brandMentionQuality', brandMentionScore, industry)
   };
   
   const searchCompatibilityScore = (crawlerData.title ? 20 : 0) + (crawlerData.description ? 20 : 0) + 
@@ -453,7 +487,8 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
   const searchCompatibility: MetricAnalysis = {
     score: searchCompatibilityScore,
     reasoning: "Search compatibility based on SEO elements and structure",
-    insights: getRelevantInsights('searchCompatibility', searchCompatibilityScore, undefined, crawlerData)
+    insights: getRelevantInsights('searchCompatibility', searchCompatibilityScore, undefined, crawlerData),
+    benchmark: addBenchmarkData('searchCompatibility', searchCompatibilityScore, industry)
   };
   
   const authorityScore = Math.min(85, 40 + (crawlerData.word_count! > 1000 ? 20 : 10) + 
@@ -461,7 +496,8 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
   const websiteAuthority: MetricAnalysis = {
     score: authorityScore,
     reasoning: "Website authority based on content depth, linking, and trust factors",
-    insights: getRelevantInsights('websiteAuthority', authorityScore, undefined, crawlerData)
+    insights: getRelevantInsights('websiteAuthority', authorityScore, undefined, crawlerData),
+    benchmark: addBenchmarkData('websiteAuthority', authorityScore, industry)
   };
   
   const consistencyScoreValue = Math.min(90, 50 + (crawlerData.heading_count! > 3 ? 20 : 10) + 
@@ -469,7 +505,8 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
   const consistencyScore: MetricAnalysis = {
     score: consistencyScoreValue,
     reasoning: "Consistency score based on content structure and messaging",
-    insights: getRelevantInsights('consistencyScore', consistencyScoreValue, undefined, crawlerData)
+    insights: getRelevantInsights('consistencyScore', consistencyScoreValue, undefined, crawlerData),
+    benchmark: addBenchmarkData('consistencyScore', consistencyScoreValue, industry)
   };
   
   const topicCoverageScore = Math.min(88, 30 + (crawlerData.word_count! > 1500 ? 25 : 15) + 
@@ -477,7 +514,8 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
   const topicCoverage: MetricAnalysis = {
     score: topicCoverageScore,
     reasoning: "Topic coverage based on content breadth and depth",
-    insights: getRelevantInsights('topicCoverage', topicCoverageScore, undefined, crawlerData)
+    insights: getRelevantInsights('topicCoverage', topicCoverageScore, undefined, crawlerData),
+    benchmark: addBenchmarkData('topicCoverage', topicCoverageScore, industry)
   };
   
   const expertiseScore = Math.min(92, 45 + (crawlerData.certifications!.length * 10) + 
@@ -485,7 +523,8 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
   const expertiseRating: MetricAnalysis = {
     score: expertiseScore,
     reasoning: "Expertise rating based on credentials and social proof",
-    insights: getRelevantInsights('expertiseRating', expertiseScore, undefined, crawlerData)
+    insights: getRelevantInsights('expertiseRating', expertiseScore, undefined, crawlerData),
+    benchmark: addBenchmarkData('expertiseRating', expertiseScore, industry)
   };
   
   // Calculate overall score

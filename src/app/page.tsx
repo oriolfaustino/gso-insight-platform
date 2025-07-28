@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, ArrowRight, CheckCircle, AlertTriangle, TrendingUp, Sparkles, Lock } from 'lucide-react';
+import { Search, ArrowRight, CheckCircle, AlertTriangle, TrendingUp, Sparkles, Lock, BarChart3 } from 'lucide-react';
 import { generateMockResults, metricDefinitions, GSOResults } from '@/lib/mockData';
 import { LoadingAnimation } from '@/components/LoadingAnimation';
 import { PricingModal } from '@/components/PricingModal';
@@ -79,6 +79,28 @@ export default function HomePage() {
       if (score < 70) return 'text-yellow-600';
       if (score < 85) return 'text-green-600';
       return 'text-emerald-600';
+    };
+
+    const getBenchmarkStatusColor = (status: string) => {
+      switch (status) {
+        case 'excellent': return 'text-emerald-600 bg-emerald-50';
+        case 'above_average': return 'text-green-600 bg-green-50';
+        case 'average': return 'text-blue-600 bg-blue-50';
+        case 'below_average': return 'text-orange-600 bg-orange-50';
+        case 'poor': return 'text-red-600 bg-red-50';
+        default: return 'text-gray-600 bg-gray-50';
+      }
+    };
+
+    const getBenchmarkStatusText = (status: string) => {
+      switch (status) {
+        case 'excellent': return 'Excellent';
+        case 'above_average': return 'Above Average';
+        case 'average': return 'Average';
+        case 'below_average': return 'Below Average';
+        case 'poor': return 'Needs Work';
+        default: return 'Unknown';
+      }
     };
 
     return (
@@ -178,6 +200,22 @@ export default function HomePage() {
                     </div>
                   </div>
                   
+                  {/* Benchmark Comparison */}
+                  {(metric as any).benchmark && (
+                    <div className="mb-3 pb-3 border-b border-gray-100">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium ${getBenchmarkStatusColor((metric as any).benchmark.status)}`}>
+                          <BarChart3 className="w-3 h-3" />
+                          {getBenchmarkStatusText((metric as any).benchmark.status)}
+                        </div>
+                        <span className="text-xs text-gray-500">{(metric as any).benchmark.industry}</span>
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        Industry avg: {(metric as any).benchmark.industryAverage} • Overall avg: {(metric as any).benchmark.overallAverage}
+                      </div>
+                    </div>
+                  )}
+                  
                   {/* Key Insights */}
                   <div className="space-y-2">
                     {metric.insights?.slice(0, 2).map((insight: string, index: number) => (
@@ -261,6 +299,22 @@ export default function HomePage() {
                         <TrendingUp className="w-6 h-6 text-white" />
                       </div>
                     </div>
+                    
+                    {/* Benchmark Comparison (Blurred) */}
+                    {(metric as any).benchmark && (
+                      <div className="mb-3 pb-3 border-b border-gray-100">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium ${getBenchmarkStatusColor((metric as any).benchmark.status)}`}>
+                            <BarChart3 className="w-3 h-3" />
+                            {getBenchmarkStatusText((metric as any).benchmark.status)}
+                          </div>
+                          <span className="text-xs text-gray-500">{(metric as any).benchmark.industry}</span>
+                        </div>
+                        <div className="text-xs text-gray-600">
+                          Industry avg: {(metric as any).benchmark.industryAverage} • Overall avg: {(metric as any).benchmark.overallAverage}
+                        </div>
+                      </div>
+                    )}
                     
                     <div className="space-y-2">
                       {metric.insights?.slice(0, 2).map((insight: string, index: number) => (
