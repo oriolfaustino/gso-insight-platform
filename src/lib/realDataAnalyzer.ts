@@ -559,7 +559,7 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
       overallAverage: overallBenchmark.overallAverage,
       status: getPerformanceStatus(overallScore, overallBenchmark),
       comparison: getBenchmarkComparison(overallScore, 'overall', industry),
-      industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+      industry: industry === 'general' ? 'Best Practice' : industry.charAt(0).toUpperCase() + industry.slice(1)
     };
   }
   

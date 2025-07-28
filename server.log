@@ -163,3 +163,62 @@ Firecrawl error details: {
 ✅ unknown.xyz scored 61 (Firecrawl analysis)
  POST /api/analyze 200 in 11496ms
 💾 Saved analysis for unknown.xyz to database
+ ✓ Compiled in 238ms (948 modules)
+ GET / 200 in 31ms
+ ✓ Compiled in 173ms (948 modules)
+ GET / 200 in 36ms
+ ✓ Compiled in 275ms (948 modules)
+ GET / 200 in 62ms
+ ✓ Compiled in 285ms (948 modules)
+ GET / 200 in 43ms
+ ✓ Compiled in 279ms (655 modules)
+ GET / 200 in 92ms
+ ✓ Compiled /api/analyze in 101ms (692 modules)
+🔍 Analyzing https://test123.com with Firecrawl...
+🔍 Crawling https://test123.com with Firecrawl...
+Firecrawl error details: {
+  message: 'Failed to scrape URL. Status code: 500. Error: (Internal server error) - DNS resolution failed for hostname: test123.com. Please check if the domain is valid and accessible.',
+  status: undefined,
+  response: undefined,
+  url: 'https://test123.com'
+}
+🏭 Detected industry for https://test123.com: general
+📊 Benchmark for aiRecommendationRate in general: {
+  industryAverage: 67,
+  overallAverage: 58,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for competitiveRanking in general: {
+  industryAverage: 71,
+  overallAverage: 62,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for contentRelevance in general: {
+  industryAverage: 75,
+  overallAverage: 65,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for brandMentionQuality in general: {
+  industryAverage: 68,
+  overallAverage: 59,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for searchCompatibility in general: {
+  industryAverage: 77,
+  overallAverage: 67,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for websiteAuthority in general: {
+  industryAverage: 70,
+  overallAverage: 61,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+✅ test123.com scored 59 (Firecrawl analysis)
+ POST /api/analyze 200 in 10999ms
+💾 Saved analysis for test123.com to database

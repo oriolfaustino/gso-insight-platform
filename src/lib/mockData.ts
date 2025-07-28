@@ -73,7 +73,7 @@ export const generateMockResults = (domain: string): GSOResults => {
       overallAverage: benchmark.overallAverage,
       status: getPerformanceStatus(score, benchmark),
       comparison: getBenchmarkComparison(score, metricKey, industry),
-      industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+      industry: industry === 'general' ? 'Best Practice' : industry.charAt(0).toUpperCase() + industry.slice(1)
     };
   };
   
@@ -86,7 +86,7 @@ export const generateMockResults = (domain: string): GSOResults => {
       overallAverage: overallBenchmark.overallAverage,
       status: getPerformanceStatus(baseScore, overallBenchmark),
       comparison: getBenchmarkComparison(baseScore, 'overall', industry),
-      industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+      industry: industry === 'general' ? 'Best Practice' : industry.charAt(0).toUpperCase() + industry.slice(1)
     };
   }
 

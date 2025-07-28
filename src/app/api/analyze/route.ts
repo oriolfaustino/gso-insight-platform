@@ -328,7 +328,7 @@ function generateDeterministicAnalysis(domain: string) {
       overallAverage: benchmark.overallAverage,
       status: getPerformanceStatus(score, benchmark),
       comparison: getBenchmarkComparison(score, metricKey, industry),
-      industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+      industry: industry === 'general' ? 'Best Practice' : industry.charAt(0).toUpperCase() + industry.slice(1)
     };
   };
   function generateDeterministicScore(domain: string, seed: string, min: number = 20, max: number = 80): number {
@@ -360,7 +360,7 @@ function generateDeterministicAnalysis(domain: string) {
       overallAverage: overallBenchmark.overallAverage,
       status: getPerformanceStatus(overallScore, overallBenchmark),
       comparison: getBenchmarkComparison(overallScore, 'overall', industry),
-      industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+      industry: industry === 'general' ? 'Best Practice' : industry.charAt(0).toUpperCase() + industry.slice(1)
     };
   }
 

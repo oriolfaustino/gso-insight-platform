@@ -149,8 +149,10 @@ export function getOverallBenchmark(industry: string): BenchmarkData | null {
   
   // Return general overall average when industry unknown
   const generalOverallAvg = Math.round(Object.values(OVERALL_AVERAGES).reduce((sum, avg) => sum + avg, 0) / Object.values(OVERALL_AVERAGES).length);
+  
+  // For general industry, show overall average vs a slightly higher "best practice" benchmark
   return {
-    industryAverage: generalOverallAvg,
+    industryAverage: Math.round(generalOverallAvg * 1.15), // 15% above average as "best practice"
     overallAverage: generalOverallAvg,
     sampleSize: 500,
     lastUpdated: '2024-01-15'
@@ -168,7 +170,7 @@ export function getBenchmark(metric: string, industry: string): BenchmarkData | 
   const overallAvg = OVERALL_AVERAGES[metric as keyof typeof OVERALL_AVERAGES];
   if (overallAvg) {
     return {
-      industryAverage: overallAvg, // Use overall as industry when unknown
+      industryAverage: Math.round(overallAvg * 1.15), // 15% above average as "best practice"
       overallAverage: overallAvg,
       sampleSize: 500,
       lastUpdated: '2024-01-15'
