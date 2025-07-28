@@ -56,61 +56,43 @@ CREATE TABLE IF NOT EXISTS analysis_results_v2 (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   crawler_data_id UUID REFERENCES crawler_data(id),
   domain VARCHAR(255) NOT NULL,
-  
-  -- Overall scores
   overall_score INTEGER NOT NULL,
-  confidence_level INTEGER DEFAULT 85, -- How confident we are in the analysis
-  
-  -- Individual metric scores with reasoning
+  confidence_level INTEGER DEFAULT 85,
   ai_recommendation_rate INTEGER NOT NULL,
   ai_recommendation_reasoning TEXT,
   ai_recommendation_insights TEXT[],
-  
   competitive_ranking INTEGER NOT NULL,
   competitive_ranking_reasoning TEXT,
   competitive_ranking_insights TEXT[],
-  
   content_relevance INTEGER NOT NULL,
   content_relevance_reasoning TEXT,
   content_relevance_insights TEXT[],
-  
   brand_mention_quality INTEGER NOT NULL,
   brand_mention_quality_reasoning TEXT,
   brand_mention_quality_insights TEXT[],
-  
   search_compatibility INTEGER NOT NULL,
   search_compatibility_reasoning TEXT,
   search_compatibility_insights TEXT[],
-  
   website_authority INTEGER NOT NULL,
   website_authority_reasoning TEXT,
   website_authority_insights TEXT[],
-  
   consistency_score INTEGER NOT NULL,
   consistency_score_reasoning TEXT,
   consistency_score_insights TEXT[],
-  
   topic_coverage INTEGER NOT NULL,
   topic_coverage_reasoning TEXT,
   topic_coverage_insights TEXT[],
-  
   trust_signals INTEGER NOT NULL,
   trust_signals_reasoning TEXT,
   trust_signals_insights TEXT[],
-  
   expertise_rating INTEGER NOT NULL,
   expertise_rating_reasoning TEXT,
   expertise_rating_insights TEXT[],
-  
-  -- Summary data
   critical_issues TEXT[],
   quick_wins TEXT[],
   investment_recommendations TEXT[],
-  
-  -- Analysis metadata
   analysis_date TIMESTAMP WITH TIME ZONE NOT NULL,
   analysis_version VARCHAR(20) DEFAULT '2.0',
-  
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
