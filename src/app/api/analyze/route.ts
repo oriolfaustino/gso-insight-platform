@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import FirecrawlApp from '@mendable/firecrawl-js';
 import { supabase, type AnalysisResult } from '@/lib/supabase';
 import { extractStructuredData, analyzeWithRealData, type CrawlerData } from '@/lib/realDataAnalyzer';
+import { scrapeWithPlaywright } from '@/lib/playwrightCrawler';
 
 // Initialize Firecrawl lazily to avoid build-time errors
 let firecrawl: FirecrawlApp | null = null;
@@ -86,18 +87,33 @@ async function analyzeWebsiteContent(url: string) {
       }
     });
 
-    if (!scrapeResult.success) {
-      console.error('Firecrawl scrape failed:', {
-        success: scrapeResult.success,
-        error: scrapeResult.error,
-        statusCode: scrapeResult.statusCode,
-        url: url
-      });
-      throw new Error(`Failed to scrape website: ${scrapeResult.error || 'Unknown error'}`);
-    }
+    let content = '';
+    let metadata: Record<string, any> = {};
+    let crawlerUsed = 'Firecrawl';
 
-    const content = scrapeResult.data?.markdown || '';
-    const metadata = scrapeResult.data?.metadata || {};
+    if (!scrapeResult.success || !scrapeResult.data?.markdown || scrapeResult.data.markdown.length < 100) {
+      console.log('🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...');
+      
+      // Try Playwright as fallback
+      const playwrightResult = await scrapeWithPlaywright(url);
+      
+      if (playwrightResult.success && playwrightResult.data) {
+        content = playwrightResult.data.markdown;
+        metadata = playwrightResult.data.metadata;
+        crawlerUsed = 'Playwright';
+        console.log(`✅ Playwright fallback successful for ${url}, content length: ${content.length}`);
+      } else {
+        console.error('Both Firecrawl and Playwright failed:', {
+          firecrawlError: scrapeResult.error,
+          playwrightError: playwrightResult.error
+        });
+        throw new Error(`Failed to scrape website with both crawlers: ${playwrightResult.error || 'Unknown error'}`);
+      }
+    } else {
+      content = scrapeResult.data.markdown;
+      metadata = scrapeResult.data.metadata || {};
+      console.log(`✅ Firecrawl successful for ${url}, content length: ${content.length}`);
+    }
     
     console.log(`✅ Successfully crawled ${url}, content length: ${content.length}`, {
       hasMarkdown: !!scrapeResult.data?.markdown,
@@ -171,7 +187,7 @@ async function analyzeWebsiteContent(url: string) {
       summary: realDataAnalysis.summary,
       analysisDate: realDataAnalysis.analysisDate,
       meta: {
-        crawlerUsed: 'Firecrawl (Real Data)',
+        crawlerUsed: `${crawlerUsed} (Real Data)`,
         wordCount: crawlerData.word_count,
         title: crawlerData.title,
         confidenceLevel: realDataAnalysis.confidence_level
