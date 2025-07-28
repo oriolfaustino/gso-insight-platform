@@ -3,6 +3,7 @@ import FirecrawlApp from '@mendable/firecrawl-js';
 import { supabase, type AnalysisResult } from '@/lib/supabase';
 import { extractStructuredData, analyzeWithRealData, type CrawlerData } from '@/lib/realDataAnalyzer';
 import { scrapeWithPlaywright } from '@/lib/playwrightCrawler';
+import { scrapeWithSimpleCrawler } from '@/lib/simpleCrawler';
 
 // Initialize Firecrawl lazily to avoid build-time errors
 let firecrawl: FirecrawlApp | null = null;
@@ -74,10 +75,10 @@ async function analyzeWebsiteContent(url: string) {
   try {
     console.log(`🔍 Crawling ${url} with Firecrawl...`);
     
-    // Scrape the website with improved options  
+    // Try Firecrawl first, then Playwright as fallback
     const scrapeResult = await getFirecrawl().scrapeUrl(url, {
       formats: ['markdown', 'html'],
-      onlyMainContent: false, // Try getting full content first
+      onlyMainContent: false,
       includeTags: ['title', 'meta', 'h1', 'h2', 'h3', 'h4', 'p', 'div', 'section', 'article'],
       excludeTags: ['script', 'style'],
       waitFor: 3000,
@@ -116,9 +117,9 @@ async function analyzeWebsiteContent(url: string) {
     }
     
     console.log(`✅ Successfully crawled ${url}, content length: ${content.length}`, {
-      hasMarkdown: !!scrapeResult.data?.markdown,
-      hasMetadata: !!scrapeResult.data?.metadata,
-      statusCode: scrapeResult.statusCode
+      hasMarkdown: !!content,
+      hasMetadata: !!metadata,
+      statusCode: metadata.statusCode || 200
     });
     
     // If content is too short, it might be a crawling issue - use fallback
