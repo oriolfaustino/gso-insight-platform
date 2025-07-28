@@ -73,14 +73,17 @@ async function analyzeWebsiteContent(url: string) {
   try {
     console.log(`🔍 Crawling ${url} with Firecrawl...`);
     
-    // Scrape the website with improved options
+    // Scrape the website with improved options  
     const scrapeResult = await getFirecrawl().scrapeUrl(url, {
-      formats: ['markdown'],
-      onlyMainContent: true,
+      formats: ['markdown', 'html'],
+      onlyMainContent: false, // Try getting full content first
       includeTags: ['title', 'meta', 'h1', 'h2', 'h3', 'h4', 'p', 'div', 'section', 'article'],
-      excludeTags: ['script', 'style', 'nav', 'footer', 'header', 'aside'],
-      waitFor: 2000,
-      timeout: 15000
+      excludeTags: ['script', 'style'],
+      waitFor: 3000,
+      timeout: 20000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; GSO-Insight-Bot/1.0)'
+      }
     });
 
     if (!scrapeResult.success) {
