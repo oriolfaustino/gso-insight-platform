@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import FirecrawlApp from '@mendable/firecrawl-js';
 import { supabase, type AnalysisResult } from '@/lib/supabase';
 import { extractStructuredData, analyzeWithRealData, type CrawlerData } from '@/lib/realDataAnalyzer';
+import { getRelevantInsights, getCriticalIssues, getQuickWins, getInvestmentRecommendations } from '@/lib/gsoTactics';
 import { scrapeWithPlaywright } from '@/lib/playwrightCrawler';
 import { scrapeWithSimpleCrawler } from '@/lib/simpleCrawler';
 
@@ -335,12 +336,17 @@ function generateDeterministicAnalysis(domain: string) {
     overallScore,
     domain: domain.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0],
     metrics: {
-      aiRecommendationRate: { score: aiScore, status: aiScore > 60 ? 'good' : 'poor', insights: ['Deterministic analysis'], recommendations: [] },
-      competitiveRanking: { score: competitiveScore, status: competitiveScore > 60 ? 'good' : 'poor', insights: ['Deterministic analysis'], recommendations: [] },
-      contentRelevance: { score: contentScore, status: contentScore > 60 ? 'good' : 'poor', insights: ['Deterministic analysis'], recommendations: [] },
-      brandMentionQuality: { score: brandScore, status: brandScore > 60 ? 'good' : 'poor', insights: ['Deterministic analysis'], recommendations: [] },
-      searchCompatibility: { score: searchScore, status: searchScore > 60 ? 'good' : 'poor', insights: ['Deterministic analysis'], recommendations: [] },
-      websiteAuthority: { score: authorityScore, status: authorityScore > 60 ? 'good' : 'poor', insights: ['Deterministic analysis'], recommendations: [] }
+      aiRecommendationRate: { score: aiScore, status: aiScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('aiRecommendationRate', aiScore), recommendations: [] },
+      competitiveRanking: { score: competitiveScore, status: competitiveScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('competitiveRanking', competitiveScore), recommendations: [] },
+      contentRelevance: { score: contentScore, status: contentScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('contentRelevance', contentScore), recommendations: [] },
+      brandMentionQuality: { score: brandScore, status: brandScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('brandMentionQuality', brandScore), recommendations: [] },
+      searchCompatibility: { score: searchScore, status: searchScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('searchCompatibility', searchScore), recommendations: [] },
+      websiteAuthority: { score: authorityScore, status: authorityScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('websiteAuthority', authorityScore), recommendations: [] }
+    },
+    summary: {
+      criticalIssues: getCriticalIssues(3),
+      quickWins: getQuickWins(3),
+      investmentRecommendations: getInvestmentRecommendations(3)
     }
   };
 }
@@ -413,47 +419,35 @@ export async function POST(request: NextRequest) {
           score: Math.min(80, 40 + (analysis.crawledData?.wordCount || 0) / 50), 
           status: 'fair', 
           trend: 'stable', 
-          insights: ['Content consistency analyzed'], 
+          insights: getRelevantInsights('consistencyScore', Math.min(80, 40 + (analysis.crawledData?.wordCount || 0) / 50)), 
           recommendations: [] 
         },
         topicCoverage: { 
           score: Math.min(85, 35 + (analysis.crawledData?.hasStructure ? 25 : 0) + (analysis.crawledData?.trustSignals?.length || 0) * 5), 
           status: 'fair', 
           trend: 'stable', 
-          insights: ['Topic coverage evaluated'], 
+          insights: getRelevantInsights('topicCoverage', Math.min(85, 35 + (analysis.crawledData?.hasStructure ? 25 : 0) + (analysis.crawledData?.trustSignals?.length || 0) * 5)), 
           recommendations: [] 
         },
         trustSignals: { 
           score: Math.min(75, 20 + (analysis.crawledData?.trustSignals?.length || 0) * 12), 
           status: 'fair', 
           trend: 'stable', 
-          insights: [`Found ${analysis.crawledData?.trustSignals?.length || 0} trust indicators`], 
+          insights: getRelevantInsights('trustSignals', Math.min(75, 20 + (analysis.crawledData?.trustSignals?.length || 0) * 12)), 
           recommendations: [] 
         },
         expertiseRating: { 
           score: Math.min(80, 30 + (analysis.crawledData?.wordCount || 0) / 100), 
           status: 'fair', 
           trend: 'stable', 
-          insights: ['Expertise indicators analyzed'], 
+          insights: getRelevantInsights('expertiseRating', Math.min(80, 30 + (analysis.crawledData?.wordCount || 0) / 100)), 
           recommendations: [] 
         },
       },
       summary: {
-        criticalIssues: analysis.overallScore < 40 ? 
-          ['Low AI visibility', 'Poor content optimization', 'Missing trust signals'] : 
-          ['Minor optimization opportunities identified'],
-        quickWins: [
-          ...(analysis.metrics.searchCompatibility.score < 60 ? ['Optimize meta tags'] : []),
-          ...(analysis.metrics.contentRelevance.score < 60 ? ['Improve content structure'] : []),
-          ...(analysis.metrics.websiteAuthority.score < 60 ? ['Add trust signals'] : []),
-          'Enhance AI-related content'
-        ],
-        investmentRecommendations: [
-          ...(analysis.metrics.aiRecommendationRate.score < 50 ? ['AI content strategy'] : []),
-          ...(analysis.metrics.contentRelevance.score < 60 ? ['Content depth improvement'] : []),
-          ...(analysis.metrics.searchCompatibility.score < 60 ? ['SEO optimization'] : []),
-          'Technical improvements'
-        ]
+        criticalIssues: getCriticalIssues(3),
+        quickWins: getQuickWins(3),
+        investmentRecommendations: getInvestmentRecommendations(3)
       },
       crawledData: analysis.crawledData
     };

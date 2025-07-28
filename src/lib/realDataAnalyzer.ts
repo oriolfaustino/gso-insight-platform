@@ -1,5 +1,6 @@
 // Real Data Analyzer - Enhanced GSO Metrics with Actual Content Analysis
 import { supabase } from './supabase';
+import { getRelevantInsights, getCriticalIssues, getQuickWins, getInvestmentRecommendations } from './gsoTactics';
 
 export interface CrawlerData {
   id?: string;
@@ -279,7 +280,10 @@ function analyzeAIRecommendationRate(crawlerData: CrawlerData): MetricAnalysis {
   
   const reasoning = `AI recommendation rate based on ${foundKeywords.length} AI keywords found and technical depth analysis.`;
   
-  return { score, reasoning, insights };
+  // Get relevant insights with fallback to proven GSO tactics
+  const finalInsights = getRelevantInsights('aiRecommendationRate', score, insights.length > 0 ? insights : undefined);
+  
+  return { score, reasoning, insights: finalInsights };
 }
 
 // Analyze Content Relevance based on structure and quality
@@ -343,7 +347,10 @@ function analyzeContentRelevance(crawlerData: CrawlerData): MetricAnalysis {
   
   const reasoning = `Content relevance scored based on ${wordCount} words, ${headingCount} headings, and structural elements.`;
   
-  return { score, reasoning, insights };
+  // Get relevant insights with fallback to proven GSO tactics
+  const finalInsights = getRelevantInsights('contentRelevance', score, insights.length > 0 ? insights : undefined);
+  
+  return { score, reasoning, insights: finalInsights };
 }
 
 // Analyze Trust Signals
@@ -411,7 +418,10 @@ function analyzeTrustSignals(crawlerData: CrawlerData): MetricAnalysis {
   
   const reasoning = `Trust signals analysis based on contact info, social presence, certifications, and testimonials.`;
   
-  return { score, reasoning, insights };
+  // Get relevant insights with fallback to proven GSO tactics
+  const finalInsights = getRelevantInsights('trustSignals', score, insights.length > 0 ? insights : undefined);
+  
+  return { score, reasoning, insights: finalInsights };
 }
 
 // Main analysis function using real crawler data
@@ -429,57 +439,53 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
   const competitiveRanking: MetricAnalysis = {
     score: Math.floor(Math.random() * 20) + 60,
     reasoning: "Competitive ranking based on content depth and market positioning",
-    insights: ["Analysis shows moderate competitive positioning", "Consider industry-specific optimizations"]
+    insights: getRelevantInsights('competitiveRanking', Math.floor(Math.random() * 20) + 60)
   };
   
   const brandMentionQuality: MetricAnalysis = {
     score: crawlerData.social_links && crawlerData.social_links.length > 0 ? 75 : 45,
     reasoning: "Brand mention quality based on social presence and content consistency",
-    insights: crawlerData.social_links && crawlerData.social_links.length > 0 
-      ? ["Good social media integration"] 
-      : ["Improve brand consistency across platforms"]
+    insights: getRelevantInsights('brandMentionQuality', crawlerData.social_links && crawlerData.social_links.length > 0 ? 75 : 45)
   };
   
+  const searchCompatibilityScore = (crawlerData.title ? 20 : 0) + (crawlerData.description ? 20 : 0) + 
+           (crawlerData.heading_count! > 0 ? 25 : 0) + 25;
   const searchCompatibility: MetricAnalysis = {
-    score: (crawlerData.title ? 20 : 0) + (crawlerData.description ? 20 : 0) + 
-           (crawlerData.heading_count! > 0 ? 25 : 0) + 25,
+    score: searchCompatibilityScore,
     reasoning: "Search compatibility based on SEO elements and structure",
-    insights: [
-      crawlerData.title ? "Title tag optimized" : "Add optimized title tag",
-      crawlerData.description ? "Meta description present" : "Add meta description",
-      "Consider adding more structured data"
-    ]
+    insights: getRelevantInsights('searchCompatibility', searchCompatibilityScore)
   };
   
+  const authorityScore = Math.min(85, 40 + (crawlerData.word_count! > 1000 ? 20 : 10) + 
+           (crawlerData.link_count! > 5 ? 15 : 5) + (trustSignals.score > 70 ? 15 : 0));
   const websiteAuthority: MetricAnalysis = {
-    score: Math.min(85, 40 + (crawlerData.word_count! > 1000 ? 20 : 10) + 
-           (crawlerData.link_count! > 5 ? 15 : 5) + (trustSignals.score > 70 ? 15 : 0)),
+    score: authorityScore,
     reasoning: "Website authority based on content depth, linking, and trust factors",
-    insights: ["Content depth contributes to authority", "Build more quality backlinks"]
+    insights: getRelevantInsights('websiteAuthority', authorityScore)
   };
   
+  const consistencyScoreValue = Math.min(90, 50 + (crawlerData.heading_count! > 3 ? 20 : 10) + 
+           (crawlerData.services_listed && crawlerData.services_listed.length > 0 ? 15 : 0));
   const consistencyScore: MetricAnalysis = {
-    score: Math.min(90, 50 + (crawlerData.heading_count! > 3 ? 20 : 10) + 
-           (crawlerData.services_listed && crawlerData.services_listed.length > 0 ? 15 : 0)),
+    score: consistencyScoreValue,
     reasoning: "Consistency score based on content structure and messaging",
-    insights: ["Maintain consistent messaging across pages", "Ensure brand voice consistency"]
+    insights: getRelevantInsights('consistencyScore', consistencyScoreValue)
   };
   
+  const topicCoverageScore = Math.min(88, 30 + (crawlerData.word_count! > 1500 ? 25 : 15) + 
+           (crawlerData.heading_count! > 5 ? 20 : 10) + 13);
   const topicCoverage: MetricAnalysis = {
-    score: Math.min(88, 30 + (crawlerData.word_count! > 1500 ? 25 : 15) + 
-           (crawlerData.heading_count! > 5 ? 20 : 10) + 13),
+    score: topicCoverageScore,
     reasoning: "Topic coverage based on content breadth and depth",
-    insights: ["Good topic coverage in main content", "Consider expanding subtopics"]
+    insights: getRelevantInsights('topicCoverage', topicCoverageScore)
   };
   
+  const expertiseScore = Math.min(92, 45 + (crawlerData.certifications!.length * 10) + 
+           (crawlerData.testimonials_count! > 0 ? 15 : 0) + 12);
   const expertiseRating: MetricAnalysis = {
-    score: Math.min(92, 45 + (crawlerData.certifications!.length * 10) + 
-           (crawlerData.testimonials_count! > 0 ? 15 : 0) + 12),
+    score: expertiseScore,
     reasoning: "Expertise rating based on credentials and social proof",
-    insights: [
-      crawlerData.certifications!.length > 0 ? "Professional certifications mentioned" : "Add professional credentials",
-      "Showcase team expertise and experience"
-    ]
+    insights: getRelevantInsights('expertiseRating', expertiseScore)
   };
   
   // Calculate overall score
@@ -498,28 +504,10 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
   
   const overallScore = Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length);
   
-  // Generate summary recommendations
-  const criticalIssues: string[] = [];
-  const quickWins: string[] = [];
-  const investmentRecommendations: string[] = [];
-  
-  if (!crawlerData.title) criticalIssues.push("Missing page title");
-  if (!crawlerData.description) criticalIssues.push("Missing meta description");
-  if (crawlerData.word_count! < 500) criticalIssues.push("Content too short for SEO effectiveness");
-  
-  if (crawlerData.social_links!.length === 0) quickWins.push("Add social media links");
-  if (!crawlerData.contact_info || Object.keys(crawlerData.contact_info).length === 0) {
-    quickWins.push("Add contact information");
-  }
-  if (crawlerData.testimonials_count! === 0) quickWins.push("Add customer testimonials");
-  
-  if (overallScore < 70) {
-    investmentRecommendations.push("Consider comprehensive content strategy overhaul");
-    investmentRecommendations.push("Invest in professional SEO audit");
-  }
-  if (aiRecommendationRate.score < 60) {
-    investmentRecommendations.push("Develop AI-focused content marketing strategy");
-  }
+  // Generate summary recommendations using GSO tactics
+  const criticalIssues = getCriticalIssues(3);
+  const quickWins = getQuickWins(3);
+  const investmentRecommendations = getInvestmentRecommendations(3);
   
   // Store analysis results
   if (crawlerDataId) {
