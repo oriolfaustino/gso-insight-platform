@@ -191,6 +191,28 @@ export function getPerformanceStatus(score: number, benchmark: BenchmarkData): '
 
 // Generate benchmark comparison text
 export function getBenchmarkComparison(score: number, metric: string, industry: string): string {
+  // Special handling for overall score
+  if (metric === 'overall') {
+    const benchmark = getOverallBenchmark(industry);
+    if (!benchmark) return '';
+    
+    const industryDiff = score - benchmark.industryAverage;
+    const overallDiff = score - benchmark.overallAverage;
+    
+    const industryComparison = industryDiff >= 0 
+      ? `${industryDiff} points above` 
+      : `${Math.abs(industryDiff)} points below`;
+      
+    const overallComparison = overallDiff >= 0 
+      ? `${overallDiff} points above` 
+      : `${Math.abs(overallDiff)} points below`;
+    
+    const industryName = industry === 'general' ? 'overall' : industry;
+    
+    return `${industryComparison} ${industryName} average (${benchmark.industryAverage}), ${overallComparison} overall average (${benchmark.overallAverage})`;
+  }
+  
+  // Regular metric handling
   const benchmark = getBenchmark(metric, industry);
   if (!benchmark) return '';
   

@@ -1,0 +1,165 @@
+
+> gso-insight-platform@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.4.4
+   - Local:        http://localhost:3000
+   - Network:      http://10.153.20.19:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1146ms
+ ✓ Compiled / in 494ms (640 modules)
+ GET / 200 in 684ms
+ ✓ Compiled /api/analyze in 487ms (934 modules)
+🔍 Analyzing https://nike.com with Firecrawl...
+🔍 Crawling https://nike.com with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://nike.com...
+✅ Playwright crawling completed for https://nike.com, content length: 3058
+✅ Playwright fallback successful for https://nike.com, content length: 3058
+✅ Successfully crawled https://nike.com, content length: 3058 { hasMarkdown: true, hasMetadata: true, statusCode: 200 }
+🧠 Starting real data analysis for https://nike.com...
+📊 Extracted data - Words: 397, Headings: 1, Title: Yes
+✅ Real data analysis completed for https://nike.com - Overall Score: 56
+✅ undefined scored 56 (Firecrawl analysis)
+ POST /api/analyze 200 in 17632ms
+💾 Saved analysis for nike.com to database
+ ✓ Compiled in 517ms (948 modules)
+🔍 Analyzing https://apple.com with Firecrawl...
+🔍 Crawling https://apple.com with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://apple.com...
+❌ Playwright crawling failed for https://apple.com: Error [TimeoutError]: page.getAttribute: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('meta[name="description"]')[22m
+
+    at scrapeWithPlaywright (src/lib/playwrightCrawler.ts:59:35)
+    at async analyzeWebsiteContent (src/app/api/analyze/route.ts:101:31)
+    at async POST (src/app/api/analyze/route.ts:417:21)
+  57 |     // Extract metadata
+  58 |     const title = await page.title();
+> 59 |     const description = await page.getAttribute('meta[name="description"]', 'content') || 
+     |                                   ^
+  60 |                        await page.getAttribute('meta[property="og:description"]', 'content') || '';
+  61 |     
+  62 |     // Get HTML content
+Both Firecrawl and Playwright failed: {
+  firecrawlError: undefined,
+  playwrightError: 'page.getAttribute: Timeout 30000ms exceeded.\n' +
+    'Call log:\n' +
+    `\x1B[2m  - waiting for locator('meta[name="description"]')\x1B[22m\n`
+}
+Firecrawl error details: {
+  message: 'Failed to scrape website with both crawlers: page.getAttribute: Timeout 30000ms exceeded.\n' +
+    'Call log:\n' +
+    `\x1B[2m  - waiting for locator('meta[name="description"]')\x1B[22m\n`,
+  status: undefined,
+  response: undefined,
+  url: 'https://apple.com'
+}
+✅ apple.com scored 53 (Firecrawl analysis)
+ POST /api/analyze 200 in 40368ms
+💾 Saved analysis for apple.com to database
+ ✓ Compiled in 208ms (677 modules)
+🔍 Analyzing https://test.com with Firecrawl...
+🔍 Crawling https://test.com with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://test.com...
+❌ Playwright crawling failed for https://test.com: Error [TimeoutError]: page.goto: Timeout 20000ms exceeded.
+Call log:
+[2m  - navigating to "https://test.com/", waiting until "networkidle"[22m
+
+    at scrapeWithPlaywright (src/lib/playwrightCrawler.ts:39:32)
+    at async analyzeWebsiteContent (src/app/api/analyze/route.ts:101:31)
+    at async POST (src/app/api/analyze/route.ts:418:21)
+  37 |     
+  38 |     // Navigate to the page
+> 39 |     const response = await page.goto(url, {
+     |                                ^
+  40 |       waitUntil: 'networkidle',
+  41 |       timeout: 20000
+  42 |     });
+Both Firecrawl and Playwright failed: {
+  firecrawlError: undefined,
+  playwrightError: 'page.goto: Timeout 20000ms exceeded.\n' +
+    'Call log:\n' +
+    '\x1B[2m  - navigating to "https://test.com/", waiting until "networkidle"\x1B[22m\n'
+}
+Firecrawl error details: {
+  message: 'Failed to scrape website with both crawlers: page.goto: Timeout 20000ms exceeded.\n' +
+    'Call log:\n' +
+    '\x1B[2m  - navigating to "https://test.com/", waiting until "networkidle"\x1B[22m\n',
+  status: undefined,
+  response: undefined,
+  url: 'https://test.com'
+}
+🏭 Detected industry for https://test.com: general
+✅ test.com scored 44 (Firecrawl analysis)
+ POST /api/analyze 200 in 28575ms
+💾 Saved analysis for test.com to database
+ ✓ Compiled / in 141ms (692 modules)
+ GET / 200 in 338ms
+🔍 Analyzing https://nike.com with Firecrawl...
+🔍 Crawling https://nike.com with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://nike.com...
+✅ Playwright crawling completed for https://nike.com, content length: 3058
+✅ Playwright fallback successful for https://nike.com, content length: 3058
+✅ Successfully crawled https://nike.com, content length: 3058 { hasMarkdown: true, hasMetadata: true, statusCode: 200 }
+🧠 Starting real data analysis for https://nike.com...
+📊 Extracted data - Words: 397, Headings: 1, Title: Yes
+✅ Real data analysis completed for https://nike.com - Overall Score: 56
+✅ undefined scored 56 (Firecrawl analysis)
+ POST /api/analyze 200 in 16625ms
+💾 Saved analysis for nike.com to database
+ ✓ Compiled in 281ms (948 modules)
+ GET / 200 in 46ms
+🔍 Analyzing https://unknown.xyz with Firecrawl...
+🔍 Crawling https://unknown.xyz with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://unknown.xyz...
+✅ Playwright crawling completed for https://unknown.xyz, content length: 42
+✅ Playwright fallback successful for https://unknown.xyz, content length: 42
+✅ Successfully crawled https://unknown.xyz, content length: 42 { hasMarkdown: true, hasMetadata: true, statusCode: 200 }
+⚠️ Content too short (42 chars), using fallback analysis
+🏭 Detected industry for https://unknown.xyz: general
+📊 Benchmark for aiRecommendationRate in general: {
+  industryAverage: 58,
+  overallAverage: 58,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for competitiveRanking in general: {
+  industryAverage: 62,
+  overallAverage: 62,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for contentRelevance in general: {
+  industryAverage: 65,
+  overallAverage: 65,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for brandMentionQuality in general: {
+  industryAverage: 59,
+  overallAverage: 59,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for searchCompatibility in general: {
+  industryAverage: 67,
+  overallAverage: 67,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for websiteAuthority in general: {
+  industryAverage: 61,
+  overallAverage: 61,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+✅ unknown.xyz scored 61 (Firecrawl analysis)
+ POST /api/analyze 200 in 11496ms
+💾 Saved analysis for unknown.xyz to database

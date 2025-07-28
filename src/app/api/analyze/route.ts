@@ -315,10 +315,12 @@ function analyzeGSOMetrics(content: string, metadata: Record<string, unknown>, u
 function generateDeterministicAnalysis(domain: string) {
   // Detect industry for benchmarking
   const industry = detectIndustry(domain);
+  console.log(`🏭 Detected industry for ${domain}: ${industry}`);
   
   // Helper function to add benchmark data
   const addBenchmark = (metricKey: string, score: number) => {
     const benchmark = getBenchmark(metricKey, industry);
+    console.log(`📊 Benchmark for ${metricKey} in ${industry}:`, benchmark);
     if (!benchmark) return undefined;
     
     return {
