@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, ArrowRight, CheckCircle, AlertTriangle, TrendingUp, Sparkles } from 'lucide-react';
+import { Search, ArrowRight, CheckCircle, AlertTriangle, TrendingUp, Sparkles, Lock } from 'lucide-react';
 import { generateMockResults, metricDefinitions, GSOResults } from '@/lib/mockData';
 import { LoadingAnimation } from '@/components/LoadingAnimation';
 import { PricingModal } from '@/components/PricingModal';
@@ -149,35 +149,131 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Key Metrics Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {Object.entries(results.metrics).slice(0, 6).map(([key, metric]) => (
-              <div key={key} className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-sm transition-shadow">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 mb-1">
-                      {metricDefinitions[key as keyof typeof metricDefinitions]?.name || key}
-                    </h3>
-                    <div className={`text-2xl font-bold ${getScoreColor(metric.score)}`}>
-                      {metric.score}
-                    </div>
-                  </div>
-                  <div className={`w-12 h-12 rounded-xl ${getScoreGradient(metric.score)} flex items-center justify-center`}>
-                    <TrendingUp className="w-6 h-6 text-white" />
-                  </div>
-                </div>
-                
-                {/* Key Insights */}
-                <div className="space-y-2">
-                  {metric.insights?.slice(0, 2).map((insight: string, index: number) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">{insight}</span>
-                    </div>
-                  ))}
-                </div>
+          {/* Free Metrics - Always Visible */}
+          <div className="mb-12">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900">Free Analysis</h3>
+                <p className="text-sm text-gray-600">Available in your free report</p>
               </div>
-            ))}
+              <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                <CheckCircle className="w-4 h-4" />
+                Included
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {Object.entries(results.metrics).slice(0, 3).map(([key, metric]) => (
+                <div key={key} className="bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-sm transition-shadow">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-gray-900 mb-1">
+                        {metricDefinitions[key as keyof typeof metricDefinitions]?.name || key}
+                      </h4>
+                      <div className={`text-2xl font-bold ${getScoreColor(metric.score)}`}>
+                        {metric.score}
+                      </div>
+                    </div>
+                    <div className={`w-12 h-12 rounded-xl ${getScoreGradient(metric.score)} flex items-center justify-center`}>
+                      <TrendingUp className="w-6 h-6 text-white" />
+                    </div>
+                  </div>
+                  
+                  {/* Key Insights */}
+                  <div className="space-y-2">
+                    {metric.insights?.slice(0, 2).map((insight: string, index: number) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-gray-700">{insight}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Upgrade Prompt */}
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-3xl p-8 mb-12 text-center">
+            <div className="max-w-md mx-auto">
+              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Want the complete picture?</h3>
+              <p className="text-gray-600 mb-6">
+                Unlock 3 additional metrics with detailed recommendations and actionable insights.
+              </p>
+              <button
+                onClick={() => setShowPricingModal(true)}
+                className="bg-gray-900 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-gray-800 transition-colors inline-flex items-center gap-2"
+              >
+                <Lock className="w-5 h-5" />
+                Unlock Premium Analysis
+              </button>
+            </div>
+          </div>
+
+          {/* Premium Metrics - Locked */}
+          <div className="mb-16">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900">Premium Analysis</h3>
+                <p className="text-sm text-gray-600">Advanced insights and recommendations</p>
+              </div>
+              <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                <Lock className="w-4 h-4" />
+                Premium
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {Object.entries(results.metrics).slice(3, 6).map(([key, metric]) => (
+                <div key={key} className="relative bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-sm transition-shadow">
+                  {/* Locked Overlay */}
+                  <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-2xl flex items-center justify-center z-10">
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Lock className="w-8 h-8 text-white" />
+                      </div>
+                      <h4 className="font-semibold text-gray-900 mb-2">
+                        {metricDefinitions[key as keyof typeof metricDefinitions]?.name || key}
+                      </h4>
+                      <p className="text-sm text-gray-600 mb-4">Unlock detailed analysis</p>
+                      <button 
+                        onClick={() => setShowPricingModal(true)}
+                        className="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors"
+                      >
+                        View Premium
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Blurred Background Content */}
+                  <div className="filter blur-sm pointer-events-none">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-900 mb-1">
+                          {metricDefinitions[key as keyof typeof metricDefinitions]?.name || key}
+                        </h4>
+                        <div className={`text-2xl font-bold ${getScoreColor(metric.score)}`}>
+                          {metric.score}
+                        </div>
+                      </div>
+                      <div className={`w-12 h-12 rounded-xl ${getScoreGradient(metric.score)} flex items-center justify-center`}>
+                        <TrendingUp className="w-6 h-6 text-white" />
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      {metric.insights?.slice(0, 2).map((insight: string, index: number) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-gray-700">{insight}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Detailed Insights */}
