@@ -222,3 +222,199 @@ Firecrawl error details: {
 ✅ test123.com scored 59 (Firecrawl analysis)
  POST /api/analyze 200 in 10999ms
 💾 Saved analysis for test123.com to database
+ GET / 200 in 137ms
+🔍 Analyzing https://nike.com with Firecrawl...
+🔍 Crawling https://nike.com with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://nike.com...
+✅ Playwright crawling completed for https://nike.com, content length: 3058
+✅ Playwright fallback successful for https://nike.com, content length: 3058
+✅ Successfully crawled https://nike.com, content length: 3058 { hasMarkdown: true, hasMetadata: true, statusCode: 200 }
+🧠 Starting real data analysis for https://nike.com...
+📊 Extracted data - Words: 397, Headings: 1, Title: Yes
+✅ Real data analysis completed for https://nike.com - Overall Score: 55
+✅ undefined scored 55 (Firecrawl analysis)
+ POST /api/analyze 200 in 22273ms
+💾 Saved analysis for nike.com to database
+ GET / 200 in 68ms
+📋 Using cached result for nike.com
+ POST /api/analyze 200 in 20ms
+ ✓ Compiled in 539ms (655 modules)
+ ✓ Compiled in 110ms (256 modules)
+ ✓ Compiled in 91ms (256 modules)
+ ✓ Compiled /api/analyze in 373ms (692 modules)
+🔍 Analyzing https://nike.com with Firecrawl...
+🔍 Crawling https://nike.com with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://nike.com...
+✅ Playwright crawling completed for https://nike.com, content length: 3058
+✅ Playwright fallback successful for https://nike.com, content length: 3058
+✅ Successfully crawled https://nike.com, content length: 3058 { hasMarkdown: true, hasMetadata: true, statusCode: 200 }
+🧠 Starting real data analysis for https://nike.com...
+📊 Extracted data - Words: 397, Headings: 1, Title: Yes
+✅ Real data analysis completed for https://nike.com - Overall Score: 56
+✅ undefined scored 56 (Firecrawl analysis)
+ POST /api/analyze 200 in 20859ms
+Database save error: {
+  code: '23502',
+  details: `Failing row contains (0118c14f-1fda-4e6e-86d8-dcf484ebd495, nike.com, 56, 35, 70, 50, 45, 90, 65, null, null, null, null, 2025-07-28 13:09:13.203+00, Firecrawl, 0, , {}, {"Missing clear H1-H2-H3 heading structure for AI content parsin..., {"Add H2 headings with naturally asked questions from Google's '..., {"Comprehensive content audit using spoken search query optimiza..., {"meta": {"title": "", "cached": false, "realData": true, "wordC..., 2025-07-28 13:09:13.330901+00).`,
+  hint: null,
+  message: 'null value in column "consistency_score" of relation "analysis_results" violates not-null constraint'
+}
+🔍 Analyzing https://test123.com with Firecrawl...
+🔍 Crawling https://test123.com with Firecrawl...
+Firecrawl error details: {
+  message: 'Failed to scrape URL. Status code: 500. Error: (Internal server error) - DNS resolution failed for hostname: test123.com. Please check if the domain is valid and accessible.',
+  status: undefined,
+  response: undefined,
+  url: 'https://test123.com'
+}
+🏭 Detected industry for https://test123.com: general
+📊 Benchmark for aiRecommendationRate in general: {
+  industryAverage: 67,
+  overallAverage: 58,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for competitiveRanking in general: {
+  industryAverage: 71,
+  overallAverage: 62,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for contentRelevance in general: {
+  industryAverage: 75,
+  overallAverage: 65,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for brandMentionQuality in general: {
+  industryAverage: 68,
+  overallAverage: 59,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for searchCompatibility in general: {
+  industryAverage: 77,
+  overallAverage: 67,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for websiteAuthority in general: {
+  industryAverage: 70,
+  overallAverage: 61,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+✅ test123.com scored 59 (Firecrawl analysis)
+ POST /api/analyze 200 in 3952ms
+💾 Saved analysis for test123.com to database
+ GET / 200 in 221ms
+🔍 Analyzing https://bobw.co with Firecrawl...
+🔍 Crawling https://bobw.co with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://bobw.co...
+✅ Playwright crawling completed for https://bobw.co, content length: 20884
+✅ Playwright fallback successful for https://bobw.co, content length: 20884
+✅ Successfully crawled https://bobw.co, content length: 20884 { hasMarkdown: true, hasMetadata: true, statusCode: 200 }
+🧠 Starting real data analysis for https://bobw.co...
+📊 Extracted data - Words: 2765, Headings: 0, Title: Yes
+✅ Real data analysis completed for https://bobw.co - Overall Score: 65
+✅ undefined scored 65 (Firecrawl analysis)
+ POST /api/analyze 200 in 15284ms
+Database save error: {
+  code: '23502',
+  details: `Failing row contains (5c297353-4a73-478b-9535-d287bd63e486, bobw.co, 65, 47, 78, 65, 45, 65, 75, null, null, null, null, 2025-07-28 13:10:29.444+00, Firecrawl, 0, , {}, {"Missing clear H1-H2-H3 heading structure for AI content parsin..., {"Add H2 headings with naturally asked questions from Google's '..., {"Comprehensive content audit using spoken search query optimiza..., {"meta": {"title": "", "cached": false, "realData": true, "wordC..., 2025-07-28 13:10:29.528982+00).`,
+  hint: null,
+  message: 'null value in column "consistency_score" of relation "analysis_results" violates not-null constraint'
+}
+🔍 Analyzing https://stripe.com with Firecrawl...
+🔍 Crawling https://stripe.com with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://stripe.com...
+✅ Playwright crawling completed for https://stripe.com, content length: 12581
+✅ Playwright fallback successful for https://stripe.com, content length: 12581
+✅ Successfully crawled https://stripe.com, content length: 12581 { hasMarkdown: true, hasMetadata: true, statusCode: 200 }
+🧠 Starting real data analysis for https://stripe.com...
+📊 Extracted data - Words: 1507, Headings: 0, Title: Yes
+✅ Real data analysis completed for https://stripe.com - Overall Score: 60
+✅ undefined scored 60 (Firecrawl analysis)
+ POST /api/analyze 200 in 14784ms
+Database save error: {
+  code: '23502',
+  details: `Failing row contains (260d01f3-0589-4290-a493-98a76506844c, stripe.com, 60, 35, 72, 60, 45, 65, 75, null, null, null, null, 2025-07-28 13:14:50.754+00, Firecrawl, 0, , {}, {"Missing clear H1-H2-H3 heading structure for AI content parsin..., {"Add H2 headings with naturally asked questions from Google's '..., {"Comprehensive content audit using spoken search query optimiza..., {"meta": {"title": "", "cached": false, "realData": true, "wordC..., 2025-07-28 13:14:50.865382+00).`,
+  hint: null,
+  message: 'null value in column "consistency_score" of relation "analysis_results" violates not-null constraint'
+}
+ ✓ Compiled in 280ms (655 modules)
+ GET / 200 in 78ms
+ ✓ Compiled in 113ms (256 modules)
+ GET / 200 in 10ms
+ ✓ Compiled /api/analyze in 197ms (692 modules)
+🔍 Analyzing https://newtest456.com with Firecrawl...
+🔍 Crawling https://newtest456.com with Firecrawl...
+ GET / 200 in 66ms
+Firecrawl error details: {
+  message: 'Failed to scrape URL. Status code: 500. Error: (Internal server error) - DNS resolution failed for hostname: newtest456.com. Please check if the domain is valid and accessible.',
+  status: undefined,
+  response: undefined,
+  url: 'https://newtest456.com'
+}
+🏭 Detected industry for https://newtest456.com: general
+📊 Benchmark for aiRecommendationRate in general: {
+  industryAverage: 67,
+  overallAverage: 58,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for competitiveRanking in general: {
+  industryAverage: 71,
+  overallAverage: 62,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for contentRelevance in general: {
+  industryAverage: 75,
+  overallAverage: 65,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for brandMentionQuality in general: {
+  industryAverage: 68,
+  overallAverage: 59,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for searchCompatibility in general: {
+  industryAverage: 77,
+  overallAverage: 67,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+📊 Benchmark for websiteAuthority in general: {
+  industryAverage: 70,
+  overallAverage: 61,
+  sampleSize: 500,
+  lastUpdated: '2024-01-15'
+}
+✅ newtest456.com scored 46 (Firecrawl analysis)
+ POST /api/analyze 200 in 1291ms
+💾 Saved analysis for newtest456.com to database
+ ✓ Compiled in 159ms (948 modules)
+ GET / 200 in 31ms
+ ✓ Compiled in 279ms (948 modules)
+ GET / 200 in 27ms
+ ✓ Compiled in 63ms (256 modules)
+ GET / 200 in 12ms
+ GET / 200 in 25ms
+ ✓ Compiled in 87ms (934 modules)
+ GET / 200 in 28ms
+ ✓ Compiled /api/debug-benchmark in 190ms (936 modules)
+🏭 Industry detected for apple.com: technology
+📊 Overall benchmark for technology: {
+  industryAverage: 72,
+  overallAverage: 62,
+  sampleSize: 150,
+  lastUpdated: '2024-01-15'
+}
+ GET /api/debug-benchmark?domain=apple.com 200 in 207ms

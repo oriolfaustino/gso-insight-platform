@@ -141,54 +141,74 @@ async function analyzeWebsiteContent(url: string) {
       const realDataAnalysis = await analyzeWithRealData(crawlerData);
       
       console.log(`✅ Real data analysis completed for ${url} - Overall Score: ${realDataAnalysis.overall_score}`);
+      console.log(`🏆 Overall benchmark data:`, realDataAnalysis.overall_benchmark);
     
     // Convert to expected format for compatibility
     const analysis = {
       overallScore: realDataAnalysis.overall_score,
+      domain: crawlerData.domain,
+      overall_benchmark: realDataAnalysis.overall_benchmark,
       metrics: {
         aiRecommendationRate: {
           score: realDataAnalysis.metrics.aiRecommendationRate.score,
-          insights: realDataAnalysis.metrics.aiRecommendationRate.insights
+          insights: realDataAnalysis.metrics.aiRecommendationRate.insights,
+          benchmark: realDataAnalysis.metrics.aiRecommendationRate.benchmark
         },
         competitiveRanking: {
           score: realDataAnalysis.metrics.competitiveRanking.score,
-          insights: realDataAnalysis.metrics.competitiveRanking.insights
+          insights: realDataAnalysis.metrics.competitiveRanking.insights,
+          benchmark: realDataAnalysis.metrics.competitiveRanking.benchmark
         },
         contentRelevance: {
           score: realDataAnalysis.metrics.contentRelevance.score,
-          insights: realDataAnalysis.metrics.contentRelevance.insights
+          insights: realDataAnalysis.metrics.contentRelevance.insights,
+          benchmark: realDataAnalysis.metrics.contentRelevance.benchmark
         },
         brandMentionQuality: {
           score: realDataAnalysis.metrics.brandMentionQuality.score,
-          insights: realDataAnalysis.metrics.brandMentionQuality.insights
+          insights: realDataAnalysis.metrics.brandMentionQuality.insights,
+          benchmark: realDataAnalysis.metrics.brandMentionQuality.benchmark
         },
         searchCompatibility: {
           score: realDataAnalysis.metrics.searchCompatibility.score,
-          insights: realDataAnalysis.metrics.searchCompatibility.insights
+          insights: realDataAnalysis.metrics.searchCompatibility.insights,
+          benchmark: realDataAnalysis.metrics.searchCompatibility.benchmark
         },
         websiteAuthority: {
           score: realDataAnalysis.metrics.websiteAuthority.score,
-          insights: realDataAnalysis.metrics.websiteAuthority.insights
+          insights: realDataAnalysis.metrics.websiteAuthority.insights,
+          benchmark: realDataAnalysis.metrics.websiteAuthority.benchmark
         },
         consistencyScore: {
           score: realDataAnalysis.metrics.consistencyScore.score,
-          insights: realDataAnalysis.metrics.consistencyScore.insights
+          insights: realDataAnalysis.metrics.consistencyScore.insights,
+          benchmark: realDataAnalysis.metrics.consistencyScore.benchmark
         },
         topicCoverage: {
           score: realDataAnalysis.metrics.topicCoverage.score,
-          insights: realDataAnalysis.metrics.topicCoverage.insights
+          insights: realDataAnalysis.metrics.topicCoverage.insights,
+          benchmark: realDataAnalysis.metrics.topicCoverage.benchmark
         },
         trustSignals: {
           score: realDataAnalysis.metrics.trustSignals.score,
-          insights: realDataAnalysis.metrics.trustSignals.insights
+          insights: realDataAnalysis.metrics.trustSignals.insights,
+          benchmark: realDataAnalysis.metrics.trustSignals.benchmark
         },
         expertiseRating: {
           score: realDataAnalysis.metrics.expertiseRating.score,
-          insights: realDataAnalysis.metrics.expertiseRating.insights
+          insights: realDataAnalysis.metrics.expertiseRating.insights,
+          benchmark: realDataAnalysis.metrics.expertiseRating.benchmark
         }
       },
       summary: realDataAnalysis.summary,
       analysisDate: realDataAnalysis.analysisDate,
+      crawledData: {
+        title: crawlerData.title,
+        description: crawlerData.description,
+        wordCount: crawlerData.word_count,
+        hasStructure: (crawlerData.heading_count || 0) > 0,
+        trustSignals: crawlerData.certifications || []
+      },
       meta: {
         crawlerUsed: `${crawlerUsed} (Real Data)`,
         wordCount: crawlerData.word_count,
@@ -422,6 +442,7 @@ export async function POST(request: NextRequest) {
       overallScore: analysis.overallScore,
       domain: analysis.domain,
       analysisDate: new Date().toISOString(),
+      overall_benchmark: analysis.overall_benchmark,
       metrics: {
         aiRecommendationRate: { 
           ...analysis.metrics.aiRecommendationRate, 
@@ -447,35 +468,43 @@ export async function POST(request: NextRequest) {
           ...analysis.metrics.websiteAuthority, 
           trend: 'stable' 
         },
-        // Additional metrics for UI compatibility
-        consistencyScore: { 
-          score: Math.min(80, 40 + (analysis.crawledData?.wordCount || 0) / 50), 
-          status: 'fair', 
-          trend: 'stable', 
-          insights: getRelevantInsights('consistencyScore', Math.min(80, 40 + (analysis.crawledData?.wordCount || 0) / 50)), 
-          recommendations: [] 
-        },
-        topicCoverage: { 
-          score: Math.min(85, 35 + (analysis.crawledData?.hasStructure ? 25 : 0) + (analysis.crawledData?.trustSignals?.length || 0) * 5), 
-          status: 'fair', 
-          trend: 'stable', 
-          insights: getRelevantInsights('topicCoverage', Math.min(85, 35 + (analysis.crawledData?.hasStructure ? 25 : 0) + (analysis.crawledData?.trustSignals?.length || 0) * 5)), 
-          recommendations: [] 
-        },
-        trustSignals: { 
-          score: Math.min(75, 20 + (analysis.crawledData?.trustSignals?.length || 0) * 12), 
-          status: 'fair', 
-          trend: 'stable', 
-          insights: getRelevantInsights('trustSignals', Math.min(75, 20 + (analysis.crawledData?.trustSignals?.length || 0) * 12)), 
-          recommendations: [] 
-        },
-        expertiseRating: { 
-          score: Math.min(80, 30 + (analysis.crawledData?.wordCount || 0) / 100), 
-          status: 'fair', 
-          trend: 'stable', 
-          insights: getRelevantInsights('expertiseRating', Math.min(80, 30 + (analysis.crawledData?.wordCount || 0) / 100)), 
-          recommendations: [] 
-        },
+        // Additional metrics for UI compatibility (only add if not already present from real data)
+        ...(analysis.metrics.consistencyScore ? {} : {
+          consistencyScore: { 
+            score: Math.min(80, 40 + (analysis.crawledData?.wordCount || 0) / 50), 
+            status: 'fair', 
+            trend: 'stable', 
+            insights: getRelevantInsights('consistencyScore', Math.min(80, 40 + (analysis.crawledData?.wordCount || 0) / 50)), 
+            recommendations: [] 
+          }
+        }),
+        ...(analysis.metrics.topicCoverage ? {} : {
+          topicCoverage: { 
+            score: Math.min(85, 35 + (analysis.crawledData?.hasStructure ? 25 : 0) + (analysis.crawledData?.trustSignals?.length || 0) * 5), 
+            status: 'fair', 
+            trend: 'stable', 
+            insights: getRelevantInsights('topicCoverage', Math.min(85, 35 + (analysis.crawledData?.hasStructure ? 25 : 0) + (analysis.crawledData?.trustSignals?.length || 0) * 5)), 
+            recommendations: [] 
+          }
+        }),
+        ...(analysis.metrics.trustSignals ? {} : {
+          trustSignals: { 
+            score: Math.min(75, 20 + (analysis.crawledData?.trustSignals?.length || 0) * 12), 
+            status: 'fair', 
+            trend: 'stable', 
+            insights: getRelevantInsights('trustSignals', Math.min(75, 20 + (analysis.crawledData?.trustSignals?.length || 0) * 12)), 
+            recommendations: [] 
+          }
+        }),
+        ...(analysis.metrics.expertiseRating ? {} : {
+          expertiseRating: { 
+            score: Math.min(80, 30 + (analysis.crawledData?.wordCount || 0) / 100), 
+            status: 'fair', 
+            trend: 'stable', 
+            insights: getRelevantInsights('expertiseRating', Math.min(80, 30 + (analysis.crawledData?.wordCount || 0) / 100)), 
+            recommendations: [] 
+          }
+        }),
       },
       summary: {
         criticalIssues: getCriticalIssues(3),
@@ -486,6 +515,7 @@ export async function POST(request: NextRequest) {
     };
 
     console.log(`✅ ${analysis.domain} scored ${analysis.overallScore} (Firecrawl analysis)`);
+    console.log(`🔍 Final results overall_benchmark:`, results.overall_benchmark);
 
     const responseData = {
       success: true,

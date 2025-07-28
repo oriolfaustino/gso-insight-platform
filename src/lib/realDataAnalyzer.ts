@@ -561,6 +561,9 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
       comparison: getBenchmarkComparison(overallScore, 'overall', industry),
       industry: industry === 'general' ? 'Best Practice' : industry.charAt(0).toUpperCase() + industry.slice(1)
     };
+    console.log(`📊 Setting overall benchmark for ${industry}:`, overallBenchmarkData);
+  } else {
+    console.log(`⚠️ No overall benchmark found for industry: ${industry}`);
   }
   
   // Generate summary recommendations using GSO tactics
