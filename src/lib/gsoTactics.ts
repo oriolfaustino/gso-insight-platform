@@ -2,9 +2,9 @@
 export const GSO_TACTICS = {
   aiRecommendationRate: [
     "Rely on spoken search queries - use naturally asked questions as H2 headings",
-    "Monitor your brand with AI visibility tools like Peec AI regularly",
     "Write directly and concisely - facts, short and clear without metaphors",
-    "Clear heading structure: H1=Topic, H2=Questions, H3=Sub-points for AI parsing"
+    "Clear heading structure: H1=Topic, H2=Questions, H3=Sub-points for AI parsing",
+    "Create FAQ sections answering common customer questions for better AI visibility"
   ],
   competitiveRanking: [
     "Show real authority with expert profiles, case studies, and industry seals",
@@ -19,10 +19,10 @@ export const GSO_TACTICS = {
     "Create short intermediate conclusions for longer texts to help AI extraction"
   ],
   brandMentionQuality: [
-    "Monitor your brand for AI visibility with tools like Peec AI",
     "Customize 'About Us,' FAQ, and profiles anywhere for consistent messaging",
-    "Use clear heading structure to help AI understand your brand positioning",
-    "Show real reviews from Google and industry portals for brand credibility"
+    "Use clear heading structure to help AI understand your brand positioning", 
+    "Show real reviews from Google and industry portals for brand credibility",
+    "Maintain consistent brand voice and messaging across all content"
   ],
   searchCompatibility: [
     "Use 'More Questions' section from Google as H2 headings with brief answers",
@@ -90,7 +90,6 @@ export const QUICK_WINS_POOL = [
 
 export const INVESTMENT_RECOMMENDATIONS_POOL = [
   "Comprehensive content audit using spoken search query optimization",
-  "Professional brand monitoring setup with AI visibility tools",
   "Authority building campaign: expert profiles, case studies, certifications",
   "Review acquisition strategy across Google and industry platforms", 
   "Content restructuring with proper H1-H2-H3 hierarchy throughout site",
@@ -98,7 +97,8 @@ export const INVESTMENT_RECOMMENDATIONS_POOL = [
   "Trust signal implementation: seals, certifications, third-party links",
   "Comprehensive about/team pages with expertise demonstration",
   "Customer success story development and case study creation",
-  "Regular AI visibility monitoring and optimization program"
+  "Professional SEO and content strategy consulting engagement",
+  "Regular content performance monitoring and optimization program"
 ];
 
 // Get insights based on analysis results with smart fallback to proven tactics
