@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import FirecrawlApp from '@mendable/firecrawl-js';
 import { supabase, type AnalysisResult } from '@/lib/supabase';
+import { extractStructuredData, analyzeWithRealData, type CrawlerData } from '@/lib/realDataAnalyzer';
 
 // Initialize Firecrawl lazily to avoid build-time errors
 let firecrawl: FirecrawlApp | null = null;
@@ -107,8 +108,71 @@ async function analyzeWebsiteContent(url: string) {
       return generateDeterministicAnalysis(url);
     }
 
-    // Analyze content for GSO metrics
-    const analysis = analyzeGSOMetrics(content, metadata, url);
+    console.log(`🧠 Starting real data analysis for ${url}...`);
+    
+    // Extract structured data from scraped content
+    const crawlerData = extractStructuredData(content, metadata, url);
+    
+    // Analyze with real data
+    const realDataAnalysis = await analyzeWithRealData(crawlerData);
+    
+    console.log(`✅ Real data analysis completed for ${url}`);
+    
+    // Convert to expected format for compatibility
+    const analysis = {
+      overallScore: realDataAnalysis.overall_score,
+      metrics: {
+        aiRecommendationRate: {
+          score: realDataAnalysis.metrics.aiRecommendationRate.score,
+          insights: realDataAnalysis.metrics.aiRecommendationRate.insights
+        },
+        competitiveRanking: {
+          score: realDataAnalysis.metrics.competitiveRanking.score,
+          insights: realDataAnalysis.metrics.competitiveRanking.insights
+        },
+        contentRelevance: {
+          score: realDataAnalysis.metrics.contentRelevance.score,
+          insights: realDataAnalysis.metrics.contentRelevance.insights
+        },
+        brandMentionQuality: {
+          score: realDataAnalysis.metrics.brandMentionQuality.score,
+          insights: realDataAnalysis.metrics.brandMentionQuality.insights
+        },
+        searchCompatibility: {
+          score: realDataAnalysis.metrics.searchCompatibility.score,
+          insights: realDataAnalysis.metrics.searchCompatibility.insights
+        },
+        websiteAuthority: {
+          score: realDataAnalysis.metrics.websiteAuthority.score,
+          insights: realDataAnalysis.metrics.websiteAuthority.insights
+        },
+        consistencyScore: {
+          score: realDataAnalysis.metrics.consistencyScore.score,
+          insights: realDataAnalysis.metrics.consistencyScore.insights
+        },
+        topicCoverage: {
+          score: realDataAnalysis.metrics.topicCoverage.score,
+          insights: realDataAnalysis.metrics.topicCoverage.insights
+        },
+        trustSignals: {
+          score: realDataAnalysis.metrics.trustSignals.score,
+          insights: realDataAnalysis.metrics.trustSignals.insights
+        },
+        expertiseRating: {
+          score: realDataAnalysis.metrics.expertiseRating.score,
+          insights: realDataAnalysis.metrics.expertiseRating.insights
+        }
+      },
+      summary: realDataAnalysis.summary,
+      analysisDate: realDataAnalysis.analysisDate,
+      meta: {
+        crawlerUsed: 'Firecrawl (Real Data)',
+        wordCount: crawlerData.word_count,
+        title: crawlerData.title,
+        confidenceLevel: realDataAnalysis.confidence_level
+      }
+    };
+    
     return analysis;
 
   } catch (error) {
