@@ -101,15 +101,29 @@ export const INVESTMENT_RECOMMENDATIONS_POOL = [
   "Regular AI visibility monitoring and optimization program"
 ];
 
-// Get insights based on analysis results with fallback to proven tactics
-export function getRelevantInsights(metricKey: string, score: number, analysisInsights?: string[]): string[] {
+// Get insights based on analysis results with smart fallback to proven tactics
+export function getRelevantInsights(metricKey: string, score: number, analysisInsights?: string[], websiteData?: any): string[] {
   const tactics = GSO_TACTICS[metricKey as keyof typeof GSO_TACTICS] || [];
   
-  // If we have analysis insights and they're meaningful, use them
+  // If we have real analysis insights and they're meaningful, prioritize them
   if (analysisInsights && analysisInsights.length > 0 && 
       !analysisInsights.some(insight => insight.includes('Deterministic analysis'))) {
-    // Combine analysis insights with tactical recommendations
-    const combined = [...analysisInsights.slice(0, 2), ...tactics.slice(0, 2)];
+    
+    // Filter out contradictory tactics based on what the website already has
+    const smartTactics = getSmartTactics(metricKey, tactics, analysisInsights, websiteData);
+    
+    // Combine real insights with relevant tactics (avoid duplicates)
+    const combined = [...analysisInsights.slice(0, 2)];
+    
+    // Add non-contradictory tactics if we need more insights
+    if (combined.length < 3) {
+      smartTactics.slice(0, 3 - combined.length).forEach(tactic => {
+        if (!combined.some(insight => insight.toLowerCase().includes(tactic.toLowerCase().split(' ')[0]))) {
+          combined.push(tactic);
+        }
+      });
+    }
+    
     return combined.slice(0, 3);
   }
   
@@ -121,6 +135,49 @@ export function getRelevantInsights(metricKey: string, score: number, analysisIn
   } else {
     return tactics.slice(0, 4); // Show more tactics for low scores
   }
+}
+
+// Smart tactic selection that avoids contradictions with existing website features
+function getSmartTactics(metricKey: string, tactics: string[], analysisInsights: string[], websiteData?: any): string[] {
+  const lowerInsights = analysisInsights.join(' ').toLowerCase();
+  
+  return tactics.filter(tactic => {
+    const lowerTactic = tactic.toLowerCase();
+    
+    // Skip heading structure advice if website already has good headings
+    if (lowerTactic.includes('heading structure') && 
+        (lowerInsights.includes('well-structured content') || lowerInsights.includes('multiple headings'))) {
+      return false;
+    }
+    
+    // Skip title advice if website already has proper title
+    if (lowerTactic.includes('title') && lowerInsights.includes('proper title tag')) {
+      return false;
+    }
+    
+    // Skip meta description advice if website already has it
+    if (lowerTactic.includes('meta description') && lowerInsights.includes('has meta description')) {
+      return false;
+    }
+    
+    // Skip contact info advice if website already has it
+    if (lowerTactic.includes('contact') && lowerInsights.includes('contact information available')) {
+      return false;
+    }
+    
+    // Skip social media advice if website already has good presence
+    if (lowerTactic.includes('social') && lowerInsights.includes('social media presence')) {
+      return false;
+    }
+    
+    // Skip review advice if website already has testimonials/reviews
+    if (lowerTactic.includes('review') && 
+        (lowerInsights.includes('testimonials') || lowerInsights.includes('customer feedback'))) {
+      return false;
+    }
+    
+    return true;
+  });
 }
 
 export function getCriticalIssues(count: number = 3): string[] {
