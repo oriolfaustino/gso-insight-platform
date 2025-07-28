@@ -1,7 +1,7 @@
 // Real Data Analyzer - Enhanced GSO Metrics with Actual Content Analysis
 import { supabase } from './supabase';
 import { getRelevantInsights, getCriticalIssues, getQuickWins, getInvestmentRecommendations } from './gsoTactics';
-import { detectIndustry, getBenchmark, getPerformanceStatus, getBenchmarkComparison } from './benchmarks';
+import { detectIndustry, getBenchmark, getOverallBenchmark, getPerformanceStatus, getBenchmarkComparison } from './benchmarks';
 
 export interface CrawlerData {
   id?: string;
@@ -52,6 +52,13 @@ export interface MetricAnalysis {
 export interface RealDataAnalysisResult {
   overall_score: number;
   confidence_level: number;
+  overall_benchmark?: {
+    industryAverage: number;
+    overallAverage: number;
+    status: 'excellent' | 'above_average' | 'average' | 'below_average' | 'poor';
+    comparison: string;
+    industry: string;
+  };
   metrics: {
     aiRecommendationRate: MetricAnalysis;
     competitiveRanking: MetricAnalysis;
@@ -543,6 +550,19 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
   
   const overallScore = Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length);
   
+  // Calculate overall benchmark
+  const overallBenchmark = getOverallBenchmark(industry);
+  let overallBenchmarkData;
+  if (overallBenchmark) {
+    overallBenchmarkData = {
+      industryAverage: overallBenchmark.industryAverage,
+      overallAverage: overallBenchmark.overallAverage,
+      status: getPerformanceStatus(overallScore, overallBenchmark),
+      comparison: getBenchmarkComparison(overallScore, 'overall', industry),
+      industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+    };
+  }
+  
   // Generate summary recommendations using GSO tactics
   const criticalIssues = getCriticalIssues(3);
   const quickWins = getQuickWins(3);
@@ -594,6 +614,7 @@ export async function analyzeWithRealData(crawlerData: CrawlerData): Promise<Rea
   return {
     overall_score: overallScore,
     confidence_level: 90,
+    overall_benchmark: overallBenchmarkData,
     metrics: {
       aiRecommendationRate,
       competitiveRanking,

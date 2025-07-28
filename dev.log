@@ -84,3 +84,15 @@ Firecrawl error details: {
  POST /api/analyze 200 in 43167ms
 💾 Saved analysis for apple.com to database
  ✓ Compiled in 309ms (677 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 574ms (399 modules)
+ GET / 200 in 716ms
+ ✓ Compiled /_not-found in 157ms (646 modules)
+ GET /_next/static/css/app/layout.css?v=1753702481092 404 in 253ms
+ GET /_next/static/chunks/main-app.js?v=1753702481092 404 in 23ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 23ms
+ GET / 200 in 68ms
+ GET /_next/static/css/app/layout.css?v=1753702485081 404 in 19ms
+ GET /_next/static/chunks/main-app.js?v=1753702485081 404 in 36ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 35ms
+[?25h

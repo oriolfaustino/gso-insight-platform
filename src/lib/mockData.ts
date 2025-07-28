@@ -22,6 +22,13 @@ export interface GSOResults {
   overallScore: number;
   domain: string;
   analysisDate: string;
+  overall_benchmark?: {
+    industryAverage: number;
+    overallAverage: number;
+    status: 'excellent' | 'above_average' | 'average' | 'below_average' | 'poor';
+    comparison: string;
+    industry: string;
+  };
   metrics: {
     aiRecommendationRate: MetricResult;
     competitiveRanking: MetricResult;
@@ -47,7 +54,7 @@ export interface GSOResults {
   };
 }
 
-import { detectIndustry, getBenchmark, getPerformanceStatus, getBenchmarkComparison } from './benchmarks';
+import { detectIndustry, getBenchmark, getOverallBenchmark, getPerformanceStatus, getBenchmarkComparison } from './benchmarks';
 
 export const generateMockResults = (domain: string): GSOResults => {
   // Generate realistic but consistently poor scores for demo impact
@@ -70,10 +77,24 @@ export const generateMockResults = (domain: string): GSOResults => {
     };
   };
   
+  // Calculate overall benchmark
+  const overallBenchmark = getOverallBenchmark(industry);
+  let overallBenchmarkData;
+  if (overallBenchmark) {
+    overallBenchmarkData = {
+      industryAverage: overallBenchmark.industryAverage,
+      overallAverage: overallBenchmark.overallAverage,
+      status: getPerformanceStatus(baseScore, overallBenchmark),
+      comparison: getBenchmarkComparison(baseScore, 'overall', industry),
+      industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+    };
+  }
+
   return {
     overallScore: baseScore,
     domain,
     analysisDate: new Date().toISOString(),
+    overall_benchmark: overallBenchmarkData,
     metrics: {
       aiRecommendationRate: {
         score: Math.max(10, baseScore - 10 + Math.floor(Math.random() * 20)),

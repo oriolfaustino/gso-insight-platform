@@ -3,7 +3,7 @@ import FirecrawlApp from '@mendable/firecrawl-js';
 import { supabase, type AnalysisResult } from '@/lib/supabase';
 import { extractStructuredData, analyzeWithRealData, type CrawlerData } from '@/lib/realDataAnalyzer';
 import { getRelevantInsights, getCriticalIssues, getQuickWins, getInvestmentRecommendations } from '@/lib/gsoTactics';
-import { detectIndustry, getBenchmark, getPerformanceStatus, getBenchmarkComparison } from '@/lib/benchmarks';
+import { detectIndustry, getBenchmark, getOverallBenchmark, getPerformanceStatus, getBenchmarkComparison } from '@/lib/benchmarks';
 import { scrapeWithPlaywright } from '@/lib/playwrightCrawler';
 import { scrapeWithSimpleCrawler } from '@/lib/simpleCrawler';
 
@@ -349,9 +349,23 @@ function generateDeterministicAnalysis(domain: string) {
   
   const overallScore = Math.round((aiScore + competitiveScore + contentScore + authorityScore + brandScore + searchScore) / 6);
 
+  // Calculate overall benchmark
+  const overallBenchmark = getOverallBenchmark(industry);
+  let overallBenchmarkData;
+  if (overallBenchmark) {
+    overallBenchmarkData = {
+      industryAverage: overallBenchmark.industryAverage,
+      overallAverage: overallBenchmark.overallAverage,
+      status: getPerformanceStatus(overallScore, overallBenchmark),
+      comparison: getBenchmarkComparison(overallScore, 'overall', industry),
+      industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+    };
+  }
+
   return {
     overallScore,
     domain: domain.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0],
+    overall_benchmark: overallBenchmarkData,
     metrics: {
       aiRecommendationRate: { score: aiScore, status: aiScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('aiRecommendationRate', aiScore), recommendations: [], benchmark: addBenchmark('aiRecommendationRate', aiScore) },
       competitiveRanking: { score: competitiveScore, status: competitiveScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('competitiveRanking', competitiveScore), recommendations: [], benchmark: addBenchmark('competitiveRanking', competitiveScore) },

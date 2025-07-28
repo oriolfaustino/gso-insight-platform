@@ -149,9 +149,25 @@ export default function HomePage() {
                 <span className="text-4xl font-bold text-white">{results.overallScore}</span>
               </div>
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Overall GSO Score</h2>
-              <p className="text-gray-600 mb-8 max-w-md mx-auto">
+              <p className="text-gray-600 mb-4 max-w-md mx-auto">
                 Your website's visibility to AI systems and language models
               </p>
+              
+              {/* Overall Benchmark Comparison */}
+              {(results as any).overall_benchmark && (
+                <div className="bg-gray-50 rounded-2xl p-4 mb-8 max-w-md mx-auto">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium ${getBenchmarkStatusColor((results as any).overall_benchmark.status)}`}>
+                      <BarChart3 className="w-4 h-4" />
+                      {getBenchmarkStatusText((results as any).overall_benchmark.status)}
+                    </div>
+                    <span className="text-sm text-gray-500">{(results as any).overall_benchmark.industry}</span>
+                  </div>
+                  <div className="text-sm text-gray-600 text-center">
+                    Industry avg: {(results as any).overall_benchmark.industryAverage} • Overall avg: {(results as any).overall_benchmark.overallAverage}
+                  </div>
+                </div>
+              )}
               
               {/* Quick Stats */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto">
@@ -191,6 +207,9 @@ export default function HomePage() {
                       <h4 className="font-semibold text-gray-900 mb-1">
                         {metricDefinitions[key as keyof typeof metricDefinitions]?.name || key}
                       </h4>
+                      <p className="text-xs text-gray-500 mb-2">
+                        {metricDefinitions[key as keyof typeof metricDefinitions]?.description || ''}
+                      </p>
                       <div className={`text-2xl font-bold ${getScoreColor(metric.score)}`}>
                         {metric.score}
                       </div>
@@ -291,6 +310,9 @@ export default function HomePage() {
                         <h4 className="font-semibold text-gray-900 mb-1">
                           {metricDefinitions[key as keyof typeof metricDefinitions]?.name || key}
                         </h4>
+                        <p className="text-xs text-gray-500 mb-2">
+                          {metricDefinitions[key as keyof typeof metricDefinitions]?.description || ''}
+                        </p>
                         <div className={`text-2xl font-bold ${getScoreColor(metric.score)}`}>
                           {metric.score}
                         </div>

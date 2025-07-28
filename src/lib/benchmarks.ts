@@ -129,6 +129,34 @@ export function detectIndustry(domain: string, content?: string): string {
   return 'general';
 }
 
+// Get overall benchmark for the overall score
+export function getOverallBenchmark(industry: string): BenchmarkData | null {
+  const industryData = GSO_BENCHMARKS[industry];
+  
+  if (industryData) {
+    // Calculate averages across all metrics for this industry
+    const metrics = Object.values(industryData);
+    const industryAvg = Math.round(metrics.reduce((sum, metric) => sum + metric.industryAverage, 0) / metrics.length);
+    const overallAvg = Math.round(metrics.reduce((sum, metric) => sum + metric.overallAverage, 0) / metrics.length);
+    
+    return {
+      industryAverage: industryAvg,
+      overallAverage: overallAvg,
+      sampleSize: metrics[0].sampleSize,
+      lastUpdated: metrics[0].lastUpdated
+    };
+  }
+  
+  // Return general overall average when industry unknown
+  const generalOverallAvg = Math.round(Object.values(OVERALL_AVERAGES).reduce((sum, avg) => sum + avg, 0) / Object.values(OVERALL_AVERAGES).length);
+  return {
+    industryAverage: generalOverallAvg,
+    overallAverage: generalOverallAvg,
+    sampleSize: 500,
+    lastUpdated: '2024-01-15'
+  };
+}
+
 // Get benchmark data for a specific metric and industry
 export function getBenchmark(metric: string, industry: string): BenchmarkData | null {
   const industryData = GSO_BENCHMARKS[industry];
@@ -140,7 +168,7 @@ export function getBenchmark(metric: string, industry: string): BenchmarkData | 
   const overallAvg = OVERALL_AVERAGES[metric as keyof typeof OVERALL_AVERAGES];
   if (overallAvg) {
     return {
-      industryAverage: overallAvg,
+      industryAverage: overallAvg, // Use overall as industry when unknown
       overallAverage: overallAvg,
       sampleSize: 500,
       lastUpdated: '2024-01-15'
