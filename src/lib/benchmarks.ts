@@ -97,6 +97,7 @@ export function detectIndustry(domain: string, content?: string): string {
   
   // Technology keywords
   if (domainLower.includes('tech') || domainLower.includes('ai') || domainLower.includes('software') ||
+      domainLower.includes('apple') || domainLower.includes('microsoft') || domainLower.includes('google') ||
       contentLower.includes('software') || contentLower.includes('technology') || contentLower.includes('artificial intelligence')) {
     return 'technology';
   }

@@ -1,0 +1,86 @@
+
+> gso-insight-platform@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.4.4
+   - Local:        http://localhost:3000
+   - Network:      http://10.153.20.19:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1193ms
+ ○ Compiling / ...
+ ✓ Compiled / in 615ms (640 modules)
+ GET / 200 in 801ms
+ ○ Compiling /api/analyze ...
+ ✓ Compiled /api/analyze in 541ms (934 modules)
+🔍 Analyzing https://test.com with Firecrawl...
+🔍 Crawling https://test.com with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://test.com...
+❌ Playwright crawling failed for https://test.com: Error [TimeoutError]: page.goto: Timeout 20000ms exceeded.
+Call log:
+[2m  - navigating to "https://test.com/", waiting until "networkidle"[22m
+
+    at scrapeWithPlaywright (src/lib/playwrightCrawler.ts:39:32)
+    at async analyzeWebsiteContent (src/app/api/analyze/route.ts:100:31)
+    at async POST (src/app/api/analyze/route.ts:386:21)
+  37 |     
+  38 |     // Navigate to the page
+> 39 |     const response = await page.goto(url, {
+     |                                ^
+  40 |       waitUntil: 'networkidle',
+  41 |       timeout: 20000
+  42 |     });
+Both Firecrawl and Playwright failed: {
+  firecrawlError: undefined,
+  playwrightError: 'page.goto: Timeout 20000ms exceeded.\n' +
+    'Call log:\n' +
+    '\x1B[2m  - navigating to "https://test.com/", waiting until "networkidle"\x1B[22m\n'
+}
+Firecrawl error details: {
+  message: 'Failed to scrape website with both crawlers: page.goto: Timeout 20000ms exceeded.\n' +
+    'Call log:\n' +
+    '\x1B[2m  - navigating to "https://test.com/", waiting until "networkidle"\x1B[22m\n',
+  status: undefined,
+  response: undefined,
+  url: 'https://test.com'
+}
+✅ test.com scored 44 (Firecrawl analysis)
+ POST /api/analyze 200 in 28452ms
+💾 Saved analysis for test.com to database
+ ✓ Compiled in 663ms (677 modules)
+ ✓ Compiled in 192ms (677 modules)
+ ✓ Compiled in 182ms (677 modules)
+🔍 Analyzing https://apple.com with Firecrawl...
+🔍 Crawling https://apple.com with Firecrawl...
+🎭 Firecrawl failed or returned insufficient content, trying Playwright fallback...
+🎭 Starting Playwright crawler for https://apple.com...
+❌ Playwright crawling failed for https://apple.com: Error [TimeoutError]: page.getAttribute: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('meta[name="description"]')[22m
+
+    at g (.next/server/app/api/analyze/route.js:1:1089)
+    at async n (.next/server/app/api/analyze/route.js:1:11335)
+    at async p (.next/server/app/api/analyze/route.js:1:16025)
+    at async k (.next/server/app/api/analyze/route.js:1:6381)
+    at async g (.next/server/app/api/analyze/route.js:1:7384)
+    at async x (.next/server/app/api/analyze/route.js:1:8506)
+Both Firecrawl and Playwright failed: {
+  firecrawlError: undefined,
+  playwrightError: 'page.getAttribute: Timeout 30000ms exceeded.\n' +
+    'Call log:\n' +
+    `\x1B[2m  - waiting for locator('meta[name="description"]')\x1B[22m\n`
+}
+Firecrawl error details: {
+  message: 'Failed to scrape website with both crawlers: page.getAttribute: Timeout 30000ms exceeded.\n' +
+    'Call log:\n' +
+    `\x1B[2m  - waiting for locator('meta[name="description"]')\x1B[22m\n`,
+  status: undefined,
+  response: undefined,
+  url: 'https://apple.com'
+}
+✅ apple.com scored 53 (Firecrawl analysis)
+ POST /api/analyze 200 in 43167ms
+💾 Saved analysis for apple.com to database
+ ✓ Compiled in 309ms (677 modules)

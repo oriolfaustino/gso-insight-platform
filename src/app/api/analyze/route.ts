@@ -3,6 +3,7 @@ import FirecrawlApp from '@mendable/firecrawl-js';
 import { supabase, type AnalysisResult } from '@/lib/supabase';
 import { extractStructuredData, analyzeWithRealData, type CrawlerData } from '@/lib/realDataAnalyzer';
 import { getRelevantInsights, getCriticalIssues, getQuickWins, getInvestmentRecommendations } from '@/lib/gsoTactics';
+import { detectIndustry, getBenchmark, getPerformanceStatus, getBenchmarkComparison } from '@/lib/benchmarks';
 import { scrapeWithPlaywright } from '@/lib/playwrightCrawler';
 import { scrapeWithSimpleCrawler } from '@/lib/simpleCrawler';
 
@@ -312,6 +313,22 @@ function analyzeGSOMetrics(content: string, metadata: Record<string, unknown>, u
 
 // Fallback deterministic analysis for consistent results
 function generateDeterministicAnalysis(domain: string) {
+  // Detect industry for benchmarking
+  const industry = detectIndustry(domain);
+  
+  // Helper function to add benchmark data
+  const addBenchmark = (metricKey: string, score: number) => {
+    const benchmark = getBenchmark(metricKey, industry);
+    if (!benchmark) return undefined;
+    
+    return {
+      industryAverage: benchmark.industryAverage,
+      overallAverage: benchmark.overallAverage,
+      status: getPerformanceStatus(score, benchmark),
+      comparison: getBenchmarkComparison(score, metricKey, industry),
+      industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+    };
+  };
   function generateDeterministicScore(domain: string, seed: string, min: number = 20, max: number = 80): number {
     const combined = domain.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '') + seed;
     let hash = 0;
@@ -336,12 +353,12 @@ function generateDeterministicAnalysis(domain: string) {
     overallScore,
     domain: domain.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0],
     metrics: {
-      aiRecommendationRate: { score: aiScore, status: aiScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('aiRecommendationRate', aiScore), recommendations: [] },
-      competitiveRanking: { score: competitiveScore, status: competitiveScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('competitiveRanking', competitiveScore), recommendations: [] },
-      contentRelevance: { score: contentScore, status: contentScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('contentRelevance', contentScore), recommendations: [] },
-      brandMentionQuality: { score: brandScore, status: brandScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('brandMentionQuality', brandScore), recommendations: [] },
-      searchCompatibility: { score: searchScore, status: searchScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('searchCompatibility', searchScore), recommendations: [] },
-      websiteAuthority: { score: authorityScore, status: authorityScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('websiteAuthority', authorityScore), recommendations: [] }
+      aiRecommendationRate: { score: aiScore, status: aiScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('aiRecommendationRate', aiScore), recommendations: [], benchmark: addBenchmark('aiRecommendationRate', aiScore) },
+      competitiveRanking: { score: competitiveScore, status: competitiveScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('competitiveRanking', competitiveScore), recommendations: [], benchmark: addBenchmark('competitiveRanking', competitiveScore) },
+      contentRelevance: { score: contentScore, status: contentScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('contentRelevance', contentScore), recommendations: [], benchmark: addBenchmark('contentRelevance', contentScore) },
+      brandMentionQuality: { score: brandScore, status: brandScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('brandMentionQuality', brandScore), recommendations: [], benchmark: addBenchmark('brandMentionQuality', brandScore) },
+      searchCompatibility: { score: searchScore, status: searchScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('searchCompatibility', searchScore), recommendations: [], benchmark: addBenchmark('searchCompatibility', searchScore) },
+      websiteAuthority: { score: authorityScore, status: authorityScore > 60 ? 'good' : 'poor', insights: getRelevantInsights('websiteAuthority', authorityScore), recommendations: [], benchmark: addBenchmark('websiteAuthority', authorityScore) }
     },
     summary: {
       criticalIssues: getCriticalIssues(3),
