@@ -110,13 +110,15 @@ async function analyzeWebsiteContent(url: string) {
 
     console.log(`🧠 Starting real data analysis for ${url}...`);
     
-    // Extract structured data from scraped content
-    const crawlerData = extractStructuredData(content, metadata, url);
-    
-    // Analyze with real data
-    const realDataAnalysis = await analyzeWithRealData(crawlerData);
-    
-    console.log(`✅ Real data analysis completed for ${url}`);
+    try {
+      // Extract structured data from scraped content
+      const crawlerData = extractStructuredData(content, metadata, url);
+      console.log(`📊 Extracted data - Words: ${crawlerData.word_count}, Headings: ${crawlerData.heading_count}, Title: ${crawlerData.title ? 'Yes' : 'No'}`);
+      
+      // Analyze with real data
+      const realDataAnalysis = await analyzeWithRealData(crawlerData);
+      
+      console.log(`✅ Real data analysis completed for ${url} - Overall Score: ${realDataAnalysis.overall_score}`);
     
     // Convert to expected format for compatibility
     const analysis = {
@@ -174,6 +176,12 @@ async function analyzeWebsiteContent(url: string) {
     };
     
     return analysis;
+
+    } catch (realDataError) {
+      console.error('❌ Real data analysis failed:', realDataError);
+      console.log('⚠️ Falling back to deterministic analysis');
+      return generateDeterministicAnalysis(url);
+    }
 
   } catch (error) {
     console.error('Firecrawl error details:', {
