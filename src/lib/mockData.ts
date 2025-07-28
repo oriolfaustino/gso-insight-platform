@@ -4,6 +4,13 @@ export interface MetricResult {
   trend: 'up' | 'down' | 'stable';
   insights: string[];
   recommendations: string[];
+  benchmark?: {
+    industryAverage: number;
+    overallAverage: number;
+    status: 'excellent' | 'above_average' | 'average' | 'below_average' | 'poor';
+    comparison: string;
+    industry: string;
+  };
   competitorComparison?: {
     position: number;
     totalCompetitors: number;
@@ -40,9 +47,28 @@ export interface GSOResults {
   };
 }
 
+import { detectIndustry, getBenchmark, getPerformanceStatus, getBenchmarkComparison } from './benchmarks';
+
 export const generateMockResults = (domain: string): GSOResults => {
   // Generate realistic but consistently poor scores for demo impact
   const baseScore = Math.floor(Math.random() * 30) + 15; // 15-45 range for poor performance
+  
+  // Detect industry for benchmarking
+  const industry = detectIndustry(domain);
+  
+  // Helper function to add benchmark data
+  const addBenchmark = (metricKey: string, score: number) => {
+    const benchmark = getBenchmark(metricKey, industry);
+    if (!benchmark) return undefined;
+    
+    return {
+      industryAverage: benchmark.industryAverage,
+      overallAverage: benchmark.overallAverage,
+      status: getPerformanceStatus(score, benchmark),
+      comparison: getBenchmarkComparison(score, metricKey, industry),
+      industry: industry === 'general' ? 'Overall' : industry.charAt(0).toUpperCase() + industry.slice(1)
+    };
+  };
   
   return {
     overallScore: baseScore,
@@ -63,6 +89,7 @@ export const generateMockResults = (domain: string): GSOResults => {
           'Increase authoritative content mentions',
           'Build strategic partnership announcements'
         ],
+        benchmark: addBenchmark('aiRecommendationRate', Math.max(10, baseScore - 10 + Math.floor(Math.random() * 20))),
         competitorComparison: {
           position: 7,
           totalCompetitors: 10,
@@ -82,7 +109,8 @@ export const generateMockResults = (domain: string): GSOResults => {
           'Create AI-friendly content summaries',
           'Develop quotable executive insights',
           'Structure data for AI consumption'
-        ]
+        ],
+        benchmark: addBenchmark('competitiveRanking', Math.max(15, baseScore - 5 + Math.floor(Math.random() * 15)))
       },
       contentRelevance: {
         score: Math.max(20, baseScore + Math.floor(Math.random() * 25)),
@@ -97,7 +125,8 @@ export const generateMockResults = (domain: string): GSOResults => {
           'Enhance semantic content structure',
           'Add structured data markup',
           'Optimize for entity relationships'
-        ]
+        ],
+        benchmark: addBenchmark('contentRelevance', Math.max(20, baseScore + Math.floor(Math.random() * 25)))
       },
       brandMentionQuality: {
         score: Math.max(8, baseScore - 15 + Math.floor(Math.random() * 10)),
@@ -112,7 +141,8 @@ export const generateMockResults = (domain: string): GSOResults => {
           'Create more conversational brand content',
           'Develop natural use case scenarios',
           'Improve contextual keyword integration'
-        ]
+        ],
+        benchmark: addBenchmark('brandMentionQuality', Math.max(8, baseScore - 15 + Math.floor(Math.random() * 10)))
       },
       searchCompatibility: {
         score: Math.max(25, baseScore + Math.floor(Math.random() * 20)),
@@ -127,7 +157,8 @@ export const generateMockResults = (domain: string): GSOResults => {
           'Optimize content for vector search',
           'Improve document chunking strategy',
           'Enhance metadata quality'
-        ]
+        ],
+        benchmark: addBenchmark('searchCompatibility', Math.max(25, baseScore + Math.floor(Math.random() * 20)))
       },
       consistencyScore: {
         score: Math.max(30, baseScore + Math.floor(Math.random() * 25)),
@@ -142,7 +173,8 @@ export const generateMockResults = (domain: string): GSOResults => {
           'Test against diverse prompt patterns',
           'Optimize for comparison contexts',
           'Create model-specific content strategies'
-        ]
+        ],
+        benchmark: addBenchmark('consistencyScore', Math.max(30, baseScore + Math.floor(Math.random() * 25)))
       },
       topicCoverage: {
         score: Math.max(35, baseScore + Math.floor(Math.random() * 30)),
@@ -157,7 +189,8 @@ export const generateMockResults = (domain: string): GSOResults => {
           'Expand coverage to adjacent topics',
           'Strengthen entity connections',
           'Add more expert perspectives'
-        ]
+        ],
+        benchmark: addBenchmark('topicCoverage', Math.max(35, baseScore + Math.floor(Math.random() * 30)))
       },
       websiteAuthority: {
         score: Math.max(65, baseScore + 30 + Math.floor(Math.random() * 20)),
@@ -172,7 +205,8 @@ export const generateMockResults = (domain: string): GSOResults => {
           'Maintain current SEO practices',
           'Focus on AI-specific optimizations',
           'Bridge traditional and AI visibility'
-        ]
+        ],
+        benchmark: addBenchmark('websiteAuthority', Math.max(65, baseScore + 30 + Math.floor(Math.random() * 20)))
       },
       trustSignals: {
         score: Math.max(50, baseScore + 20 + Math.floor(Math.random() * 25)),
@@ -187,7 +221,8 @@ export const generateMockResults = (domain: string): GSOResults => {
           'Target links from AI training sources',
           'Build relationships with cited publications',
           'Create linkable AI-friendly resources'
-        ]
+        ],
+        benchmark: addBenchmark('trustSignals', Math.max(50, baseScore + 20 + Math.floor(Math.random() * 25)))
       },
       expertiseRating: {
         score: Math.max(40, baseScore + 15 + Math.floor(Math.random() * 20)),
@@ -202,7 +237,8 @@ export const generateMockResults = (domain: string): GSOResults => {
           'Address content gaps in trending topics',
           'Increase content depth and specificity',
           'Create more comprehensive guides'
-        ]
+        ],
+        benchmark: addBenchmark('expertiseRating', Math.max(40, baseScore + 15 + Math.floor(Math.random() * 20)))
       }
     },
     summary: {
