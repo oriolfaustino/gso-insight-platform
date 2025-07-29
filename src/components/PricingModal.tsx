@@ -23,6 +23,15 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
       // Get variant from URL or assign one
       const urlVariant = getVariantFromUrl();
       const assignedVariant = urlVariant || getAssignedVariant(domain);
+      
+      console.log('🎯 PricingModal Debug:', {
+        isOpen,
+        domain,
+        urlVariant: urlVariant ? `${urlVariant.id} (${urlVariant.currency}${urlVariant.price})` : null,
+        assignedVariant: `${assignedVariant.id} (${assignedVariant.currency}${assignedVariant.price})`,
+        finalVariant: `${assignedVariant.id} (${assignedVariant.currency}${assignedVariant.price})`
+      });
+      
       setVariant(assignedVariant);
       
       // Track modal opened

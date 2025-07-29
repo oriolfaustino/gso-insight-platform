@@ -111,9 +111,19 @@ export function getVariantFromUrl(): PricingVariant | null {
   const urlParams = new URLSearchParams(window.location.search);
   const variantParam = urlParams.get('variant');
   
+  console.log('🔍 URL Debug:', {
+    url: window.location.href,
+    search: window.location.search,
+    variantParam,
+    availableVariants: Object.keys(PRICING_VARIANTS),
+    hasVariant: variantParam && PRICING_VARIANTS[variantParam]
+  });
+  
   if (variantParam && PRICING_VARIANTS[variantParam]) {
+    console.log('✅ URL variant found:', PRICING_VARIANTS[variantParam]);
     return PRICING_VARIANTS[variantParam];
   }
   
+  console.log('❌ No URL variant found');
   return null;
 }

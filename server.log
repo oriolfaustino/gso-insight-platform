@@ -433,3 +433,8 @@ Firecrawl error details: {
  ✓ Compiled in 231ms (669 modules)
  ✓ Compiled in 182ms (669 modules)
  ✓ Compiled in 189ms (669 modules)
+ ✓ Compiled in 781ms (655 modules)
+ ✓ Compiled /api/debug-ab in 451ms (675 modules)
+ GET /api/debug-ab?domain=test.com&variant=budget 200 in 620ms
+ ✓ Compiled in 251ms (689 modules)
+ ✓ Compiled in 175ms (689 modules)
