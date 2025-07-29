@@ -91,23 +91,18 @@ export const trackPricingModalOpened = (source: string) => {
 export const trackUpgradeClicked = (pricePoint: string) => {
   console.log('🎯 Tracking upgrade_clicked:', pricePoint);
   
-  // Send directly to GA4 with simpler format
+  // Send directly to GA4 with debug mode enabled
   if (typeof window !== 'undefined' && window.gtag) {
     console.log('✅ Sending event to GA4...');
     
-    // Try both formats to see which works
     window.gtag('event', 'upgrade_clicked', {
+      event_category: 'conversion',
       price_point: pricePoint,
-      currency: 'EUR'
-    });
-    
-    // Also try with standard GA4 parameters
-    window.gtag('event', 'purchase_intent', {
       currency: 'EUR',
-      value: parseFloat(pricePoint.replace(/[^0-9.]/g, ''))
+      debug_mode: true
     });
     
-    console.log('✅ Events sent to GA4 (upgrade_clicked + purchase_intent)');
+    console.log('✅ upgrade_clicked event sent to GA4');
   } else {
     console.log('❌ Cannot send to GA4 - gtag not available');
   }
