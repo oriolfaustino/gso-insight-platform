@@ -5,6 +5,7 @@ import { Search, ArrowRight, CheckCircle, AlertTriangle, TrendingUp, Sparkles, L
 import { generateMockResults, metricDefinitions, GSOResults } from '@/lib/mockData';
 import { LoadingAnimation } from '@/components/LoadingAnimation';
 import { PricingModal } from '@/components/PricingModal';
+import { trackAnalysisStarted, trackAnalysisCompleted } from '@/lib/gtag';
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -22,6 +23,7 @@ export default function HomePage() {
     if (!domain) return;
     
     setIsAnalyzing(true);
+    trackAnalysisStarted(domain);
     
     try {
       const response = await fetch('/api/analyze', {
@@ -41,6 +43,7 @@ export default function HomePage() {
       setResults(data);
       setIsAnalyzing(false);
       setShowResults(true);
+      trackAnalysisCompleted(domain, data.overallScore);
       
     } catch (error) {
       console.error('Analysis error:', error);
@@ -49,6 +52,7 @@ export default function HomePage() {
       setResults(mockResults);
       setIsAnalyzing(false);
       setShowResults(true);
+      trackAnalysisCompleted(domain, mockResults.overallScore);
     }
   };
 

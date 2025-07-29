@@ -418,3 +418,18 @@ Firecrawl error details: {
   lastUpdated: '2024-01-15'
 }
  GET /api/debug-benchmark?domain=apple.com 200 in 207ms
+ ✓ Compiled in 737ms (256 modules)
+ ✓ Compiled in 368ms (655 modules)
+ ✓ Compiled in 178ms (655 modules)
+ ✓ Compiled in 394ms (665 modules)
+ ✓ Compiled in 140ms (259 modules)
+ ✓ Compiled in 292ms (665 modules)
+ ✓ Compiled in 112ms (669 modules)
+ ✓ Compiled in 157ms (669 modules)
+ ✓ Compiled in 181ms (669 modules)
+ ✓ Compiled in 149ms (669 modules)
+ ✓ Compiled in 177ms (669 modules)
+ ✓ Compiled in 169ms (669 modules)
+ ✓ Compiled in 231ms (669 modules)
+ ✓ Compiled in 182ms (669 modules)
+ ✓ Compiled in 189ms (669 modules)

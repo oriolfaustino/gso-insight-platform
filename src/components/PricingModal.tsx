@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Check, Star, Clock, Shield, Zap } from 'lucide-react';
+import { getAssignedVariant, getVariantFromUrl, trackConversion, type PricingVariant } from '@/lib/ab-testing';
+import { trackPricingModalOpened, trackUpgradeClicked } from '@/lib/gtag';
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -14,6 +16,19 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [variant, setVariant] = useState<PricingVariant | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      // Get variant from URL or assign one
+      const urlVariant = getVariantFromUrl();
+      const assignedVariant = urlVariant || getAssignedVariant(domain);
+      setVariant(assignedVariant);
+      
+      // Track modal opened
+      trackPricingModalOpened('results_page');
+    }
+  }, [isOpen, domain]);
 
   if (!isOpen) {
     return null;
@@ -24,6 +39,12 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
       alert('Please enter your email address');
       return;
     }
+
+    if (!variant) return;
+
+    // Track conversion attempt
+    trackConversion(variant, 'click');
+    trackUpgradeClicked(`${variant.price}${variant.currency}`);
 
     setIsSubmitting(true);
     
@@ -38,13 +59,18 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
           email,
           domain,
           score: score || 0,
-          price: 250,
+          price: variant.price,
+          currency: variant.currency,
+          variant: variant.id,
+          variantName: variant.name,
           timestamp: new Date().toISOString()
         }),
       });
 
       if (response.ok) {
         setSubmitted(true);
+        // Track successful conversion
+        trackConversion(variant, 'purchase');
       } else {
         throw new Error('Failed to submit');
       }
@@ -86,7 +112,7 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Complete GSO Analysis</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{variant?.name || 'Complete GSO Analysis'}</h2>
             <p className="text-gray-600">Unlock all 10 metrics for {domain}</p>
           </div>
           <button
@@ -106,11 +132,17 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
                   <Star className="w-5 h-5 text-yellow-500" />
                   <span className="text-sm font-medium text-gray-600">LAUNCH SPECIAL</span>
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900">$250</h3>
-                <div className="flex items-center gap-2">
-                  <span className="text-lg text-gray-500 line-through">$500</span>
-                  <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">50% OFF</span>
-                </div>
+                <h3 className="text-3xl font-bold text-gray-900">
+                  {variant?.currency}{variant?.price || 250}
+                </h3>
+                {variant?.id !== 'budget' && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg text-gray-500 line-through">
+                      {variant?.currency}{((variant?.price || 250) * 2)}
+                    </span>
+                    <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">50% OFF</span>
+                  </div>
+                )}
               </div>
               <div className="text-right">
                 <div className="bg-white rounded-lg p-3 shadow-sm">
@@ -120,7 +152,7 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
               </div>
             </div>
             <p className="text-gray-700">
-              Complete AI visibility analysis with all 10 proprietary GSO metrics, competitor benchmarking, and actionable recommendations.
+              {variant?.description || 'Complete AI visibility analysis with all 10 proprietary GSO metrics, competitor benchmarking, and actionable recommendations.'}
             </p>
           </div>
 
@@ -132,22 +164,23 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
                 Complete Analysis
               </h4>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  All 10 GSO metrics including content relevance, brand mention quality, and search compatibility
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  Cross-platform AI testing (GPT-4, Claude, Gemini, open models)
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  Detailed competitor comparison & positioning
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  Semantic content analysis & recommendations
-                </li>
+                {variant?.features.slice(0, 4).map((feature, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    {feature}
+                  </li>
+                )) || (
+                  <>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      All 10 GSO metrics including content relevance, brand mention quality, and search compatibility
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      Cross-platform AI testing (GPT-4, Claude, Gemini, open models)
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
             <div className="space-y-3">
@@ -209,7 +242,7 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
                 </>
               ) : (
                 <>
-                  Get Complete Analysis - $250
+                  {variant?.ctaText || 'Get Complete Analysis'} - {variant?.currency}{variant?.price || 250}
                 </>
               )}
             </button>
