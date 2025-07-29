@@ -35,35 +35,46 @@ export const event = ({ action, category, label, value }: {
 
 // Track conversions and key events
 export const trackAnalysisStarted = (domain: string) => {
-  event({
-    action: 'analysis_started',
-    category: 'engagement',
-    label: domain,
-  });
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'analysis_started', {
+      event_category: 'engagement',
+      event_label: domain,
+      domain: domain,
+    });
+  }
 };
 
 export const trackAnalysisCompleted = (domain: string, score: number) => {
-  event({
-    action: 'analysis_completed',
-    category: 'engagement',
-    label: domain,
-    value: score,
-  });
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'analysis_completed', {
+      event_category: 'engagement',
+      event_label: domain,
+      value: score,
+      domain: domain,
+      score: score,
+    });
+  }
 };
 
 export const trackPricingModalOpened = (source: string) => {
-  event({
-    action: 'pricing_modal_opened',
-    category: 'conversion',
-    label: source,
-  });
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'pricing_modal_opened', {
+      event_category: 'conversion',
+      event_label: source,
+      source: source,
+    });
+  }
 };
 
 export const trackUpgradeClicked = (pricePoint: string) => {
   console.log('🎯 Tracking upgrade_clicked:', pricePoint);
-  event({
-    action: 'upgrade_clicked',
-    category: 'conversion',
-    label: pricePoint,
-  });
+  
+  // Send directly to GA4
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'upgrade_clicked', {
+      event_category: 'conversion',
+      event_label: pricePoint,
+      price_point: pricePoint,
+    });
+  }
 };
