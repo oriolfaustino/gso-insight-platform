@@ -60,6 +60,7 @@ export const trackPricingModalOpened = (source: string) => {
 };
 
 export const trackUpgradeClicked = (pricePoint: string) => {
+  console.log('🎯 Tracking upgrade_clicked:', pricePoint);
   event({
     action: 'upgrade_clicked',
     category: 'conversion',
