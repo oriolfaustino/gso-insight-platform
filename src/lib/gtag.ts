@@ -18,6 +18,11 @@ export const testGA = () => {
   }
 };
 
+// Make it globally accessible for testing
+if (typeof window !== 'undefined') {
+  (window as any).testGA = testGA;
+}
+
 // Initialize gtag
 declare global {
   interface Window {
