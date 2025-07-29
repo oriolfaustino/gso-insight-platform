@@ -1,6 +1,23 @@
 // Google Analytics utilities
 export const GA_TRACKING_ID = 'G-8H4L3NMS23';
 
+// Test function to verify GA is working
+export const testGA = () => {
+  console.log('🧪 Testing GA setup...');
+  console.log('GA_TRACKING_ID:', GA_TRACKING_ID);
+  console.log('window.gtag exists:', typeof window !== 'undefined' && !!window.gtag);
+  console.log('dataLayer exists:', typeof window !== 'undefined' && !!window.dataLayer);
+  
+  if (typeof window !== 'undefined' && window.gtag) {
+    console.log('📊 Sending test event...');
+    window.gtag('event', 'test_event', {
+      event_category: 'debug',
+      event_label: 'ga_test',
+    });
+    console.log('✅ Test event sent');
+  }
+};
+
 // Initialize gtag
 declare global {
   interface Window {
@@ -68,13 +85,22 @@ export const trackPricingModalOpened = (source: string) => {
 
 export const trackUpgradeClicked = (pricePoint: string) => {
   console.log('🎯 Tracking upgrade_clicked:', pricePoint);
+  console.log('🔍 GA Debug:', {
+    hasWindow: typeof window !== 'undefined',
+    hasGtag: typeof window !== 'undefined' && !!window.gtag,
+    gtagFunction: typeof window !== 'undefined' ? typeof window.gtag : 'no window'
+  });
   
   // Send directly to GA4
   if (typeof window !== 'undefined' && window.gtag) {
+    console.log('✅ Sending event to GA4...');
     window.gtag('event', 'upgrade_clicked', {
       event_category: 'conversion',
       event_label: pricePoint,
       price_point: pricePoint,
     });
+    console.log('✅ Event sent to GA4');
+  } else {
+    console.log('❌ Cannot send to GA4 - gtag not available');
   }
 };
