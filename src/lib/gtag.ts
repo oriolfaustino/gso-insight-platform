@@ -95,14 +95,26 @@ export const trackUpgradeClicked = (pricePoint: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
     console.log('✅ Sending event to GA4...');
     
-    window.gtag('event', 'upgrade_clicked', {
+    const eventData = {
       event_category: 'conversion',
       price_point: pricePoint,
       currency: 'EUR',
       debug_mode: true
-    });
+    };
+    
+    console.log('📊 Event data being sent:', eventData);
+    
+    window.gtag('event', 'upgrade_clicked', eventData);
     
     console.log('✅ upgrade_clicked event sent to GA4');
+    
+    // Also try the exact format that worked in console
+    window.gtag('event', 'upgrade_clicked_test', {
+      event_category: 'debug',
+      debug_mode: true
+    });
+    
+    console.log('✅ upgrade_clicked_test also sent (simplified format)');
   } else {
     console.log('❌ Cannot send to GA4 - gtag not available');
   }
