@@ -47,7 +47,7 @@ export default function AboutPage() {
                   animationDelay: '0.2s',
                   animationFillMode: 'backwards'
                 }}>
-              About 
+              About{' '}
               <span className="text-gradient">GSO Insight</span>
             </h1>
             <p className="font-body text-xl lg:text-2xl mb-12 leading-relaxed max-w-4xl mx-auto animate-fade-in-up"
