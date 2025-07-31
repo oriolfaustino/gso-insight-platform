@@ -174,15 +174,12 @@ export default function HomePage() {
               <h2 className="font-display text-3xl mb-3" style={{ color: 'var(--neutral-900)' }}>
                 Overall GSO Score
               </h2>
-              <p className="font-body text-lg leading-relaxed max-w-2xl mx-auto mb-6" 
-                 style={{ 
-                   color: 'var(--neutral-600)', 
-                   textAlign: 'center',
-                   display: 'block',
-                   width: '100%'
-                 }}>
-                Your website's comprehensive visibility to AI systems and language models
-              </p>
+              <div className="w-full flex justify-center mb-6">
+                <p className="font-body text-lg leading-relaxed text-center max-w-3xl px-4" 
+                   style={{ color: 'var(--neutral-600)' }}>
+                  Your website's comprehensive visibility to AI systems and language models
+                </p>
+              </div>
               
               {/* Overall Benchmark Comparison */}
               {(results as any).overall_benchmark && (
