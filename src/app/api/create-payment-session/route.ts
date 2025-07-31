@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 // Check if Stripe is configured
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 const stripe = STRIPE_SECRET_KEY ? new Stripe(STRIPE_SECRET_KEY, {
-  apiVersion: '2024-06-20',
+  apiVersion: '2024-10-28.acacia',
 }) : null;
 
 export async function POST(request: NextRequest) {
@@ -19,8 +19,18 @@ export async function POST(request: NextRequest) {
 
     const { email, domain, variant, price, currency, isSubscription, subscriptionPeriod } = await request.json();
 
-    // For demo purposes, we'll create a simple payment session
-    // In production, you'd want to create proper products and prices in Stripe
+    console.log('Payment session request:', { email, domain, variant, price, currency, isSubscription, subscriptionPeriod });
+
+    // Validate required fields
+    if (!email || !price || !currency) {
+      return NextResponse.json(
+        { error: 'Missing required fields: email, price, or currency' },
+        { status: 400 }
+      );
+    }
+
+    // Handle currency conversion - ensure we use supported currency
+    const normalizedCurrency = currency.toLowerCase() === 'eur' ? 'eur' : 'usd';
     
     const sessionParams: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ['card'],
@@ -28,7 +38,7 @@ export async function POST(request: NextRequest) {
       line_items: [
         {
           price_data: {
-            currency: currency.toLowerCase(),
+            currency: normalizedCurrency,
             product_data: {
               name: isSubscription 
                 ? `GSO Pro Subscription (${subscriptionPeriod})` 
@@ -36,9 +46,8 @@ export async function POST(request: NextRequest) {
               description: isSubscription
                 ? `Continuous AI visibility monitoring for ${subscriptionPeriod}`
                 : `Complete AI visibility analysis for ${domain}`,
-              images: [], // Add your product images here
             },
-            unit_amount: price * 100, // Stripe expects amount in cents
+            unit_amount: Math.round(price * 100), // Stripe expects amount in cents, ensure integer
             ...(isSubscription && {
               recurring: {
                 interval: 'month',
@@ -50,7 +59,7 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: isSubscription ? 'subscription' : 'payment',
-      success_url: `${request.nextUrl.origin}/success?session_id={CHECKOUT_SESSION_ID}&domain=${domain}`,
+      success_url: `${request.nextUrl.origin}/success?session_id={CHECKOUT_SESSION_ID}&domain=${encodeURIComponent(domain)}`,
       cancel_url: `${request.nextUrl.origin}/?cancelled=true`,
       metadata: {
         domain,
