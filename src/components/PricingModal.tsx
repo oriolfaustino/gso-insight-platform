@@ -143,11 +143,6 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
                     <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">50% OFF</span>
                   </div>
                 )}
-                {variant?.isSubscription && (
-                  <div className="flex items-center gap-2">
-                    <span className="bg-green-500 text-white px-2 py-1 rounded text-sm font-medium">RECURRING</span>
-                  </div>
-                )}
               </div>
               <div className="text-right">
                 <div className="bg-white rounded-lg p-3 shadow-sm">
