@@ -101,19 +101,6 @@ function SuccessContent() {
           </div>
         </div>
 
-        {/* Demo Notice */}
-        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mb-8">
-          <div className="flex items-start gap-3">
-            <Mail className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-            <div>
-              <h3 className="font-semibold text-blue-900 mb-1">Demo Notice</h3>
-              <p className="text-blue-800 text-sm">
-                This is a demonstration of the payment flow. In the live version, 
-                you would receive your complete GSO analysis report via email within 48 hours.
-              </p>
-            </div>
-          </div>
-        </div>
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
