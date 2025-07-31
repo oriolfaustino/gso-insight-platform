@@ -74,7 +74,8 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
       trackConversion(variant, 'purchase');
     } catch (error) {
       console.error('Payment error:', error);
-      alert('Payment processing failed. Please try again or contact support.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      alert(`Payment Error: ${errorMessage}`);
       setIsSubmitting(false);
     }
   };
