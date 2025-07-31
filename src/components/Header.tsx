@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, Menu, X, BarChart3 } from 'lucide-react';
+import { Search, Menu, X, TrendingUp } from 'lucide-react';
 
 interface HeaderProps {
   showNewAnalysisButton?: boolean;
@@ -9,13 +9,22 @@ interface HeaderProps {
 }
 
 const Logo = () => (
-  <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-    <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-violet-600 rounded-lg flex items-center justify-center">
-      <BarChart3 className="w-5 h-5 text-white" />
+  <a href="/" className="flex items-center gap-4 hover:opacity-90 transition-all duration-200 group">
+    <div className="relative">
+      <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden" 
+           style={{ background: 'var(--gradient-primary)' }}>
+        <TrendingUp className="w-5 h-5 text-white" />
+      </div>
+      <div className="absolute -inset-1 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+           style={{ background: 'var(--gradient-primary)', filter: 'blur(6px)', zIndex: -1 }} />
     </div>
     <div>
-      <h1 className="text-xl font-bold text-gray-900">GSO Insight</h1>
-      <p className="text-xs text-gray-500 -mt-0.5">AI Visibility Platform</p>
+      <h1 className="font-display text-xl" style={{ color: 'var(--neutral-900)' }}>
+        GSO Insight
+      </h1>
+      <p className="font-body text-xs" style={{ color: 'var(--neutral-500)' }}>
+        AI Visibility Intelligence
+      </p>
     </div>
   </a>
 );
@@ -24,18 +33,27 @@ export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderP
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex justify-between items-center h-16">
+    <header className="glass sticky top-0 z-50 border-b" 
+            style={{ borderColor: 'var(--neutral-200)' }}>
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Logo />
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="/about" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+          <nav className="hidden md:flex items-center gap-10">
+            <a href="/about" 
+               className="font-body text-sm font-medium transition-all duration-200 hover:translate-y-[-1px]"
+               style={{ color: 'var(--neutral-600)' }}
+               onMouseEnter={(e) => e.target.style.color = 'var(--neutral-900)'}
+               onMouseLeave={(e) => e.target.style.color = 'var(--neutral-600)'}>
               About
             </a>
-            <a href="/login" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="/login" 
+               className="font-body text-sm font-medium transition-all duration-200 hover:translate-y-[-1px]"
+               style={{ color: 'var(--neutral-600)' }}
+               onMouseEnter={(e) => e.target.style.color = 'var(--neutral-900)'}
+               onMouseLeave={(e) => e.target.style.color = 'var(--neutral-600)'}>
               Member Login
             </a>
           </nav>
@@ -45,14 +63,19 @@ export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderP
             {showNewAnalysisButton ? (
               <button 
                 onClick={onNewAnalysis}
-                className="inline-flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
+                className="btn-primary inline-flex items-center gap-2 text-sm"
               >
                 <Search className="w-4 h-4" />
                 New Analysis
               </button>
             ) : (
-              <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
-                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border"
+                   style={{ 
+                     background: 'var(--primary-50)', 
+                     color: 'var(--primary-700)',
+                     borderColor: 'var(--primary-200)'
+                   }}>
+                <div className="w-2 h-2 rounded-full" style={{ background: 'var(--primary-500)' }}></div>
                 Beta
               </div>
             )}
@@ -61,7 +84,16 @@ export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderP
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
+            className="md:hidden p-2 rounded-lg transition-colors"
+            style={{ color: 'var(--neutral-600)' }}
+            onMouseEnter={(e) => {
+              e.target.style.color = 'var(--neutral-900)';
+              e.target.style.background = 'var(--neutral-100)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.color = 'var(--neutral-600)';
+              e.target.style.background = 'transparent';
+            }}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -69,18 +101,27 @@ export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderP
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100">
-            <nav className="flex flex-col gap-4">
-              <a href="/about" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+          <div className="animate-scale-in md:hidden py-6 border-t" 
+               style={{ borderColor: 'var(--neutral-200)' }}>
+            <nav className="flex flex-col gap-6">
+              <a href="/about" 
+                 className="font-body text-sm font-medium transition-colors"
+                 style={{ color: 'var(--neutral-600)' }}
+                 onMouseEnter={(e) => e.target.style.color = 'var(--neutral-900)'}
+                 onMouseLeave={(e) => e.target.style.color = 'var(--neutral-600)'}>
                 About
               </a>
-              <a href="/login" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+              <a href="/login" 
+                 className="font-body text-sm font-medium transition-colors"
+                 style={{ color: 'var(--neutral-600)' }}
+                 onMouseEnter={(e) => e.target.style.color = 'var(--neutral-900)'}
+                 onMouseLeave={(e) => e.target.style.color = 'var(--neutral-600)'}>
                 Member Login
               </a>
               {showNewAnalysisButton && (
                 <button 
                   onClick={onNewAnalysis}
-                  className="inline-flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors w-fit"
+                  className="btn-primary inline-flex items-center gap-2 text-sm w-fit"
                 >
                   <Search className="w-4 h-4" />
                   New Analysis
