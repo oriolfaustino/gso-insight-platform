@@ -82,20 +82,28 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
 
   if (submitted) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg max-w-md w-full p-8 text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Check className="w-8 h-8 text-green-600" />
+      <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="card-premium max-w-md w-full p-12 text-center glass animate-scale-in"
+             style={{ boxShadow: 'var(--shadow-2xl)' }}>
+          <div className="relative mb-8">
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto" 
+                 style={{ background: 'var(--accent-emerald)' }}>
+              <Check className="w-10 h-10 text-white" />
+            </div>
+            <div className="absolute -inset-2 rounded-full opacity-20 blur-xl"
+                 style={{ background: 'var(--accent-emerald)' }} />
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h3>
-          <p className="text-gray-600 mb-6">
-            We&apos;ve received your interest in the complete GSO analysis for <span className="font-semibold">{domain}</span>.
+          <h3 className="font-display text-3xl mb-4" style={{ color: 'var(--neutral-900)' }}>
+            Thank You!
+          </h3>
+          <p className="font-body text-lg leading-relaxed mb-8" style={{ color: 'var(--neutral-600)' }}>
+            We&apos;ve received your interest in the complete GSO analysis for <span className="font-semibold text-gradient">{domain}</span>.
             <br /><br />
             Our team will contact you within 24 hours to process your order and deliver your comprehensive AI visibility report.
           </p>
           <button
             onClick={onClose}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            className="btn-primary px-8 py-3 text-lg font-semibold"
           >
             Close
           </button>
@@ -105,114 +113,201 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="card-premium max-w-3xl w-full max-h-[90vh] overflow-y-auto glass animate-scale-in"
+           style={{ boxShadow: 'var(--shadow-2xl)' }}>
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b">
+        <div className="flex justify-between items-start p-8 border-b" style={{ borderColor: 'var(--neutral-200)' }}>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">{variant?.name || 'Complete GSO Analysis'}</h2>
-            <p className="text-gray-600">Unlock all 10 metrics for {domain}</p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4"
+                 style={{ 
+                   background: 'var(--primary-100)', 
+                   color: 'var(--primary-700)'
+                 }}>
+              <Star className="w-4 h-4" />
+              <span className="font-body text-sm font-medium">Premium Analysis</span>
+            </div>
+            <h2 className="font-display text-3xl lg:text-4xl mb-3" style={{ color: 'var(--neutral-900)' }}>
+              {variant?.name || 'Complete GSO Analysis'}
+            </h2>
+            <p className="font-body text-lg" style={{ color: 'var(--neutral-600)' }}>
+              Unlock all 10 metrics for <span className="text-gradient font-semibold">{domain}</span>
+            </p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="p-3 rounded-xl transition-all duration-200 hover:scale-110"
+            style={{ 
+              color: 'var(--neutral-400)',
+              background: 'var(--neutral-100)'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.color = 'var(--neutral-600)';
+              e.target.style.background = 'var(--neutral-200)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.color = 'var(--neutral-400)';
+              e.target.style.background = 'var(--neutral-100)';
+            }}
           >
             <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Pricing */}
-        <div className="p-6">
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 mb-6">
-            <div className="flex items-center justify-between mb-4">
+        <div className="p-8">
+          <div className="card-premium p-8 mb-8 relative overflow-hidden"
+               style={{ 
+                 background: 'var(--gradient-primary)',
+                 boxShadow: 'var(--shadow-xl)'
+               }}>
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0" 
+                   style={{ 
+                     backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+                     backgroundSize: '30px 30px'
+                   }} />
+            </div>
+            
+            <div className="relative flex items-center justify-between mb-6">
               <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Star className="w-5 h-5 text-yellow-500" />
-                  <span className="text-sm font-medium text-gray-600">LAUNCH SPECIAL</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4"
+                     style={{ 
+                       background: 'rgba(255, 255, 255, 0.2)', 
+                       color: 'white'
+                     }}>
+                  <Star className="w-4 h-4" />
+                  <span className="font-body text-sm font-medium">LAUNCH SPECIAL</span>
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900">
+                <h3 className="font-display text-5xl font-bold text-white mb-2">
                   {variant?.currency}{variant?.price || 250}
                   {variant?.isSubscription && (
-                    <span className="text-lg text-gray-600 font-normal">/{variant.subscriptionPeriod}</span>
+                    <span className="text-2xl font-normal opacity-80">/{variant.subscriptionPeriod}</span>
                   )}
                 </h3>
                 {variant?.id !== 'budget' && !variant?.isSubscription && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg text-gray-500 line-through">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl text-white/70 line-through">
                       {variant?.currency}{((variant?.price || 250) * 2)}
                     </span>
-                    <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">50% OFF</span>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold"
+                          style={{ background: 'var(--accent-rose)', color: 'white' }}>
+                      50% OFF
+                    </span>
                   </div>
                 )}
               </div>
-              <div className="text-right">
-                <div className="bg-white rounded-lg p-3 shadow-sm">
-                  <Clock className="w-6 h-6 text-blue-600 mx-auto mb-1" />
-                  <p className="text-xs text-gray-600">Limited Time</p>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center"
+                     style={{ background: 'rgba(255, 255, 255, 0.15)' }}>
+                  <Clock className="w-8 h-8 text-white" />
                 </div>
+                <p className="text-sm text-white/80 mt-2">Limited Time</p>
               </div>
             </div>
-            <p className="text-gray-700">
+            <p className="font-body text-lg text-white/90 leading-relaxed relative">
               {variant?.description || 'Complete AI visibility analysis with all 10 proprietary GSO metrics, competitor benchmarking, and actionable recommendations.'}
             </p>
           </div>
 
           {/* What's Included */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div className="space-y-3">
-              <h4 className="font-semibold text-gray-900 flex items-center gap-2">
-                <Zap className="w-4 h-4 text-blue-600" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div className="card-premium p-6 space-y-4">
+              <h4 className="font-heading text-lg flex items-center gap-3" style={{ color: 'var(--neutral-900)' }}>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" 
+                     style={{ background: 'var(--primary-100)' }}>
+                  <Zap className="w-5 h-5" style={{ color: 'var(--primary-600)' }} />
+                </div>
                 Complete Analysis
               </h4>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="space-y-3">
                 {variant?.features.slice(0, 4).map((feature, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    {feature}
+                  <li key={index} className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0" 
+                         style={{ background: 'var(--accent-emerald)' }}>
+                      <Check className="w-3 h-3 text-white" />
+                    </div>
+                    <span className="font-body text-sm" style={{ color: 'var(--neutral-700)' }}>
+                      {feature}
+                    </span>
                   </li>
                 )) || (
                   <>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      All 10 GSO metrics including content relevance, brand mention quality, and search compatibility
+                    <li className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0" 
+                           style={{ background: 'var(--accent-emerald)' }}>
+                        <Check className="w-3 h-3 text-white" />
+                      </div>
+                      <span className="font-body text-sm" style={{ color: 'var(--neutral-700)' }}>
+                        All 10 GSO metrics including content relevance, brand mention quality, and search compatibility
+                      </span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      Cross-platform AI testing (GPT-4, Claude, Gemini, open models)
+                    <li className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0" 
+                           style={{ background: 'var(--accent-emerald)' }}>
+                        <Check className="w-3 h-3 text-white" />
+                      </div>
+                      <span className="font-body text-sm" style={{ color: 'var(--neutral-700)' }}>
+                        Cross-platform AI testing (GPT-4, Claude, Gemini, open models)
+                      </span>
                     </li>
                   </>
                 )}
               </ul>
             </div>
-            <div className="space-y-3">
-              <h4 className="font-semibold text-gray-900 flex items-center gap-2">
-                <Shield className="w-4 h-4 text-green-600" />
+            <div className="card-premium p-6 space-y-4">
+              <h4 className="font-heading text-lg flex items-center gap-3" style={{ color: 'var(--neutral-900)' }}>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" 
+                     style={{ background: 'rgba(16, 185, 129, 0.1)' }}>
+                  <Shield className="w-5 h-5" style={{ color: 'var(--accent-emerald)' }} />
+                </div>
                 Deliverables
               </h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  50+ page comprehensive PDF report
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0" 
+                       style={{ background: 'var(--accent-emerald)' }}>
+                    <Check className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="font-body text-sm" style={{ color: 'var(--neutral-700)' }}>
+                    50+ page comprehensive PDF report
+                  </span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  Actionable improvement roadmap
+                <li className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0" 
+                       style={{ background: 'var(--accent-emerald)' }}>
+                    <Check className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="font-body text-sm" style={{ color: 'var(--neutral-700)' }}>
+                    Actionable improvement roadmap
+                  </span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  Priority-ranked quick wins list
+                <li className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0" 
+                       style={{ background: 'var(--accent-emerald)' }}>
+                    <Check className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="font-body text-sm" style={{ color: 'var(--neutral-700)' }}>
+                    Priority-ranked quick wins list
+                  </span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  30-minute strategy consultation call
+                <li className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0" 
+                       style={{ background: 'var(--accent-emerald)' }}>
+                    <Check className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="font-body text-sm" style={{ color: 'var(--neutral-700)' }}>
+                    30-minute strategy consultation call
+                  </span>
                 </li>
               </ul>
             </div>
           </div>
 
           {/* Email Input */}
-          <div className="mb-6">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="mb-8">
+            <label htmlFor="email" className="font-heading text-sm mb-3 block" style={{ color: 'var(--neutral-800)' }}>
               Email Address
             </label>
             <input
@@ -221,24 +316,24 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email to proceed"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              className="input-premium w-full text-lg py-4 px-6"
               required
             />
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="font-body text-sm mt-3" style={{ color: 'var(--neutral-500)' }}>
               You&apos;ll receive the complete analysis within 48 hours
             </p>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <button
               onClick={handlePurchase}
               disabled={isSubmitting}
-              className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+              className="btn-primary flex-1 px-8 py-4 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
             >
               {isSubmitting ? (
                 <>
-                  <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+                  <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div>
                   Processing...
                 </>
               ) : (
@@ -249,26 +344,41 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
             </button>
             <button
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+              className="btn-secondary px-8 py-4 text-lg font-semibold"
             >
               Maybe Later
             </button>
           </div>
 
           {/* Trust Signals */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
-              <div className="flex items-center gap-1">
-                <Shield className="w-4 h-4" />
-                Secure Payment
+          <div className="pt-8 border-t" style={{ borderColor: 'var(--neutral-200)' }}>
+            <div className="flex items-center justify-center gap-8 flex-wrap">
+              <div className="flex items-center gap-3 group">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-200"
+                     style={{ background: 'var(--primary-100)' }}>
+                  <Shield className="w-5 h-5" style={{ color: 'var(--primary-600)' }} />
+                </div>
+                <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                  Secure Payment
+                </span>
               </div>
-              <div className="flex items-center gap-1">
-                <Clock className="w-4 h-4" />
-                48hr Delivery
+              <div className="flex items-center gap-3 group">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-200"
+                     style={{ background: 'rgba(16, 185, 129, 0.1)' }}>
+                  <Clock className="w-5 h-5" style={{ color: 'var(--accent-emerald)' }} />
+                </div>
+                <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                  48hr Delivery
+                </span>
               </div>
-              <div className="flex items-center gap-1">
-                <Star className="w-4 h-4" />
-                Money-back Guarantee
+              <div className="flex items-center gap-3 group">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-200"
+                     style={{ background: 'rgba(245, 158, 11, 0.1)' }}>
+                  <Star className="w-5 h-5" style={{ color: 'var(--accent-amber)' }} />
+                </div>
+                <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                  Money-back Guarantee
+                </span>
               </div>
             </div>
           </div>

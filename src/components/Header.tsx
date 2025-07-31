@@ -36,12 +36,12 @@ export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderP
     <header className="glass sticky top-0 z-50 border-b" 
             style={{ borderColor: 'var(--neutral-200)' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-center h-20">
+        <div className="relative flex items-center h-20">
           {/* Logo */}
           <Logo />
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-10">
+          {/* Desktop Navigation - Centered */}
+          <nav className="hidden md:flex items-center gap-10 absolute left-1/2 transform -translate-x-1/2">
             <a href="/about" 
                className="font-body text-sm font-medium transition-all duration-200 hover:translate-y-[-1px]"
                style={{ color: 'var(--neutral-600)' }}
@@ -59,7 +59,7 @@ export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderP
           </nav>
 
           {/* Action Button */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4 ml-auto">
             {showNewAnalysisButton ? (
               <button 
                 onClick={onNewAnalysis}
