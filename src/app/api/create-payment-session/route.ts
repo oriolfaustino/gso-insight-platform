@@ -1,12 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+// Check if Stripe is configured
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+const stripe = STRIPE_SECRET_KEY ? new Stripe(STRIPE_SECRET_KEY, {
   apiVersion: '2024-06-20',
-});
+}) : null;
 
 export async function POST(request: NextRequest) {
   try {
+    // Return demo message if Stripe is not configured
+    if (!stripe || !STRIPE_SECRET_KEY) {
+      return NextResponse.json(
+        { error: 'Payment processing is not configured. This is a demo environment.' },
+        { status: 400 }
+      );
+    }
+
     const { email, domain, variant, price, currency, isSubscription, subscriptionPeriod } = await request.json();
 
     // For demo purposes, we'll create a simple payment session

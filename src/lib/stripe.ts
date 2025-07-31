@@ -1,7 +1,8 @@
 import { loadStripe } from '@stripe/stripe-js';
 
 // This is your public publishable key
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
+const STRIPE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+const stripePromise = STRIPE_PUBLISHABLE_KEY ? loadStripe(STRIPE_PUBLISHABLE_KEY) : null;
 
 export const getStripe = () => {
   return stripePromise;
@@ -19,6 +20,11 @@ export interface PaymentData {
 
 export const createPaymentSession = async (paymentData: PaymentData) => {
   try {
+    // Check if Stripe is configured
+    if (!STRIPE_PUBLISHABLE_KEY) {
+      throw new Error('Payment processing is not configured. This is a demo environment.');
+    }
+
     const response = await fetch('/api/create-payment-session', {
       method: 'POST',
       headers: {
@@ -28,7 +34,8 @@ export const createPaymentSession = async (paymentData: PaymentData) => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create payment session');
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to create payment session');
     }
 
     const { sessionId } = await response.json();
