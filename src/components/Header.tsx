@@ -9,7 +9,7 @@ interface HeaderProps {
 }
 
 const Logo = () => (
-  <div className="flex items-center gap-3">
+  <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
     <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-violet-600 rounded-lg flex items-center justify-center">
       <BarChart3 className="w-5 h-5 text-white" />
     </div>
@@ -17,7 +17,7 @@ const Logo = () => (
       <h1 className="text-xl font-bold text-gray-900">GSO Insight</h1>
       <p className="text-xs text-gray-500 -mt-0.5">AI Visibility Platform</p>
     </div>
-  </div>
+  </a>
 );
 
 export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderProps) {
@@ -34,9 +34,6 @@ export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderP
           <nav className="hidden md:flex items-center gap-8">
             <a href="/about" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               About
-            </a>
-            <a href="#pricing" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
-              Pricing
             </a>
             <a href="/login" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Member Login
@@ -76,9 +73,6 @@ export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderP
             <nav className="flex flex-col gap-4">
               <a href="/about" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
                 About
-              </a>
-              <a href="#pricing" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
-                Pricing
               </a>
               <a href="/login" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
                 Member Login
