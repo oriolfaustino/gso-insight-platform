@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { X, Check, Star, Clock, Shield, Zap } from 'lucide-react';
 import { getAssignedVariant, getVariantFromUrl, trackConversion, type PricingVariant } from '@/lib/ab-testing';
 import { trackPricingModalOpened, trackUpgradeClicked } from '@/lib/gtag';
+import { createPaymentSession } from '@/lib/stripe';
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -58,35 +59,22 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
     setIsSubmitting(true);
     
     try {
-      // Send lead data to API endpoint
-      const response = await fetch('/api/email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          domain,
-          score: score || 0,
-          price: variant.price,
-          currency: variant.currency,
-          variant: variant.id,
-          variantName: variant.name,
-          timestamp: new Date().toISOString()
-        }),
+      // Create Stripe payment session
+      await createPaymentSession({
+        email,
+        domain,
+        variant: variant.id,
+        price: variant.price,
+        currency: variant.currency,
+        isSubscription: variant.isSubscription,
+        subscriptionPeriod: variant.subscriptionPeriod,
       });
-
-      if (response.ok) {
-        setSubmitted(true);
-        // Track successful conversion
-        trackConversion(variant, 'purchase');
-      } else {
-        throw new Error('Failed to submit');
-      }
+      
+      // Track successful conversion initiation
+      trackConversion(variant, 'purchase');
     } catch (error) {
-      console.error('Error submitting lead:', error);
-      alert('There was an error. Please try again.');
-    } finally {
+      console.error('Payment error:', error);
+      alert('Payment processing failed. Please try again or contact support.');
       setIsSubmitting(false);
     }
   };
@@ -143,13 +131,21 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900">
                   {variant?.currency}{variant?.price || 250}
+                  {variant?.isSubscription && (
+                    <span className="text-lg text-gray-600 font-normal">/{variant.subscriptionPeriod}</span>
+                  )}
                 </h3>
-                {variant?.id !== 'budget' && (
+                {variant?.id !== 'budget' && !variant?.isSubscription && (
                   <div className="flex items-center gap-2">
                     <span className="text-lg text-gray-500 line-through">
                       {variant?.currency}{((variant?.price || 250) * 2)}
                     </span>
                     <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">50% OFF</span>
+                  </div>
+                )}
+                {variant?.isSubscription && (
+                  <div className="flex items-center gap-2">
+                    <span className="bg-green-500 text-white px-2 py-1 rounded text-sm font-medium">RECURRING</span>
                   </div>
                 )}
               </div>

@@ -91,31 +91,31 @@ export const trackPricingModalOpened = (source: string) => {
 export const trackUpgradeClicked = (pricePoint: string) => {
   console.log('🎯 Tracking upgrade_clicked:', pricePoint);
   
-  // Send directly to GA4 with debug mode enabled
   if (typeof window !== 'undefined' && window.gtag) {
-    console.log('✅ Sending event to GA4...');
+    const price = parseFloat(pricePoint.replace(/[€$]/g, ''));
     
-    const eventData = {
+    // Send as GA4 purchase event (automatically converted to conversion)
+    window.gtag('event', 'purchase', {
+      transaction_id: `gso_${Date.now()}`,
+      value: price,
+      currency: 'EUR',
+      items: [{
+        item_id: 'gso_analysis',
+        item_name: 'GSO Analysis Report',
+        category: 'digital_service',
+        quantity: 1,
+        price: price
+      }]
+    });
+    
+    // Also send custom upgrade_clicked for tracking
+    window.gtag('event', 'upgrade_clicked', {
       event_category: 'conversion',
       price_point: pricePoint,
       currency: 'EUR',
-      debug_mode: true
-    };
-    
-    console.log('📊 Event data being sent:', eventData);
-    
-    window.gtag('event', 'upgrade_clicked', eventData);
-    
-    console.log('✅ upgrade_clicked event sent to GA4');
-    
-    // Also try the exact format that worked in console
-    window.gtag('event', 'upgrade_clicked_test', {
-      event_category: 'debug',
-      debug_mode: true
+      value: price
     });
     
-    console.log('✅ upgrade_clicked_test also sent (simplified format)');
-  } else {
-    console.log('❌ Cannot send to GA4 - gtag not available');
+    console.log('✅ Purchase and upgrade_clicked events sent to GA4');
   }
 };

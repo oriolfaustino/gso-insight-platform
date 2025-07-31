@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GSO Insight - AI Visibility Analysis",
-  description: "Discover how AI systems like ChatGPT, Claude, and Gemini see your business. Get actionable insights to improve your AI visibility in under 60 seconds.",
+  title: "GSO Insight - AI Visibility Platform",
+  description: "Discover how AI systems like ChatGPT, Claude, and Gemini see your business. Professional AI visibility analysis and optimization platform for modern businesses.",
 };
 
 export default function RootLayout({

@@ -12,6 +12,7 @@
     "@anthropic-ai/sdk": "^0.57.0",
     "@google/generative-ai": "^0.24.1",
     "@mendable/firecrawl-js": "^1.29.2",
+    "@stripe/stripe-js": "^7.7.0",
     "@supabase/supabase-js": "^2.52.1",
     "chromadb": "^3.0.10",
     "lucide-react": "^0.525.0",
@@ -23,7 +24,8 @@
     "recharts": "^3.1.0",
     "replicate": "^1.0.1",
     "resend": "^4.7.0",
-    "stagehand-ai": "^1.0.0"
+    "stagehand-ai": "^1.0.0",
+    "stripe": "^18.4.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

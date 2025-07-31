@@ -1,12 +1,14 @@
 // A/B Testing for pricing experiments
 export interface PricingVariant {
-  id: 'control' | 'premium' | 'budget';
+  id: 'control' | 'premium' | 'budget' | 'subscription';
   name: string;
   price: number;
   currency: string;
   description: string;
   features: string[];
   ctaText: string;
+  isSubscription?: boolean;
+  subscriptionPeriod?: string;
 }
 
 // Define pricing variants
@@ -55,6 +57,24 @@ export const PRICING_VARIANTS: Record<string, PricingVariant> = {
       'Email delivery'
     ],
     ctaText: 'Get Essential Analysis'
+  },
+  subscription: {
+    id: 'subscription',
+    name: 'GSO Pro Subscription',
+    price: 5,
+    currency: '€',
+    description: 'Continuous AI visibility monitoring and optimization',
+    isSubscription: true,
+    subscriptionPeriod: '3 months',
+    features: [
+      'Unlimited analysis runs',
+      'Weekly monitoring reports',
+      'Real-time AI visibility tracking',
+      'Priority email support',
+      'Competitor comparison alerts',
+      'Custom optimization roadmap'
+    ],
+    ctaText: 'Start 3-Month Subscription'
   }
 };
 

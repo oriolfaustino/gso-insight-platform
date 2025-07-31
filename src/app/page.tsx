@@ -5,6 +5,7 @@ import { Search, ArrowRight, CheckCircle, AlertTriangle, TrendingUp, Sparkles, L
 import { generateMockResults, metricDefinitions, GSOResults } from '@/lib/mockData';
 import { LoadingAnimation } from '@/components/LoadingAnimation';
 import { PricingModal } from '@/components/PricingModal';
+import { Header } from '@/components/Header';
 import { trackAnalysisStarted, trackAnalysisCompleted } from '@/lib/gtag';
 
 export default function HomePage() {
@@ -109,20 +110,10 @@ export default function HomePage() {
 
     return (
       <div className="min-h-screen bg-white">
-        {/* Navigation */}
-        <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-          <div className="max-w-6xl mx-auto px-6 py-4">
-            <div className="flex justify-between items-center">
-              <div className="text-xl font-semibold text-gray-900">GSO</div>
-              <button 
-                onClick={() => {setShowResults(false); setResults(null);}}
-                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                New Analysis
-              </button>
-            </div>
-          </div>
-        </nav>
+        <Header 
+          showNewAnalysisButton={true} 
+          onNewAnalysis={() => {setShowResults(false); setResults(null);}} 
+        />
 
         <div className="max-w-6xl mx-auto px-6 py-16">
           {/* Header */}
@@ -444,18 +435,7 @@ export default function HomePage() {
   // Landing Page
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="text-xl font-semibold text-gray-900">GSO</div>
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
-              <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-              Beta
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Header />
 
       {/* Hero Section */}
       <div className="max-w-4xl mx-auto px-6 py-24 text-center">
