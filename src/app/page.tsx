@@ -442,7 +442,8 @@ export default function HomePage() {
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-3xl p-12">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to improve your AI visibility?</h3>
               <div className="w-full flex justify-center mb-8">
-                <p className="text-gray-600 text-center max-w-md px-4">
+                <p className="text-gray-600 max-w-md px-4" 
+                   style={{ textAlign: 'center' }}>
                   Get detailed recommendations and a step-by-step improvement plan.
                 </p>
               </div>
