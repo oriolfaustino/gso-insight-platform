@@ -127,7 +127,7 @@ export default function HomePage() {
               <Sparkles className="w-4 h-4" />
               <span className="font-body text-sm font-medium">Analysis Complete</span>
             </div>
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl mb-6 animate-fade-in-up"
+            <h1 className="font-display text-3xl md:text-4xl lg:text-5xl mb-6 animate-fade-in-up"
                 style={{ 
                   color: 'var(--neutral-900)',
                   animationDelay: '0.1s',
@@ -154,62 +154,66 @@ export default function HomePage() {
           </div>
 
           {/* Overall Score Card */}
-          <div className="card-premium p-12 mb-16 animate-fade-in-up"
+          <div className="card-premium p-8 mb-12 animate-fade-in-up"
                style={{ 
                  background: 'var(--neutral-50)',
                  border: '1px solid var(--neutral-200)',
-                 boxShadow: 'var(--shadow-2xl)',
+                 boxShadow: 'var(--shadow-xl)',
                  animationDelay: '0.3s',
                  animationFillMode: 'backwards'
                }}>
-            <div className="text-center">
-              <div className="relative mb-8">
-                <div className={`inline-flex items-center justify-center w-40 h-40 rounded-full ${getScoreGradient(results.overallScore)} relative overflow-hidden`}>
-                  <span className="font-display text-5xl font-bold text-white">{results.overallScore}</span>
-                  <div className="absolute inset-0 rounded-full border-4 border-white/20" />
+            <div className="flex flex-col lg:flex-row items-start lg:items-center gap-8">
+              {/* Score Circle - Smaller */}
+              <div className="flex-shrink-0">
+                <div className="relative">
+                  <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full ${getScoreGradient(results.overallScore)} relative overflow-hidden`}>
+                    <span className="font-display text-2xl font-bold text-white">{results.overallScore}</span>
+                  </div>
+                  <div className="absolute -inset-2 rounded-full opacity-20 blur-xl"
+                       style={{ background: getScoreGradient(results.overallScore).replace('bg-gradient-to-r', 'linear-gradient(135deg') }} />
                 </div>
-                <div className="absolute -inset-4 rounded-full opacity-20 blur-2xl"
-                     style={{ background: getScoreGradient(results.overallScore).replace('bg-gradient-to-r', 'linear-gradient(135deg') }} />
               </div>
-              <h2 className="font-display text-3xl mb-3" style={{ color: 'var(--neutral-900)' }}>
-                Overall GSO Score
-              </h2>
-              <div className="w-full flex justify-center mb-6">
-                <p className="font-body text-lg leading-relaxed text-center max-w-3xl px-4" 
+              
+              {/* Content - Left Aligned */}
+              <div className="flex-1">
+                <h2 className="font-display text-2xl mb-2" style={{ color: 'var(--neutral-900)' }}>
+                  Overall GSO Score
+                </h2>
+                <p className="font-body text-base leading-relaxed mb-4" 
                    style={{ color: 'var(--neutral-600)' }}>
                   Your website's comprehensive visibility to AI systems and language models
                 </p>
-              </div>
-              
-              {/* Overall Benchmark Comparison */}
-              {(results as any).overall_benchmark && (
-                <div className="bg-gray-50 rounded-2xl p-4 mb-8 max-w-md mx-auto">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium ${getBenchmarkStatusColor((results as any).overall_benchmark.status)}`}>
-                      <BarChart3 className="w-4 h-4" />
-                      {getBenchmarkStatusText((results as any).overall_benchmark.status)}
+                
+                {/* Overall Benchmark Comparison */}
+                {(results as any).overall_benchmark && (
+                  <div className="bg-gray-50 rounded-xl p-3 mb-4 max-w-sm">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${getBenchmarkStatusColor((results as any).overall_benchmark.status)}`}>
+                        <BarChart3 className="w-3 h-3" />
+                        {getBenchmarkStatusText((results as any).overall_benchmark.status)}
+                      </div>
+                      <span className="text-xs text-gray-500">{(results as any).overall_benchmark.industry}</span>
                     </div>
-                    <span className="text-sm text-gray-500">{(results as any).overall_benchmark.industry}</span>
+                    <div className="text-xs text-gray-600">
+                      Industry avg: {(results as any).overall_benchmark.industryAverage} • Overall avg: {(results as any).overall_benchmark.overallAverage}
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-600 text-center">
-                    Industry avg: {(results as any).overall_benchmark.industryAverage} • Overall avg: {(results as any).overall_benchmark.overallAverage}
+                )}
+                
+                {/* Quick Stats - Horizontal */}
+                <div className="flex gap-8">
+                  <div>
+                    <div className="text-xl font-bold text-red-600">{results.summary.criticalIssues.length}</div>
+                    <div className="text-xs text-gray-600">Critical Issues</div>
                   </div>
-                </div>
-              )}
-              
-              {/* Quick Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-red-600">{results.summary.criticalIssues.length}</div>
-                  <div className="text-sm text-gray-600">Critical Issues</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">{results.summary.quickWins.length}</div>
-                  <div className="text-sm text-gray-600">Quick Wins</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">7</div>
-                  <div className="text-sm text-gray-600">Areas Analyzed</div>
+                  <div>
+                    <div className="text-xl font-bold text-green-600">{results.summary.quickWins.length}</div>
+                    <div className="text-xs text-gray-600">Quick Wins</div>
+                  </div>
+                  <div>
+                    <div className="text-xl font-bold text-blue-600">7</div>
+                    <div className="text-xs text-gray-600">Areas Analyzed</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -496,7 +500,7 @@ export default function HomePage() {
               </div>
             </div>
             
-            <h1 className="font-display text-6xl md:text-7xl lg:text-8xl mb-8 animate-fade-in-up"
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-8 animate-fade-in-up"
                 style={{ 
                   color: 'var(--neutral-900)',
                   animationDelay: '0.1s',
@@ -511,7 +515,7 @@ export default function HomePage() {
               </span>
             </h1>
             
-            <p className="font-body text-xl lg:text-2xl mb-12 leading-relaxed max-w-3xl mx-auto animate-fade-in-up"
+            <p className="font-body text-lg lg:text-xl mb-12 leading-relaxed max-w-3xl mx-auto animate-fade-in-up"
                style={{ 
                  color: 'var(--neutral-600)',
                  animationDelay: '0.2s',
