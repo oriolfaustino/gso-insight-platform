@@ -89,7 +89,6 @@ export const trackPricingModalOpened = (source: string) => {
 };
 
 export const trackUpgradeClicked = (pricePoint: string) => {
-  console.log('🎯 Tracking upgrade_clicked:', pricePoint);
   
   if (typeof window !== 'undefined' && window.gtag) {
     const price = parseFloat(pricePoint.replace(/[€$]/g, ''));
@@ -119,7 +118,6 @@ export const trackUpgradeClicked = (pricePoint: string) => {
       ...utmParams
     });
     
-    console.log('✅ Purchase and upgrade_clicked events sent to GA4');
   }
 };
 
@@ -155,7 +153,6 @@ export const storeUTMParameters = () => {
   
   if (hasUTM) {
     sessionStorage.setItem('utm_attribution', JSON.stringify(utmParams));
-    console.log('🏷️ UTM parameters stored:', utmParams);
   }
 };
 
@@ -198,8 +195,6 @@ export const trackCampaignAttribution = () => {
     
     // Store for later attribution
     storeUTMParameters();
-    
-    console.log('🎯 Campaign attribution tracked:', utmParams);
   }
 };
 
