@@ -187,6 +187,8 @@ export const trackCampaignAttribution = () => {
   const utmParams = getUTMParameters();
   const hasUTM = Object.values(utmParams).some(value => value !== undefined);
   
+  console.log('🔍 UTM Debug:', { utmParams, hasUTM, url: window.location.href });
+  
   if (hasUTM && window.gtag) {
     window.gtag('event', 'campaign_attribution', {
       event_category: 'acquisition',
@@ -195,6 +197,9 @@ export const trackCampaignAttribution = () => {
     
     // Store for later attribution
     storeUTMParameters();
+    console.log('🎯 Campaign attribution tracked:', utmParams);
+  } else {
+    console.log('❌ No UTM parameters found or gtag not available');
   }
 };
 
