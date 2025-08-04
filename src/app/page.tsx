@@ -15,12 +15,30 @@ export default function HomePage() {
   const [showResults, setShowResults] = useState(false);
   const [results, setResults] = useState<GSOResults | null>(null);
   const [showPricingModal, setShowPricingModal] = useState(false);
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [hasShownExitIntent, setHasShownExitIntent] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     // Track campaign attribution on page load
     trackCampaignAttribution();
   }, []);
+
+  // Exit-intent detection
+  useEffect(() => {
+    const handleExitIntent = (e: MouseEvent) => {
+      // Trigger when mouse moves to top of screen (exit intent)
+      if (e.clientY <= 0 && !hasShownExitIntent && !showResults && domain === '') {
+        setShowExitModal(true);
+        setHasShownExitIntent(true);
+      }
+    };
+
+    if (mounted) {
+      document.addEventListener('mouseleave', handleExitIntent);
+      return () => document.removeEventListener('mouseleave', handleExitIntent);
+    }
+  }, [mounted, hasShownExitIntent, showResults, domain]);
 
   const handleAnalyze = async () => {
     if (!domain) return;
@@ -706,6 +724,63 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
+      {/* Exit-Intent Popup */}
+      {showExitModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="card-premium max-w-md w-full p-8 glass animate-scale-in text-center"
+               style={{ boxShadow: 'var(--shadow-2xl)' }}>
+            <div className="mb-6">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+                   style={{ background: 'var(--gradient-primary)' }}>
+                <TrendingUp className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="font-display text-2xl mb-3" style={{ color: 'var(--neutral-900)' }}>
+                Wait! Before you go...
+              </h3>
+              <p className="font-body text-base mb-4" style={{ color: 'var(--neutral-600)' }}>
+                Get your free AI visibility report in just 60 seconds
+              </p>
+              <p className="font-body text-sm font-medium" style={{ color: 'var(--accent-rose)' }}>
+                See why 89% of businesses are invisible to ChatGPT
+              </p>
+            </div>
+            
+            <div className="space-y-4">
+              <input
+                type="url"
+                placeholder="Enter your website domain"
+                className="input-premium w-full text-center py-3"
+                value={domain}
+                onChange={(e) => setDomain(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    setShowExitModal(false);
+                    handleAnalyze();
+                  }
+                }}
+              />
+              <button
+                onClick={() => {
+                  setShowExitModal(false);
+                  handleAnalyze();
+                }}
+                disabled={!domain}
+                className="btn-primary w-full py-4 text-lg font-semibold"
+              >
+                Analyze My Business
+              </button>
+              <button
+                onClick={() => setShowExitModal(false)}
+                className="font-body text-sm underline" 
+                style={{ color: 'var(--neutral-500)' }}
+              >
+                No thanks, I'll pass
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
