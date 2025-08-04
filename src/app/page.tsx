@@ -581,10 +581,8 @@ export default function HomePage() {
                   animationDelay: '0.1s',
                   animationFillMode: 'backwards'
                 }}>
-              See exactly why ChatGPT isn't
-              <br />
               <span className="text-gradient relative">
-                recommending your business
+                Is AI finding your business?
                 <div className="absolute -inset-2 rounded-2xl opacity-20 blur-xl"
                      style={{ background: 'var(--gradient-primary)' }} />
               </span>
