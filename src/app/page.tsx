@@ -239,6 +239,40 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* Urgency Elements */}
+          <div className="mb-8">
+            {/* Competitive Pressure Alert */}
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center flex-shrink-0">
+                  <AlertTriangle className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <p className="text-red-800 text-sm font-medium mb-1">
+                    ⚠️ Your competitors may be getting recommended while you're not
+                  </p>
+                  <p className="text-red-700 text-xs">
+                    See exactly how to fix this with premium analysis and get ahead of your competition.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Limited Time Offer */}
+            <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 rounded-xl mb-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-sm">🔥 Limited Time: 50% off premium analysis</p>
+                  <p className="text-xs opacity-90">This offer expires in 24 hours</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-lg font-bold">€125</div>
+                  <div className="text-xs line-through opacity-75">€250</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Free Metrics - Always Visible */}
           <div className="mb-12">
             <div className="flex items-center justify-between mb-6">
@@ -330,6 +364,7 @@ export default function HomePage() {
               <div>
                 <h3 className="text-xl font-semibold text-gray-900">Premium Analysis</h3>
                 <p className="text-sm text-gray-600">Advanced insights and recommendations</p>
+                <p className="text-xs text-orange-600 font-medium mt-1">⏰ Only 47 premium spots left today</p>
               </div>
               <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
                 <Lock className="w-4 h-4" />
@@ -673,7 +708,7 @@ export default function HomePage() {
                 AI Discovery
               </h3>
               <p className="font-body text-sm leading-relaxed" style={{ color: 'var(--neutral-600)' }}>
-                See exactly how AI systems like ChatGPT and Claude find and recommend your business
+                Is AI finding your business?
               </p>
             </div>
             
