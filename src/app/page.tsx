@@ -498,7 +498,15 @@ export default function HomePage() {
         
         <div className="relative max-w-7xl mx-auto px-6 pt-20 pb-32">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="animate-fade-in-up mb-8">
+            <div className="animate-fade-in-up mb-6">
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border mb-4"
+                   style={{ 
+                     background: 'var(--accent-amber)', 
+                     borderColor: 'rgba(245, 158, 11, 0.3)',
+                     color: 'white'
+                   }}>
+                <span className="font-body text-sm font-medium">⚡ Free Analysis - Limited Time During Beta</span>
+              </div>
               <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border"
                    style={{ 
                      background: 'var(--neutral-50)', 
@@ -517,16 +525,16 @@ export default function HomePage() {
                   animationDelay: '0.1s',
                   animationFillMode: 'backwards'
                 }}>
-              Is AI finding
+              See exactly why ChatGPT isn't
               <br />
               <span className="text-gradient relative">
-                your business?
+                recommending your business
                 <div className="absolute -inset-2 rounded-2xl opacity-20 blur-xl"
                      style={{ background: 'var(--gradient-primary)' }} />
               </span>
             </h1>
             
-            <p className="font-body text-lg lg:text-xl mb-12 leading-relaxed max-w-3xl mx-auto animate-fade-in-up"
+            <p className="font-body text-lg lg:text-xl mb-8 leading-relaxed max-w-3xl mx-auto animate-fade-in-up"
                style={{ 
                  color: 'var(--neutral-600)',
                  animationDelay: '0.2s',
@@ -535,6 +543,46 @@ export default function HomePage() {
               When customers ask ChatGPT, Claude, or Gemini for recommendations, 
               does your business appear? Discover your AI visibility in under 60 seconds.
             </p>
+
+            {/* Social Proof Section */}
+            <div className="text-center mb-12 animate-fade-in-up"
+                 style={{ 
+                   animationDelay: '0.25s', 
+                   animationFillMode: 'backwards' 
+                 }}>
+              <p className="font-body text-sm mb-4" style={{ color: 'var(--neutral-500)' }}>
+                Trusted by 10,000+ businesses worldwide
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center"
+                       style={{ background: 'var(--accent-emerald)' }}>
+                    <CheckCircle className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                    Featured on Reddit
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center"
+                       style={{ background: 'var(--accent-emerald)' }}>
+                    <CheckCircle className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                    4.8/5 Average Rating
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center"
+                       style={{ background: 'var(--accent-emerald)' }}>
+                    <CheckCircle className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                    60-Second Analysis
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Search Input */}
@@ -581,6 +629,29 @@ export default function HomePage() {
                 <CheckCircle className="w-4 h-4" style={{ color: 'var(--accent-emerald)' }} />
                 <span>No signup required</span>
               </div>
+            </div>
+          </div>
+
+          {/* Testimonial Quote */}
+          <div className="max-w-4xl mx-auto text-center mb-16 animate-fade-in-up"
+               style={{ animationDelay: '0.35s', animationFillMode: 'backwards' }}>
+            <div className="card-premium p-8 glass"
+                 style={{ boxShadow: 'var(--shadow-lg)' }}>
+              <div className="flex justify-center mb-4">
+                <div className="flex gap-1">
+                  {[1,2,3,4,5].map((star) => (
+                    <div key={star} className="w-5 h-5 text-yellow-400">⭐</div>
+                  ))}
+                </div>
+              </div>
+              <blockquote className="font-body text-lg italic mb-4" 
+                          style={{ color: 'var(--neutral-700)' }}>
+                "Finally understand why our competitors were getting more AI referrals. The analysis showed exactly what to fix. Revenue from AI recommendations increased 40% in 2 months."
+              </blockquote>
+              <cite className="font-body text-sm font-medium" 
+                    style={{ color: 'var(--neutral-600)' }}>
+                Sarah Chen, CEO at TechStart Solutions
+              </cite>
             </div>
           </div>
 
