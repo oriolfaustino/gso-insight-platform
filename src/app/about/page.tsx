@@ -174,7 +174,7 @@ export default function AboutPage() {
               rank businesses across multiple factors.
             </p>
             <div className="space-y-6">
-              <div className="card-premium p-6 hover:shadow-lg transition-all duration-300">
+              <div className="card-premium p-6 hover:shadow-lg transition-all duration-300 cursor-pointer">
                 <h4 className="font-heading text-lg mb-3" style={{ color: 'var(--neutral-900)' }}>
                   Comprehensive Analysis
                 </h4>
@@ -182,7 +182,7 @@ export default function AboutPage() {
                   10+ proprietary metrics covering content relevance, brand authority, and AI compatibility
                 </p>
               </div>
-              <div className="card-premium p-6 hover:shadow-lg transition-all duration-300">
+              <div className="card-premium p-6 hover:shadow-lg transition-all duration-300 cursor-pointer">
                 <h4 className="font-heading text-lg mb-3" style={{ color: 'var(--neutral-900)' }}>
                   Actionable Insights
                 </h4>
@@ -190,7 +190,7 @@ export default function AboutPage() {
                   Specific recommendations to improve your AI visibility and discoverability
                 </p>
               </div>
-              <div className="card-premium p-6 hover:shadow-lg transition-all duration-300">
+              <div className="card-premium p-6 hover:shadow-lg transition-all duration-300 cursor-pointer">
                 <h4 className="font-heading text-lg mb-3" style={{ color: 'var(--neutral-900)' }}>
                   Industry Benchmarking
                 </h4>

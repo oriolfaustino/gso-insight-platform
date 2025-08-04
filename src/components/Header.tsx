@@ -9,7 +9,7 @@ interface HeaderProps {
 }
 
 const Logo = () => (
-  <a href="/" className="flex items-center gap-4 hover:opacity-90 transition-all duration-200 group">
+  <a href="/" className="flex items-center gap-4 hover:opacity-90 transition-all duration-200 group cursor-pointer">
     <div className="relative">
       <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden" 
            style={{ background: 'var(--gradient-primary)' }}>
@@ -43,14 +43,14 @@ export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderP
           {/* Desktop Navigation - Centered */}
           <nav className="hidden md:flex items-center gap-10 absolute left-1/2 transform -translate-x-1/2">
             <a href="/about" 
-               className="font-body text-sm font-medium transition-all duration-200 hover:translate-y-[-1px]"
+               className="font-body text-sm font-medium transition-all duration-200 hover:translate-y-[-1px] cursor-pointer"
                style={{ color: 'var(--neutral-600)' }}
                onMouseEnter={(e) => e.target.style.color = 'var(--neutral-900)'}
                onMouseLeave={(e) => e.target.style.color = 'var(--neutral-600)'}>
               About
             </a>
             <a href="/login" 
-               className="font-body text-sm font-medium transition-all duration-200 hover:translate-y-[-1px]"
+               className="font-body text-sm font-medium transition-all duration-200 hover:translate-y-[-1px] cursor-pointer"
                style={{ color: 'var(--neutral-600)' }}
                onMouseEnter={(e) => e.target.style.color = 'var(--neutral-900)'}
                onMouseLeave={(e) => e.target.style.color = 'var(--neutral-600)'}>
@@ -105,14 +105,14 @@ export function Header({ showNewAnalysisButton = false, onNewAnalysis }: HeaderP
                style={{ borderColor: 'var(--neutral-200)' }}>
             <nav className="flex flex-col gap-6">
               <a href="/about" 
-                 className="font-body text-sm font-medium transition-colors"
+                 className="font-body text-sm font-medium transition-colors cursor-pointer"
                  style={{ color: 'var(--neutral-600)' }}
                  onMouseEnter={(e) => e.target.style.color = 'var(--neutral-900)'}
                  onMouseLeave={(e) => e.target.style.color = 'var(--neutral-600)'}>
                 About
               </a>
               <a href="/login" 
-                 className="font-body text-sm font-medium transition-colors"
+                 className="font-body text-sm font-medium transition-colors cursor-pointer"
                  style={{ color: 'var(--neutral-600)' }}
                  onMouseEnter={(e) => e.target.style.color = 'var(--neutral-900)'}
                  onMouseLeave={(e) => e.target.style.color = 'var(--neutral-600)'}>

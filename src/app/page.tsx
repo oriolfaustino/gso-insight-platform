@@ -293,7 +293,7 @@ export default function HomePage() {
               </p>
               <button
                 onClick={() => setShowPricingModal(true)}
-                className="bg-gray-900 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-gray-800 transition-colors inline-flex items-center gap-2"
+                className="bg-gray-900 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-gray-800 transition-colors inline-flex items-center gap-2 cursor-pointer"
               >
                 <Lock className="w-5 h-5" />
                 Unlock Premium Analysis
@@ -328,7 +328,7 @@ export default function HomePage() {
                       <p className="text-sm text-gray-600 mb-4">Unlock detailed analysis</p>
                       <button 
                         onClick={() => setShowPricingModal(true)}
-                        className="bg-gray-900 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors"
+                        className="bg-gray-900 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors cursor-pointer"
                       >
                         View Premium
                       </button>
@@ -439,7 +439,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button 
                   onClick={() => setShowPricingModal(true)}
-                  className="bg-gray-900 text-white px-8 py-4 rounded-2xl font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+                  className="bg-gray-900 text-white px-8 py-4 rounded-2xl font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   Get Complete Analysis
                   <ArrowRight className="w-5 h-5" />
@@ -449,7 +449,7 @@ export default function HomePage() {
                     setShowResults(false); 
                     setResults(null);
                   }}
-                  className="border border-gray-200 text-gray-700 px-8 py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-colors"
+                  className="border border-gray-200 text-gray-700 px-8 py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-colors cursor-pointer"
                 >
                   Analyze Another Site
                 </button>
