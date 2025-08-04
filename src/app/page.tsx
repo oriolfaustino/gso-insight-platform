@@ -547,45 +547,6 @@ export default function HomePage() {
               does your business appear? Discover your AI visibility in under 60 seconds.
             </p>
 
-            {/* Social Proof Section */}
-            <div className="text-center mb-16 animate-fade-in-up"
-                 style={{ 
-                   animationDelay: '0.25s', 
-                   animationFillMode: 'backwards' 
-                 }}>
-              <p className="font-body text-sm mb-4" style={{ color: 'var(--neutral-500)' }}>
-                Trusted by 10,000+ businesses worldwide
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8">
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center"
-                       style={{ background: 'var(--accent-emerald)' }}>
-                    <CheckCircle className="w-3 h-3 text-white" />
-                  </div>
-                  <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
-                    Featured on Reddit
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center"
-                       style={{ background: 'var(--accent-emerald)' }}>
-                    <CheckCircle className="w-3 h-3 text-white" />
-                  </div>
-                  <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
-                    4.8/5 Average Rating
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center"
-                       style={{ background: 'var(--accent-emerald)' }}>
-                    <CheckCircle className="w-3 h-3 text-white" />
-                  </div>
-                  <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
-                    60-Second Analysis
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Search Input */}
@@ -618,19 +579,39 @@ export default function HomePage() {
               </div>
             </div>
             
-            <div className="flex items-center justify-center gap-8 mt-6 text-sm font-medium"
-                 style={{ color: 'var(--neutral-500)' }}>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4" style={{ color: 'var(--accent-emerald)' }} />
-                <span>Free analysis</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4" style={{ color: 'var(--accent-emerald)' }} />
-                <span>60-second results</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4" style={{ color: 'var(--accent-emerald)' }} />
-                <span>No signup required</span>
+            {/* Social Proof Section - Moved Below Domain Field */}
+            <div className="text-center mt-6">
+              <p className="font-body text-sm mb-4" style={{ color: 'var(--neutral-500)' }}>
+                Trusted by 10,000+ businesses worldwide
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center"
+                       style={{ background: 'var(--accent-emerald)' }}>
+                    <CheckCircle className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                    Featured on Reddit
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center"
+                       style={{ background: 'var(--accent-emerald)' }}>
+                    <CheckCircle className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                    4.8/5 Average Rating
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center"
+                       style={{ background: 'var(--accent-emerald)' }}>
+                    <CheckCircle className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                    60-Second Analysis
+                  </span>
+                </div>
               </div>
             </div>
           </div>
