@@ -441,7 +441,7 @@ export default function HomePage() {
           <div className="text-center">
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-3xl p-12">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to improve your AI visibility?</h3>
-              <p className="text-gray-600 mb-8 max-w-md mx-auto">
+              <p className="text-gray-600 mb-8 max-w-md mx-auto text-center">
                 Get detailed recommendations and a step-by-step improvement plan.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
