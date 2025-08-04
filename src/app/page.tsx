@@ -6,7 +6,7 @@ import { generateMockResults, metricDefinitions, GSOResults } from '@/lib/mockDa
 import { LoadingAnimation } from '@/components/LoadingAnimation';
 import { PricingModal } from '@/components/PricingModal';
 import { Header } from '@/components/Header';
-import { trackAnalysisStarted, trackAnalysisCompleted, trackCampaignAttribution, trackAnalysisStartedWithAttribution, trackAnalysisCompletedWithAttribution } from '@/lib/gtag';
+import { trackAnalysisStarted, trackAnalysisCompleted, trackCampaignAttribution, trackAnalysisStartedWithAttribution, trackAnalysisCompletedWithAttribution, trackPricingModalOpened } from '@/lib/gtag';
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -294,7 +294,10 @@ export default function HomePage() {
                 Unlock 3 additional metrics with detailed recommendations and actionable insights.
               </p>
               <button
-                onClick={() => setShowPricingModal(true)}
+                onClick={() => { 
+                setShowPricingModal(true);
+                trackPricingModalOpened('results_page');
+              }}
                 className="bg-gray-900 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-gray-800 transition-colors inline-flex items-center gap-2 cursor-pointer"
               >
                 <Lock className="w-5 h-5" />
@@ -329,7 +332,10 @@ export default function HomePage() {
                       </h4>
                       <p className="text-sm text-gray-600 mb-4">Unlock detailed analysis</p>
                       <button 
-                        onClick={() => setShowPricingModal(true)}
+                        onClick={() => { 
+                setShowPricingModal(true);
+                trackPricingModalOpened('results_page');
+              }}
                         className="bg-gray-900 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors cursor-pointer"
                       >
                         View Premium
@@ -440,7 +446,10 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button 
-                  onClick={() => setShowPricingModal(true)}
+                  onClick={() => { 
+                setShowPricingModal(true);
+                trackPricingModalOpened('results_page');
+              }}
                   className="bg-gray-900 text-white px-8 py-4 rounded-2xl font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   Get Complete Analysis

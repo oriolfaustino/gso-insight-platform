@@ -79,16 +79,20 @@ export const trackAnalysisCompleted = (domain: string, score: number) => {
 };
 
 export const trackPricingModalOpened = (source: string) => {
+  console.log('📊 Tracking pricing_modal_opened:', source);
+  
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'pricing_modal_opened', {
       event_category: 'conversion',
       event_label: source,
       source: source,
     });
+    console.log('✅ Pricing modal event sent');
   }
 };
 
 export const trackUpgradeClicked = (pricePoint: string) => {
+  console.log('🎯 Tracking upgrade_clicked:', pricePoint);
   
   if (typeof window !== 'undefined' && window.gtag) {
     const price = parseFloat(pricePoint.replace(/[€$]/g, ''));
@@ -118,6 +122,7 @@ export const trackUpgradeClicked = (pricePoint: string) => {
       ...utmParams
     });
     
+    console.log('✅ Purchase and upgrade_clicked events sent to GA4');
   }
 };
 
