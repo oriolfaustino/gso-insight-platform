@@ -498,8 +498,8 @@ export default function HomePage() {
         
         <div className="relative max-w-7xl mx-auto px-6 pt-20 pb-32">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="animate-fade-in-up mb-6">
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border mb-4"
+            <div className="animate-fade-in-up mb-8">
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border mb-6"
                    style={{ 
                      background: 'var(--accent-amber)', 
                      borderColor: 'rgba(245, 158, 11, 0.3)',
@@ -519,7 +519,7 @@ export default function HomePage() {
               </div>
             </div>
             
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-12 animate-fade-in-up"
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-16 animate-fade-in-up"
                 style={{ 
                   color: 'var(--neutral-900)',
                   animationDelay: '0.1s',
@@ -534,7 +534,7 @@ export default function HomePage() {
               </span>
             </h1>
             
-            <p className="font-body text-lg lg:text-xl mb-8 leading-relaxed max-w-3xl mx-auto animate-fade-in-up"
+            <p className="font-body text-lg lg:text-xl mb-12 leading-relaxed max-w-3xl mx-auto animate-fade-in-up"
                style={{ 
                  color: 'var(--neutral-600)',
                  animationDelay: '0.2s',
@@ -545,7 +545,7 @@ export default function HomePage() {
             </p>
 
             {/* Social Proof Section */}
-            <div className="text-center mb-12 animate-fade-in-up"
+            <div className="text-center mb-16 animate-fade-in-up"
                  style={{ 
                    animationDelay: '0.25s', 
                    animationFillMode: 'backwards' 
