@@ -6,7 +6,7 @@ import { generateMockResults, metricDefinitions, GSOResults } from '@/lib/mockDa
 import { LoadingAnimation } from '@/components/LoadingAnimation';
 import { PricingModal } from '@/components/PricingModal';
 import { Header } from '@/components/Header';
-import { trackAnalysisStarted, trackAnalysisCompleted } from '@/lib/gtag';
+import { trackAnalysisStarted, trackAnalysisCompleted, trackCampaignAttribution, trackAnalysisStartedWithAttribution, trackAnalysisCompletedWithAttribution } from '@/lib/gtag';
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -18,13 +18,15 @@ export default function HomePage() {
 
   useEffect(() => {
     setMounted(true);
+    // Track campaign attribution on page load
+    trackCampaignAttribution();
   }, []);
 
   const handleAnalyze = async () => {
     if (!domain) return;
     
     setIsAnalyzing(true);
-    trackAnalysisStarted(domain);
+    trackAnalysisStartedWithAttribution(domain);
     
     try {
       const response = await fetch('/api/analyze', {
@@ -44,7 +46,7 @@ export default function HomePage() {
       setResults(data);
       setIsAnalyzing(false);
       setShowResults(true);
-      trackAnalysisCompleted(domain, data.overallScore);
+      trackAnalysisCompletedWithAttribution(domain, data.overallScore);
       
     } catch (error) {
       console.error('Analysis error:', error);
@@ -53,7 +55,7 @@ export default function HomePage() {
       setResults(mockResults);
       setIsAnalyzing(false);
       setShowResults(true);
-      trackAnalysisCompleted(domain, mockResults.overallScore);
+      trackAnalysisCompletedWithAttribution(domain, mockResults.overallScore);
     }
   };
 

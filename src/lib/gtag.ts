@@ -93,6 +93,7 @@ export const trackUpgradeClicked = (pricePoint: string) => {
   
   if (typeof window !== 'undefined' && window.gtag) {
     const price = parseFloat(pricePoint.replace(/[€$]/g, ''));
+    const utmParams = getUTMParameters();
     
     // Send as GA4 purchase event (automatically converted to conversion)
     window.gtag('event', 'purchase', {
@@ -105,7 +106,8 @@ export const trackUpgradeClicked = (pricePoint: string) => {
         category: 'digital_service',
         quantity: 1,
         price: price
-      }]
+      }],
+      ...utmParams
     });
     
     // Also send custom upgrade_clicked for tracking
@@ -113,9 +115,119 @@ export const trackUpgradeClicked = (pricePoint: string) => {
       event_category: 'conversion',
       price_point: pricePoint,
       currency: 'EUR',
-      value: price
+      value: price,
+      ...utmParams
     });
     
     console.log('✅ Purchase and upgrade_clicked events sent to GA4');
+  }
+};
+
+// UTM Parameter Utilities
+export interface UTMParameters {
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_term?: string;
+  utm_content?: string;
+}
+
+// Extract UTM parameters from current URL
+export const getUTMParameters = (): UTMParameters => {
+  if (typeof window === 'undefined') return {};
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  return {
+    utm_source: urlParams.get('utm_source') || undefined,
+    utm_medium: urlParams.get('utm_medium') || undefined,
+    utm_campaign: urlParams.get('utm_campaign') || undefined,
+    utm_term: urlParams.get('utm_term') || undefined,
+    utm_content: urlParams.get('utm_content') || undefined,
+  };
+};
+
+// Store UTM parameters in sessionStorage for attribution across page views
+export const storeUTMParameters = () => {
+  if (typeof window === 'undefined') return;
+  
+  const utmParams = getUTMParameters();
+  const hasUTM = Object.values(utmParams).some(value => value !== undefined);
+  
+  if (hasUTM) {
+    sessionStorage.setItem('utm_attribution', JSON.stringify(utmParams));
+    console.log('🏷️ UTM parameters stored:', utmParams);
+  }
+};
+
+// Get stored UTM parameters (for attribution across sessions)
+export const getStoredUTMParameters = (): UTMParameters => {
+  if (typeof window === 'undefined') return {};
+  
+  try {
+    const stored = sessionStorage.getItem('utm_attribution');
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+};
+
+// Get UTM parameters (current or stored)
+export const getAttributionUTMParameters = (): UTMParameters => {
+  const current = getUTMParameters();
+  const hasCurrentUTM = Object.values(current).some(value => value !== undefined);
+  
+  if (hasCurrentUTM) {
+    return current;
+  }
+  
+  return getStoredUTMParameters();
+};
+
+// Track campaign attribution when user lands on site
+export const trackCampaignAttribution = () => {
+  if (typeof window === 'undefined') return;
+  
+  const utmParams = getUTMParameters();
+  const hasUTM = Object.values(utmParams).some(value => value !== undefined);
+  
+  if (hasUTM && window.gtag) {
+    window.gtag('event', 'campaign_attribution', {
+      event_category: 'acquisition',
+      ...utmParams
+    });
+    
+    // Store for later attribution
+    storeUTMParameters();
+    
+    console.log('🎯 Campaign attribution tracked:', utmParams);
+  }
+};
+
+// Enhanced tracking functions with UTM attribution
+export const trackAnalysisStartedWithAttribution = (domain: string) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    const utmParams = getAttributionUTMParameters();
+    
+    window.gtag('event', 'analysis_started', {
+      event_category: 'engagement',
+      event_label: domain,
+      domain: domain,
+      ...utmParams
+    });
+  }
+};
+
+export const trackAnalysisCompletedWithAttribution = (domain: string, score: number) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    const utmParams = getAttributionUTMParameters();
+    
+    window.gtag('event', 'analysis_completed', {
+      event_category: 'engagement',
+      event_label: domain,
+      value: score,
+      domain: domain,
+      score: score,
+      ...utmParams
+    });
   }
 };
