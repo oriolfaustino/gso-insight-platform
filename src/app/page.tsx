@@ -588,7 +588,7 @@ export default function HomePage() {
               </span>
             </h1>
             
-            <p className="font-body text-lg lg:text-xl mb-20 leading-relaxed max-w-3xl mx-auto animate-fade-in-up"
+            <p className="font-body text-lg lg:text-xl mb-60 leading-relaxed max-w-3xl mx-auto animate-fade-in-up"
                style={{ 
                  color: 'var(--neutral-600)',
                  animationDelay: '0.2s',
