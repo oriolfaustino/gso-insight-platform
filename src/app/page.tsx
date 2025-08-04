@@ -519,7 +519,7 @@ export default function HomePage() {
               </div>
             </div>
             
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-16 animate-fade-in-up"
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-8 animate-fade-in-up"
                 style={{ 
                   color: 'var(--neutral-900)',
                   animationDelay: '0.1s',
