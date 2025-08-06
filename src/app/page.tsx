@@ -846,7 +846,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="text-center">
             <p className="font-body text-sm" style={{ color: 'var(--neutral-500)' }}>
-              Professional AI visibility analysis platform • Trusted by innovative businesses
+              © 2024 GSO Insight. All rights reserved.
             </p>
           </div>
         </div>
