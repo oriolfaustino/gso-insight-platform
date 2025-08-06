@@ -80,9 +80,18 @@ export const PRICING_VARIANTS: Record<string, PricingVariant> = {
 
 // Get user's assigned variant (simple hash-based assignment)
 export function getAssignedVariant(userIdentifier?: string): PricingVariant {
+  // Check if we have a stored variant first
+  let storedVariant = null;
+  if (typeof window !== 'undefined') {
+    storedVariant = sessionStorage.getItem('ab_test_variant');
+    if (storedVariant && PRICING_VARIANTS[storedVariant]) {
+      return PRICING_VARIANTS[storedVariant];
+    }
+  }
+  
   // Use a combination of user agent, timestamp, and random for assignment
   const identifier = userIdentifier || 
-    (typeof window !== 'undefined' ? window.navigator.userAgent + Date.now() : 'server');
+    (typeof window !== 'undefined' ? window.navigator.userAgent + Math.random() + Date.now() : 'server');
   
   // Simple hash function
   let hash = 0;
@@ -92,10 +101,15 @@ export function getAssignedVariant(userIdentifier?: string): PricingVariant {
     hash = hash & hash; // Convert to 32-bit integer
   }
   
-  // Assign variants (33% each, roughly)
+  // Assign variants (25% each)
   const variants = Object.keys(PRICING_VARIANTS);
   const variantIndex = Math.abs(hash) % variants.length;
   const variantKey = variants[variantIndex];
+  
+  // Store the variant for this session
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem('ab_test_variant', variantKey);
+  }
   
   // Log the assignment for analytics
   if (typeof window !== 'undefined' && window.gtag) {

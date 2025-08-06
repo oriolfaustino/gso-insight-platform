@@ -6,7 +6,7 @@ import { generateMockResults, metricDefinitions, GSOResults } from '@/lib/mockDa
 import { LoadingAnimation } from '@/components/LoadingAnimation';
 import { PricingModal } from '@/components/PricingModal';
 import { Header } from '@/components/Header';
-import { trackAnalysisStarted, trackAnalysisCompleted, trackCampaignAttribution, trackAnalysisStartedWithAttribution, trackAnalysisCompletedWithAttribution, trackPricingModalOpened, trackAnalysisStartedWithRetargeting, trackPricingModalWithRetargeting, trackAnalysisStartedWithRedditPixel } from '@/lib/gtag';
+import { trackAnalysisStarted, trackAnalysisCompleted, trackCampaignAttribution, trackAnalysisStartedWithAttribution, trackAnalysisCompletedWithAttribution, trackPricingModalOpened, trackAnalysisStartedWithRetargeting, trackPricingModalWithRetargeting, trackAnalysisStartedWithRedditPixel, trackPricingModalWithRedditPixel } from '@/lib/gtag';
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -348,7 +348,7 @@ export default function HomePage() {
               <button
                 onClick={() => { 
                 setShowPricingModal(true);
-                trackPricingModalOpened('results_page');
+                trackPricingModalWithRedditPixel('results_page');
               }}
                 className="bg-gray-900 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-gray-800 transition-colors inline-flex items-center gap-2 cursor-pointer"
               >
@@ -387,7 +387,7 @@ export default function HomePage() {
                       <button 
                         onClick={() => { 
                 setShowPricingModal(true);
-                trackPricingModalOpened('results_page');
+                trackPricingModalWithRedditPixel('results_page');
               }}
                         className="bg-gray-900 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors cursor-pointer"
                       >
@@ -504,7 +504,7 @@ export default function HomePage() {
                 <button 
                   onClick={() => { 
                 setShowPricingModal(true);
-                trackPricingModalOpened('results_page');
+                trackPricingModalWithRedditPixel('results_page');
               }}
                   className="bg-gray-900 text-white px-8 py-4 rounded-2xl font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
