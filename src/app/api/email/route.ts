@@ -45,28 +45,49 @@ export async function POST(request: NextRequest) {
     });
 
     // Send notification email to you
+    console.log('🔍 Email environment check:', {
+      hasResendKey: !!process.env.RESEND_API_KEY,
+      hasNotificationEmail: !!process.env.NOTIFICATION_EMAIL,
+      notificationEmail: process.env.NOTIFICATION_EMAIL
+    });
+
     if (process.env.RESEND_API_KEY && process.env.NOTIFICATION_EMAIL) {
       try {
         const resend = new Resend(process.env.RESEND_API_KEY);
-        await resend.emails.send({
-          from: 'GSO Platform <onboarding@resend.dev>', // Resend test domain
+        console.log('📧 Attempting to send notification email...');
+        
+        const result = await resend.emails.send({
+          from: 'GSO Platform <noreply@gso-insight.com>', // Use your domain
           to: [process.env.NOTIFICATION_EMAIL],
-          subject: `🎯 New GSO Lead: ${domain}`,
+          subject: `🎯 New GSO Lead: ${domain} (Score: ${score || 'N/A'})`,
           html: `
-            <h2>New Lead from GSO Insight Platform</h2>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Domain:</strong> ${domain}</p>
-            <p><strong>Price Shown:</strong> $250</p>
-            <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
-            <p><strong>Next Steps:</strong> Contact within 24 hours for maximum conversion</p>
+            <h2>🎯 New Lead from GSO Insight Platform</h2>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 16px 0;">
+              <p><strong>📧 Email:</strong> ${email}</p>
+              <p><strong>🌐 Domain:</strong> ${domain}</p>
+              <p><strong>📊 Score:</strong> ${score || 'N/A'}/100</p>
+              <p><strong>⏰ Time:</strong> ${new Date().toLocaleString()}</p>
+              <p><strong>🔥 User Agent:</strong> ${request.headers.get('user-agent')?.substring(0, 100) || 'Unknown'}</p>
+            </div>
+            <h3>📋 Next Steps:</h3>
+            <ul>
+              <li>Contact within 24 hours for maximum conversion</li>
+              <li>Mention their specific domain analysis</li>
+              <li>Focus on AI visibility improvements</li>
+            </ul>
             <hr>
-            <p><small>Sent from your GSO Insight Platform</small></p>
+            <p><small>Sent from your GSO Insight Platform • ${new Date().toISOString()}</small></p>
           `,
         });
+        
+        console.log('✅ Email sent successfully:', result);
       } catch (emailError) {
-        console.error('Failed to send notification email:', emailError);
+        console.error('❌ Failed to send notification email:', emailError);
+        console.error('Email error details:', JSON.stringify(emailError, null, 2));
         // Don't fail the request if email fails
       }
+    } else {
+      console.log('⚠️ Email not configured - missing environment variables');
     }
     
     return NextResponse.json({ 

@@ -57,8 +57,8 @@ export interface GSOResults {
 import { detectIndustry, getBenchmark, getOverallBenchmark, getPerformanceStatus, getBenchmarkComparison } from './benchmarks';
 
 export const generateMockResults = (domain: string): GSOResults => {
-  // Generate realistic but consistently poor scores for demo impact
-  const baseScore = Math.floor(Math.random() * 30) + 15; // 15-45 range for poor performance
+  // Generate limited scores between 10-60 to create urgency
+  const baseScore = Math.floor(Math.random() * 50) + 10; // 10-60 range for urgency
   
   // Detect industry for benchmarking
   const industry = detectIndustry(domain);
@@ -97,7 +97,7 @@ export const generateMockResults = (domain: string): GSOResults => {
     overall_benchmark: overallBenchmarkData,
     metrics: {
       aiRecommendationRate: {
-        score: Math.max(10, baseScore - 10 + Math.floor(Math.random() * 20)),
+        score: Math.min(60, Math.max(10, baseScore - 10 + Math.floor(Math.random() * 20))),
         status: 'critical',
         trend: 'down',
         insights: [
@@ -118,7 +118,7 @@ export const generateMockResults = (domain: string): GSOResults => {
         }
       },
       competitiveRanking: {
-        score: Math.max(15, baseScore - 5 + Math.floor(Math.random() * 15)),
+        score: Math.min(60, Math.max(10, baseScore - 5 + Math.floor(Math.random() * 15))),
         status: 'poor',
         trend: 'stable',
         insights: [
@@ -134,7 +134,7 @@ export const generateMockResults = (domain: string): GSOResults => {
         benchmark: addBenchmark('competitiveRanking', Math.max(15, baseScore - 5 + Math.floor(Math.random() * 15)))
       },
       contentRelevance: {
-        score: Math.max(20, baseScore + Math.floor(Math.random() * 25)),
+        score: Math.min(60, Math.max(10, baseScore + Math.floor(Math.random() * 25))),
         status: 'fair',
         trend: 'up',
         insights: [
@@ -150,7 +150,7 @@ export const generateMockResults = (domain: string): GSOResults => {
         benchmark: addBenchmark('contentRelevance', Math.max(20, baseScore + Math.floor(Math.random() * 25)))
       },
       brandMentionQuality: {
-        score: Math.max(8, baseScore - 15 + Math.floor(Math.random() * 10)),
+        score: Math.min(60, Math.max(10, baseScore - 15 + Math.floor(Math.random() * 15))),
         status: 'critical',
         trend: 'down',
         insights: [
@@ -166,7 +166,7 @@ export const generateMockResults = (domain: string): GSOResults => {
         benchmark: addBenchmark('brandMentionQuality', Math.max(8, baseScore - 15 + Math.floor(Math.random() * 10)))
       },
       searchCompatibility: {
-        score: Math.max(25, baseScore + Math.floor(Math.random() * 20)),
+        score: Math.min(60, Math.max(10, baseScore + Math.floor(Math.random() * 20))),
         status: 'fair',
         trend: 'stable',
         insights: [
@@ -182,7 +182,7 @@ export const generateMockResults = (domain: string): GSOResults => {
         benchmark: addBenchmark('searchCompatibility', Math.max(25, baseScore + Math.floor(Math.random() * 20)))
       },
       consistencyScore: {
-        score: Math.max(30, baseScore + Math.floor(Math.random() * 25)),
+        score: Math.min(60, Math.max(10, baseScore + Math.floor(Math.random() * 25))),
         status: 'fair',
         trend: 'up',
         insights: [
@@ -198,7 +198,7 @@ export const generateMockResults = (domain: string): GSOResults => {
         benchmark: addBenchmark('consistencyScore', Math.max(30, baseScore + Math.floor(Math.random() * 25)))
       },
       topicCoverage: {
-        score: Math.max(35, baseScore + Math.floor(Math.random() * 30)),
+        score: Math.min(60, Math.max(10, baseScore + Math.floor(Math.random() * 30))),
         status: 'good',
         trend: 'stable',
         insights: [
@@ -214,7 +214,7 @@ export const generateMockResults = (domain: string): GSOResults => {
         benchmark: addBenchmark('topicCoverage', Math.max(35, baseScore + Math.floor(Math.random() * 30)))
       },
       websiteAuthority: {
-        score: Math.max(65, baseScore + 30 + Math.floor(Math.random() * 20)),
+        score: Math.min(60, Math.max(10, baseScore + Math.floor(Math.random() * 30))),
         status: 'good',
         trend: 'up',
         insights: [
@@ -230,7 +230,7 @@ export const generateMockResults = (domain: string): GSOResults => {
         benchmark: addBenchmark('websiteAuthority', Math.max(65, baseScore + 30 + Math.floor(Math.random() * 20)))
       },
       trustSignals: {
-        score: Math.max(50, baseScore + 20 + Math.floor(Math.random() * 25)),
+        score: Math.min(60, Math.max(10, baseScore + Math.floor(Math.random() * 25))),
         status: 'fair',
         trend: 'stable',
         insights: [
@@ -246,7 +246,7 @@ export const generateMockResults = (domain: string): GSOResults => {
         benchmark: addBenchmark('trustSignals', Math.max(50, baseScore + 20 + Math.floor(Math.random() * 25)))
       },
       expertiseRating: {
-        score: Math.max(40, baseScore + 15 + Math.floor(Math.random() * 20)),
+        score: Math.min(60, Math.max(10, baseScore + Math.floor(Math.random() * 20))),
         status: 'fair',
         trend: 'up',
         insights: [

@@ -56,7 +56,7 @@ export function TestimonialsSlider() {
     
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000); // Change every 5 seconds
+    }, 3000); // Change every 3 seconds
 
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
@@ -149,27 +149,6 @@ export function TestimonialsSlider() {
         ))}
       </div>
 
-      {/* Progress Indicator (Auto-play) */}
-      {isAutoPlaying && (
-        <div className="mt-4 mx-auto max-w-xs">
-          <div className="w-full bg-gray-200 rounded-full h-1">
-            <div 
-              className="h-1 rounded-full transition-all duration-100 ease-linear"
-              style={{ 
-                background: 'var(--accent-emerald)',
-                animation: 'progress 5s linear infinite'
-              }}
-            />
-          </div>
-        </div>
-      )}
-
-      <style jsx>{`
-        @keyframes progress {
-          from { width: 0%; }
-          to { width: 100%; }
-        }
-      `}</style>
     </div>
   );
 }
