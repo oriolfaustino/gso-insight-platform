@@ -343,8 +343,7 @@ export const trackAnalysisStartedWithRedditPixel = (domain: string) => {
   // Reddit Pixel - Lead event (user showing interest)
   trackRedditEvent('Lead', {
     value: 0,
-    currency: 'EUR',
-    customEventName: 'AnalysisStarted'
+    currency: 'EUR'
   });
 };
 
@@ -355,8 +354,7 @@ export const trackPricingModalWithRedditPixel = (source: string) => {
   // Reddit Pixel - ViewContent event
   trackRedditEvent('ViewContent', {
     value: 0,
-    currency: 'EUR',
-    customEventName: 'PricingViewed'
+    currency: 'EUR'
   });
 };
 
@@ -371,7 +369,6 @@ export const trackUpgradeClickedWithRedditPixel = (pricePoint: string) => {
     value: price,
     currency: 'EUR',
     transactionId: `gso_${Date.now()}`,
-    itemCount: 1,
-    customEventName: 'AnalysisPurchase'
+    itemCount: 1
   });
 };
