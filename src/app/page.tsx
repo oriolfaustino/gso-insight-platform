@@ -822,7 +822,7 @@ export default function HomePage() {
 
         {/* Bottom CTA */}
         <div className="text-center mt-12">
-          <p className="font-body text-base mb-20" style={{ color: 'var(--neutral-700)' }}>
+          <p className="font-body text-base" style={{ color: 'var(--neutral-700)', marginBottom: '8rem' }}>
             Don't let your competitors dominate AI recommendations while you stay invisible
           </p>
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl font-medium text-sm"
