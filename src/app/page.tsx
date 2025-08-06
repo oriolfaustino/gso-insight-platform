@@ -42,10 +42,22 @@ export default function HomePage() {
   }, [mounted, hasShownExitIntent, showResults, domain]);
 
   const handleAnalyze = async () => {
+    console.log('🚀 handleAnalyze called with domain:', domain);
     if (!domain) return;
     
     setIsAnalyzing(true);
     trackAnalysisStartedWithRedditPixel(domain);
+    
+    // Track domain submission for retargeting (fire and forget)
+    console.log('🎯 Tracking domain submission:', domain);
+    fetch('/api/track-domain', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain })
+    })
+    .then(res => res.json())
+    .then(data => console.log('✅ Domain tracked:', data))
+    .catch(err => console.log('❌ Domain tracking failed:', err));
     
     try {
       const response = await fetch('/api/analyze', {
@@ -780,10 +792,10 @@ export default function HomePage() {
               <div className="mb-4">
                 <div className="text-4xl font-bold text-gradient mb-2">73%</div>
                 <div className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
-                  prefer AI recommendations
+                  search intent is transactional
                 </div>
                 <div className="font-body text-xs mt-1" style={{ color: 'var(--neutral-500)' }}>
-                  over traditional search results
+                  or commercial
                 </div>
               </div>
             </div>

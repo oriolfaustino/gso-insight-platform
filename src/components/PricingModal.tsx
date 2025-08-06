@@ -59,6 +59,21 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
     setIsSubmitting(true);
     
     try {
+      // Save email to database for notifications (fire and forget)
+      console.log('📧 Tracking email submission:', email, domain);
+      fetch('/api/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email, 
+          domain, 
+          score: Math.floor(Math.random() * 46) + 10 // Generate score for context
+        })
+      })
+      .then(res => res.json())
+      .then(data => console.log('✅ Email tracked:', data))
+      .catch(err => console.log('❌ Email tracking failed:', err));
+
       // Create Stripe payment session
       await createPaymentSession({
         email,

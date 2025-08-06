@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         console.log('📧 Attempting to send notification email...');
         
         const result = await resend.emails.send({
-          from: 'GSO Platform <noreply@gso-insight.com>', // Use your domain
+          from: 'GSO Platform <onboarding@resend.dev>',
           to: [process.env.NOTIFICATION_EMAIL],
           subject: `🎯 New GSO Lead: ${domain} (Score: ${score || 'N/A'})`,
           html: `
@@ -80,9 +80,11 @@ export async function POST(request: NextRequest) {
           `,
         });
         
-        console.log('✅ Email sent successfully:', result);
+        console.log('✅ Email sent successfully:', JSON.stringify(result, null, 2));
       } catch (emailError) {
         console.error('❌ Failed to send notification email:', emailError);
+        console.error('Email error type:', typeof emailError);
+        console.error('Email error message:', emailError.message || 'No message');
         console.error('Email error details:', JSON.stringify(emailError, null, 2));
         // Don't fail the request if email fails
       }
