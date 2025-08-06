@@ -743,7 +743,7 @@ export default function HomePage() {
       </div>
 
       {/* Key Stats Section */}
-      <div className="max-w-6xl mx-auto px-6 pt-0 pb-3 animate-fade-in-up"
+      <div className="max-w-6xl mx-auto px-6 pt-0 pb-1 animate-fade-in-up"
            style={{ animationDelay: '0.5s', animationFillMode: 'backwards' }}>
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl lg:text-4xl mb-4" style={{ color: 'var(--neutral-900)' }}>
