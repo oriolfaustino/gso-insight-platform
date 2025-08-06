@@ -822,7 +822,7 @@ export default function HomePage() {
 
         {/* Bottom CTA */}
         <div className="text-center mt-12">
-          <p className="font-body text-base" style={{ color: 'var(--neutral-700)', marginBottom: '8rem' }}>
+          <p className="font-body text-base" style={{ color: 'var(--neutral-700)', marginBottom: '2.7rem' }}>
             Don't let your competitors dominate AI recommendations while you stay invisible
           </p>
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl font-medium text-sm"
@@ -834,6 +834,10 @@ export default function HomePage() {
             <AlertTriangle className="w-4 h-4" />
             Every day without AI optimization is lost revenue
           </div>
+          
+          <p className="font-body text-sm mt-6" style={{ color: 'var(--neutral-500)' }}>
+            Professional AI visibility analysis platform • Trusted by innovative businesses
+          </p>
         </div>
       </div>
 
