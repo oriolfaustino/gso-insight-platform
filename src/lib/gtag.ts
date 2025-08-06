@@ -328,47 +328,49 @@ export const trackPricingModalWithRetargeting = (source: string) => {
   });
 };
 
-// Reddit Pixel tracking functions
+// Reddit Pixel tracking functions - clean implementation
 export const trackRedditEvent = (eventName: string, parameters?: any) => {
   if (typeof window !== 'undefined' && window.rdt) {
+    console.log('🔴 Reddit Pixel Event:', eventName, parameters);
     window.rdt('track', eventName, parameters);
   }
 };
 
-// Enhanced event tracking with Reddit Pixel
+// Clean Reddit Pixel events without other tracking
 export const trackAnalysisStartedWithRedditPixel = (domain: string) => {
-  // Existing tracking
+  // Other tracking (GA4, Facebook)
   trackAnalysisStartedWithRetargeting(domain);
   
-  // Reddit Pixel - Lead event (user showing interest)
-  trackRedditEvent('Lead', {
-    value: 0,
-    currency: 'EUR'
-  });
+  // Reddit Pixel - Lead event (clean, no metadata)
+  if (typeof window !== 'undefined' && window.rdt) {
+    console.log('🔴 Firing Reddit Lead event');
+    window.rdt('track', 'Lead');
+  }
 };
 
 export const trackPricingModalWithRedditPixel = (source: string) => {
-  // Existing tracking
+  // Other tracking (GA4, Facebook)
   trackPricingModalWithRetargeting(source);
   
-  // Reddit Pixel - ViewContent event
-  trackRedditEvent('ViewContent', {
-    value: 0,
-    currency: 'EUR'
-  });
+  // Reddit Pixel - ViewContent event (clean, no metadata)
+  if (typeof window !== 'undefined' && window.rdt) {
+    console.log('🔴 Firing Reddit ViewContent event');
+    window.rdt('track', 'ViewContent');
+  }
 };
 
 export const trackUpgradeClickedWithRedditPixel = (pricePoint: string) => {
-  // Existing tracking
+  // Other tracking (GA4, Facebook)
   trackUpgradeClickedWithRetargeting(pricePoint);
   
   const price = parseFloat(pricePoint.replace(/[€$]/g, ''));
   
-  // Reddit Pixel - Purchase event
-  trackRedditEvent('Purchase', {
-    value: price,
-    currency: 'EUR',
-    transactionId: `gso_${Date.now()}`,
-    itemCount: 1
-  });
+  // Reddit Pixel - Purchase event with only supported metadata
+  if (typeof window !== 'undefined' && window.rdt) {
+    console.log('🔴 Firing Reddit Purchase event with value:', price);
+    window.rdt('track', 'Purchase', {
+      value: price,
+      currency: 'EUR'
+    });
+  }
 };
