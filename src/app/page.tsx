@@ -593,7 +593,7 @@ export default function HomePage() {
                   color: 'var(--neutral-900)',
                   animationDelay: '0.1s',
                   animationFillMode: 'backwards',
-                  marginBottom: '12rem'
+                  marginBottom: '6rem'
                 }}>
               <span className="text-gradient relative">
                 Is AI finding your business?
@@ -607,7 +607,7 @@ export default function HomePage() {
                  color: 'var(--neutral-600)',
                  animationDelay: '0.2s',
                  animationFillMode: 'backwards',
-                 marginBottom: '12rem'
+                 marginBottom: '6rem'
                }}>
               When customers ask ChatGPT, Claude, or Gemini for recommendations, 
               does your business appear? Discover your AI visibility in under 60 seconds.
