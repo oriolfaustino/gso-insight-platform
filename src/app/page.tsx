@@ -6,6 +6,7 @@ import { generateMockResults, metricDefinitions, GSOResults } from '@/lib/mockDa
 import { LoadingAnimation } from '@/components/LoadingAnimation';
 import { PricingModal } from '@/components/PricingModal';
 import { Header } from '@/components/Header';
+import { TestimonialsSlider } from '@/components/TestimonialsSlider';
 import { trackAnalysisStarted, trackAnalysisCompleted, trackCampaignAttribution, trackAnalysisStartedWithAttribution, trackAnalysisCompletedWithAttribution, trackPricingModalOpened, trackAnalysisStartedWithRetargeting, trackPricingModalWithRetargeting, trackAnalysisStartedWithRedditPixel, trackPricingModalWithRedditPixel } from '@/lib/gtag';
 
 export default function HomePage() {
@@ -667,28 +668,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Testimonial Quote */}
-          <div className="max-w-4xl mx-auto text-center mb-16 animate-fade-in-up"
-               style={{ animationDelay: '0.35s', animationFillMode: 'backwards' }}>
-            <div className="card-premium p-8 glass"
-                 style={{ boxShadow: 'var(--shadow-lg)' }}>
-              <div className="flex justify-center mb-4">
-                <div className="flex gap-1">
-                  {[1,2,3,4,5].map((star) => (
-                    <div key={star} className="w-5 h-5 text-yellow-400">⭐</div>
-                  ))}
-                </div>
-              </div>
-              <blockquote className="font-body text-lg italic mb-4" 
-                          style={{ color: 'var(--neutral-700)' }}>
-                "Finally understand why our competitors were getting more AI referrals. The analysis showed exactly what to fix. Revenue from AI recommendations increased 40% in 2 months."
-              </blockquote>
-              <cite className="font-body text-sm font-medium" 
-                    style={{ color: 'var(--neutral-600)' }}>
-                Sarah Chen, CEO at TechStart Solutions
-              </cite>
-            </div>
-          </div>
+          {/* Testimonials Slider */}
+          <TestimonialsSlider />
 
           {/* Features */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto animate-fade-in-up"
