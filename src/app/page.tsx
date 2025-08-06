@@ -568,7 +568,7 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-6 pt-20 pb-32">
           <div className="text-center max-w-4xl mx-auto">
             <div className="animate-fade-in-up mb-8">
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border mb-6"
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border mb-8"
                    style={{ 
                      background: 'var(--accent-amber)', 
                      borderColor: 'rgba(245, 158, 11, 0.3)',
