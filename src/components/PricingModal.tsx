@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { X, Check, Star, Clock, Shield, Zap } from 'lucide-react';
 import { getAssignedVariant, getVariantFromUrl, trackConversion, type PricingVariant } from '@/lib/ab-testing';
-import { trackPricingModalOpened, trackUpgradeClicked } from '@/lib/gtag';
+import { trackPricingModalOpened, trackUpgradeClicked, trackPricingModalWithRetargeting, trackUpgradeClickedWithRetargeting, trackPricingModalWithRedditPixel, trackUpgradeClickedWithRedditPixel } from '@/lib/gtag';
 import { createPaymentSession } from '@/lib/stripe';
 
 interface PricingModalProps {
@@ -35,8 +35,8 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
       
       setVariant(assignedVariant);
       
-      // Track modal opened
-      trackPricingModalOpened('results_page');
+      // Track modal opened with retargeting + Reddit Pixel
+      trackPricingModalWithRedditPixel('results_page');
     }
   }, [isOpen, domain]);
 
@@ -54,7 +54,7 @@ export function PricingModal({ isOpen, onClose, domain, score }: PricingModalPro
 
     // Track conversion attempt
     trackConversion(variant, 'click');
-    trackUpgradeClicked(`${variant.price}${variant.currency}`);
+    trackUpgradeClickedWithRedditPixel(`${variant.price}${variant.currency}`);
 
     setIsSubmitting(true);
     

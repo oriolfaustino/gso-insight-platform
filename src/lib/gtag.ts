@@ -236,3 +236,142 @@ export const trackAnalysisCompletedWithAttribution = (domain: string, score: num
     });
   }
 };
+
+// Retargeting pixel tracking functions
+declare global {
+  interface Window {
+    fbq: (...args: any[]) => void;
+    rdt: (...args: any[]) => void;
+  }
+}
+
+// Facebook Pixel events
+export const trackFacebookEvent = (eventName: string, parameters?: any) => {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', eventName, parameters);
+  }
+};
+
+export const trackFacebookCustomEvent = (eventName: string, parameters?: any) => {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('trackCustom', eventName, parameters);
+  }
+};
+
+// Google Ads conversion tracking
+export const trackGoogleAdsConversion = (conversionId: string, conversionLabel?: string, value?: number) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'conversion', {
+      send_to: `${conversionId}/${conversionLabel}`,
+      value: value,
+      currency: 'EUR'
+    });
+  }
+};
+
+// Enhanced event tracking with retargeting pixels
+export const trackAnalysisStartedWithRetargeting = (domain: string) => {
+  // GA4 tracking
+  trackAnalysisStartedWithAttribution(domain);
+  
+  // Facebook Pixel
+  trackFacebookEvent('InitiateCheckout', {
+    content_name: 'GSO Analysis',
+    content_category: 'AI Visibility',
+    value: 0,
+    currency: 'EUR'
+  });
+  
+  // Custom event for retargeting
+  trackFacebookCustomEvent('AnalysisStarted', {
+    domain: domain,
+    timestamp: Date.now()
+  });
+};
+
+export const trackUpgradeClickedWithRetargeting = (pricePoint: string) => {
+  // Existing GA4 tracking
+  trackUpgradeClicked(pricePoint);
+  
+  const price = parseFloat(pricePoint.replace(/[€$]/g, ''));
+  
+  // Facebook Pixel - Purchase event
+  trackFacebookEvent('Purchase', {
+    content_name: 'GSO Analysis Report',
+    content_category: 'digital_service',
+    content_ids: ['gso_analysis'],
+    content_type: 'product',
+    value: price,
+    currency: 'EUR'
+  });
+  
+  // Google Ads conversion (you'll need to replace with actual conversion ID/label)
+  trackGoogleAdsConversion('AW-XXXXXXXXX', 'CONVERSION_LABEL', price);
+};
+
+export const trackPricingModalWithRetargeting = (source: string) => {
+  // Existing GA4 tracking
+  trackPricingModalOpened(source);
+  
+  // Facebook Pixel - ViewContent event
+  trackFacebookEvent('ViewContent', {
+    content_name: 'GSO Analysis Pricing',
+    content_category: 'pricing',
+    content_ids: ['gso_pricing'],
+    content_type: 'product'
+  });
+  
+  // Custom event for retargeting
+  trackFacebookCustomEvent('PricingViewed', {
+    source: source,
+    timestamp: Date.now()
+  });
+};
+
+// Reddit Pixel tracking functions
+export const trackRedditEvent = (eventName: string, parameters?: any) => {
+  if (typeof window !== 'undefined' && window.rdt) {
+    window.rdt('track', eventName, parameters);
+  }
+};
+
+// Enhanced event tracking with Reddit Pixel
+export const trackAnalysisStartedWithRedditPixel = (domain: string) => {
+  // Existing tracking
+  trackAnalysisStartedWithRetargeting(domain);
+  
+  // Reddit Pixel - Lead event (user showing interest)
+  trackRedditEvent('Lead', {
+    value: 0,
+    currency: 'EUR',
+    customEventName: 'AnalysisStarted'
+  });
+};
+
+export const trackPricingModalWithRedditPixel = (source: string) => {
+  // Existing tracking
+  trackPricingModalWithRetargeting(source);
+  
+  // Reddit Pixel - ViewContent event
+  trackRedditEvent('ViewContent', {
+    value: 0,
+    currency: 'EUR',
+    customEventName: 'PricingViewed'
+  });
+};
+
+export const trackUpgradeClickedWithRedditPixel = (pricePoint: string) => {
+  // Existing tracking
+  trackUpgradeClickedWithRetargeting(pricePoint);
+  
+  const price = parseFloat(pricePoint.replace(/[€$]/g, ''));
+  
+  // Reddit Pixel - Purchase event
+  trackRedditEvent('Purchase', {
+    value: price,
+    currency: 'EUR',
+    transactionId: `gso_${Date.now()}`,
+    itemCount: 1,
+    customEventName: 'AnalysisPurchase'
+  });
+};

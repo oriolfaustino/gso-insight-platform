@@ -1,0 +1,5 @@
+Date,Channel,Campaign,Ad_Creative,Budget_Spent,Impressions,Clicks,CTR,CPC,Landing_Page_Views,Analysis_Started,Analysis_Completed,Pricing_Modal_Opened,Upgrade_Clicked,Purchases,Revenue,CPA,ROAS,Notes
+2025-01-01,Reddit,ai_visibility_test,entrepreneur_post,50,5000,100,2.0%,0.50,95,12,12,4,1,1,97,50.00,1.94,First test post
+2025-01-01,Reddit,ai_visibility_test,smallbiz_comment,30,3000,60,2.0%,0.50,57,8,8,3,0,0,0,0,0,Comment in thread
+2025-01-02,Google Ads,search_campaign,ai_visibility_ad,100,2000,40,2.0%,2.50,38,6,6,2,1,0,0,0,0,Search campaign launch
+2025-01-03,LinkedIn,b2b_campaign,enterprise_ad,150,1000,15,1.5%,10.00,14,2,2,1,0,0,0,0,0,B2B targeting test

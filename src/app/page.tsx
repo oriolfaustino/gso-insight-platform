@@ -6,7 +6,7 @@ import { generateMockResults, metricDefinitions, GSOResults } from '@/lib/mockDa
 import { LoadingAnimation } from '@/components/LoadingAnimation';
 import { PricingModal } from '@/components/PricingModal';
 import { Header } from '@/components/Header';
-import { trackAnalysisStarted, trackAnalysisCompleted, trackCampaignAttribution, trackAnalysisStartedWithAttribution, trackAnalysisCompletedWithAttribution, trackPricingModalOpened } from '@/lib/gtag';
+import { trackAnalysisStarted, trackAnalysisCompleted, trackCampaignAttribution, trackAnalysisStartedWithAttribution, trackAnalysisCompletedWithAttribution, trackPricingModalOpened, trackAnalysisStartedWithRetargeting, trackPricingModalWithRetargeting, trackAnalysisStartedWithRedditPixel } from '@/lib/gtag';
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -44,7 +44,7 @@ export default function HomePage() {
     if (!domain) return;
     
     setIsAnalyzing(true);
-    trackAnalysisStartedWithAttribution(domain);
+    trackAnalysisStartedWithRedditPixel(domain);
     
     try {
       const response = await fetch('/api/analyze', {
