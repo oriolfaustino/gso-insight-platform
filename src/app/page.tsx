@@ -728,6 +728,101 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Key Stats Section */}
+      <div className="max-w-6xl mx-auto px-6 py-20 animate-fade-in-up"
+           style={{ animationDelay: '0.5s', animationFillMode: 'backwards' }}>
+        <div className="text-center mb-12">
+          <h2 className="font-display text-3xl lg:text-4xl mb-4" style={{ color: 'var(--neutral-900)' }}>
+            The AI Revolution is Here
+          </h2>
+          <p className="font-body text-lg max-w-3xl mx-auto" style={{ color: 'var(--neutral-600)' }}>
+            AI search and recommendations are transforming how customers discover businesses
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Stat 1 */}
+          <div className="text-center group">
+            <div className="card-premium p-6 glass transition-all duration-300 group-hover:scale-105"
+                 style={{ boxShadow: 'var(--shadow-lg)' }}>
+              <div className="mb-4">
+                <div className="text-4xl font-bold text-gradient mb-2">89%</div>
+                <div className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                  of businesses are invisible
+                </div>
+                <div className="font-body text-xs mt-1" style={{ color: 'var(--neutral-500)' }}>
+                  to AI assistants like ChatGPT
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Stat 2 */}
+          <div className="text-center group">
+            <div className="card-premium p-6 glass transition-all duration-300 group-hover:scale-105"
+                 style={{ boxShadow: 'var(--shadow-lg)' }}>
+              <div className="mb-4">
+                <div className="text-4xl font-bold text-gradient mb-2">2.1B</div>
+                <div className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                  monthly AI searches
+                </div>
+                <div className="font-body text-xs mt-1" style={{ color: 'var(--neutral-500)' }}>
+                  across ChatGPT, Claude & Gemini
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Stat 3 */}
+          <div className="text-center group">
+            <div className="card-premium p-6 glass transition-all duration-300 group-hover:scale-105"
+                 style={{ boxShadow: 'var(--shadow-lg)' }}>
+              <div className="mb-4">
+                <div className="text-4xl font-bold text-gradient mb-2">73%</div>
+                <div className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                  prefer AI recommendations
+                </div>
+                <div className="font-body text-xs mt-1" style={{ color: 'var(--neutral-500)' }}>
+                  over traditional search results
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Stat 4 */}
+          <div className="text-center group">
+            <div className="card-premium p-6 glass transition-all duration-300 group-hover:scale-105"
+                 style={{ boxShadow: 'var(--shadow-lg)' }}>
+              <div className="mb-4">
+                <div className="text-4xl font-bold text-gradient mb-2">4.2x</div>
+                <div className="font-body text-sm font-medium" style={{ color: 'var(--neutral-700)' }}>
+                  revenue increase
+                </div>
+                <div className="font-body text-xs mt-1" style={{ color: 'var(--neutral-500)' }}>
+                  from AI-optimized businesses
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center mt-12">
+          <p className="font-body text-base mb-6" style={{ color: 'var(--neutral-700)' }}>
+            Don't let your competitors dominate AI recommendations while you stay invisible
+          </p>
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl font-medium text-sm"
+               style={{ 
+                 background: 'rgba(239, 68, 68, 0.1)',
+                 color: 'var(--accent-rose)',
+                 border: '1px solid rgba(239, 68, 68, 0.2)'
+               }}>
+            <AlertTriangle className="w-4 h-4" />
+            Every day without AI optimization is lost revenue
+          </div>
+        </div>
+      </div>
+
       {/* Footer */}
       <div className="border-t mt-32" style={{ borderColor: 'var(--neutral-200)' }}>
         <div className="max-w-7xl mx-auto px-6 py-12">
