@@ -614,7 +614,7 @@ export default function HomePage() {
           </div>
 
           {/* Search Input */}
-          <div className="max-w-3xl mx-auto mb-12 animate-fade-in-up"
+          <div className="max-w-3xl mx-auto mb-96 animate-fade-in-up"
                style={{ animationDelay: '0.3s', animationFillMode: 'backwards' }}>
             <div className="card-premium p-3 glass"
                  style={{ boxShadow: 'var(--shadow-xl)' }}>
