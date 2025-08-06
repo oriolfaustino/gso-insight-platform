@@ -588,11 +588,12 @@ export default function HomePage() {
               </div>
             </div>
             
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-96 animate-fade-in-up"
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl animate-fade-in-up"
                 style={{ 
                   color: 'var(--neutral-900)',
                   animationDelay: '0.1s',
-                  animationFillMode: 'backwards'
+                  animationFillMode: 'backwards',
+                  marginBottom: '12rem'
                 }}>
               <span className="text-gradient relative">
                 Is AI finding your business?
@@ -601,11 +602,12 @@ export default function HomePage() {
               </span>
             </h1>
             
-            <p className="font-body text-lg lg:text-xl mb-96 leading-relaxed max-w-3xl mx-auto animate-fade-in-up"
+            <p className="font-body text-lg lg:text-xl leading-relaxed max-w-3xl mx-auto animate-fade-in-up"
                style={{ 
                  color: 'var(--neutral-600)',
                  animationDelay: '0.2s',
-                 animationFillMode: 'backwards'
+                 animationFillMode: 'backwards',
+                 marginBottom: '12rem'
                }}>
               When customers ask ChatGPT, Claude, or Gemini for recommendations, 
               does your business appear? Discover your AI visibility in under 60 seconds.
