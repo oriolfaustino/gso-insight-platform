@@ -825,19 +825,6 @@ export default function HomePage() {
           <p className="font-body text-base" style={{ color: 'var(--neutral-700)', marginBottom: '2.7rem' }}>
             Don't let your competitors dominate AI recommendations while you stay invisible
           </p>
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl font-medium text-sm"
-               style={{ 
-                 background: 'rgba(239, 68, 68, 0.1)',
-                 color: 'var(--accent-rose)',
-                 border: '1px solid rgba(239, 68, 68, 0.2)'
-               }}>
-            <AlertTriangle className="w-4 h-4" />
-            Every day without AI optimization is lost revenue
-          </div>
-          
-          <p className="font-body text-sm mt-6" style={{ color: 'var(--neutral-500)' }}>
-            Professional AI visibility analysis platform • Trusted by innovative businesses
-          </p>
         </div>
       </div>
 
