@@ -743,13 +743,13 @@ export default function HomePage() {
       </div>
 
       {/* Key Stats Section */}
-      <div className="max-w-6xl mx-auto px-6 py-10 animate-fade-in-up"
+      <div className="max-w-6xl mx-auto px-6 py-5 animate-fade-in-up"
            style={{ animationDelay: '0.5s', animationFillMode: 'backwards' }}>
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl lg:text-4xl mb-4" style={{ color: 'var(--neutral-900)' }}>
             The AI Revolution is Here
           </h2>
-          <p className="font-body text-lg max-w-3xl mx-auto text-center" style={{ color: 'var(--neutral-600)' }}>
+          <p className="font-body text-lg text-center mx-auto" style={{ color: 'var(--neutral-600)' }}>
             AI search and recommendations are transforming how customers discover businesses
           </p>
         </div>
