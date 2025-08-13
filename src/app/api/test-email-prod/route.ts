@@ -31,7 +31,7 @@ export async function GET() {
     
     const result = await resend.emails.send({
       from: 'Production Test <onboarding@resend.dev>',
-      to: ['test@resend.dev'], // Test email that should work
+      to: [process.env.NOTIFICATION_EMAIL],
       subject: '🧪 Production Email Test - GSO Platform',
       html: `
         <h2>🧪 Production Email Test</h2>
